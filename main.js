@@ -16,14 +16,19 @@ Schematik.prototype.boolean = function () {
   return new Schematik.Boolean(this.self());
 };
 
+// Shortcut for creating a Schematik.Integer
+Schematik.prototype.integer = function () {
+  return new Schematik.Integer(this.self());
+};
+
 // Shortcut for creating a Schematik.Number
 Schematik.prototype.number = function () {
   return new Schematik.Number(this.self());
 };
 
-// Shortcut for creating a Schematik.Integer
-Schematik.prototype.integer = function () {
-  return new Schematik.Integer(this.self());
+// Shortcur for creating a Schematik.Null
+Schematik.prototype.null = function () {
+  return new Schematik.Null(this.self());
 };
 
 // Shortcut for creating a Schematik.String
@@ -31,6 +36,6 @@ Schematik.prototype.string = function () {
   return new Schematik.String(this.self());
 };
 
-_.assign(Schematik, Schematik.prototype);
+_.assign(Schematik, _.omit(Schematik.prototype, 'self'));
 
 module.exports = Schematik;
