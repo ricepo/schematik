@@ -6,33 +6,29 @@
 _         = require('lodash');
 Schematik = require('./lib/types/schematik');
 
-require('./lib/types/number');
+require('./lib/types/array');
 require('./lib/types/boolean');
+require('./lib/types/number');
 require('./lib/types/null');
 require('./lib/types/string');
 
-// Shortcut for creating a Schematik.Boolean
+// Shortcuts for creating specific Schematik types
+Schematik.prototype.array   = function () {
+  return new Schematik.Array(this.self());
+};
 Schematik.prototype.boolean = function () {
   return new Schematik.Boolean(this.self());
 };
-
-// Shortcut for creating a Schematik.Integer
 Schematik.prototype.integer = function () {
   return new Schematik.Integer(this.self());
 };
-
-// Shortcut for creating a Schematik.Number
-Schematik.prototype.number = function () {
+Schematik.prototype.number  = function () {
   return new Schematik.Number(this.self());
 };
-
-// Shortcur for creating a Schematik.Null
-Schematik.prototype.null = function () {
+Schematik.prototype.null    = function () {
   return new Schematik.Null(this.self());
 };
-
-// Shortcut for creating a Schematik.String
-Schematik.prototype.string = function () {
+Schematik.prototype.string  = function () {
   return new Schematik.String(this.self());
 };
 
