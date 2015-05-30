@@ -27,5 +27,4 @@ Schematik.prototype.integer = function () {
 
 _.assign(Schematik, Schematik.prototype);
 
-
 module.exports = Schematik;
