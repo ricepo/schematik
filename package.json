@@ -1,0 +1,27 @@
+{
+  "name": "schematik",
+  "version": "1.0.0",
+  "description": "Human-friendly utilities for building JSON schemas.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jluchiji/schematik"
+  },
+  "keywords": [
+    "json",
+    "schema",
+    "js"
+  ],
+  "author": "Denis Luchkin-Zhou <wyvernzora@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jluchiji/schematik/issues"
+  },
+  "homepage": "https://github.com/jluchiji/schematik",
+  "dependencies": {
+    "lodash": "^3.9.3"
+  }
+}
