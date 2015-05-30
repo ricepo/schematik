@@ -22,5 +22,5 @@ Instead of writing this:
 ```
 write this:
 ```js
-Schematik.number().in.exclusive.range(-180, 180).that.is.a.multiple.of(45)
+Schematik.number().in.exclusive.range.of(-180, 180).that.is.a.multiple.of(45)
 ```
