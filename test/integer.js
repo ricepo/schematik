@@ -32,15 +32,9 @@ describe("Schematik.Integer", function () {
       expect(s.done()).to.deep.equal({ required: true, type: 'integer' });
     });
 
-    it("should work with {exclusive} modifier", function () {
-      var s = Schematik.integer().min(9).exclusive.max(99);
-      expect(s.done()).to.deep.equal({
-        type: 'integer',
-        required: true,
-        minimum: 9,
-        maximum: 99,
-        exclusiveMaximum: true
-      });
+    it("should have {exclusive} modifier set a flag", function () {
+      var s = Schematik.integer().exclusive;
+      expect(s).to.have.deep.property('flags.exclusive', true);
     });
 
   });

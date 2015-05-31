@@ -4,7 +4,6 @@ Schematik = require('../main.js');
 
 describe("Schematik.String", function () {
 
-
   describe("#ctor()", function () {
 
     it("should be created in object oriented way", function () {
@@ -31,6 +30,16 @@ describe("Schematik.String", function () {
       expect(s.done()).to.deep.equal({type: 'string'});
       s = s.required;
       expect(s.done()).to.deep.equal({ required: true, type: 'string' });
+    });
+
+    it("should have {min} modifier set the flag", function () {
+      var s = Schematik.string().min;
+      expect(s).to.have.deep.property('flags.min', true);
+    });
+
+    it("should have {max} modifier set the flag", function () {
+      var s = Schematik.string().max;
+      expect(s).to.have.deep.property('flags.max', true);
     });
 
   });
