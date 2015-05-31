@@ -1,4 +1,4 @@
-# Schematik
+# Schematik ![Travis CI Build Status](https://travis-ci.org/jluchiji/schematik.svg)
 The proof-of-concept human-friendly JSON schema generator. Heavily inspired by
 [Chai](http://chaijs.com/), [Squel.js](https://hiddentao.github.io/squel/)
 and [lodash](https://lodash.com/).
