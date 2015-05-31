@@ -1,5 +1,10 @@
 # Schematik Documentation
 
+## Table of Contents
+
+### Types
+ - [Array](array.md)
+
 ## Required / Optional
 By default, all Schematik objects have the `required` flag turned on. At this
 moment, you have to use the `optional` modifier to explicitly specify schema
