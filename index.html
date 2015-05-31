@@ -23,16 +23,7 @@
 <a id="schematik-" class="anchor" href="#schematik-" aria-hidden="true"><span class="octicon octicon-link"></span></a>Schematik <img src="https://travis-ci.org/jluchiji/schematik.svg" alt="Travis CI Build Status">
 </h1>
 
-<p>The proof-of-concept human-friendly JSON schema generator. Heavily inspired by
-<a href="http://chaijs.com/">Chai</a>, <a href="https://hiddentao.github.io/squel/">Squel.js</a>
-and <a href="https://lodash.com/">lodash</a>.</p>
-
-<p>The goal of the project is not to implement every bit and quirk or the IETF
-specification, but to provide a bit more readable syntax for writing JSON
-schemas.</p>
-
-<h2>
-<a id="example" class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h2>
+<p>Write human-friendly JSON schema!</p>
 
 <p>Instead of writing this:</p>
 
@@ -48,27 +39,48 @@ schemas.</p>
 
 <p>write this:</p>
 
-<div class="highlight highlight-js"><pre>Schematik.number().in.exclusive.range.of(<span class="pl-k">-</span><span class="pl-c1">180</span>, <span class="pl-c1">180</span>).that.is.a.<span class="pl-c1">multiple</span>.of(<span class="pl-c1">45</span>)</pre></div>
+<div class="highlight highlight-js"><pre>Schematik.number().in.exclusive.range.of(<span class="pl-k">-</span><span class="pl-c1">180</span>, <span class="pl-c1">180</span>).that.is.a.<span class="pl-c1">multiple</span>.of(<span class="pl-c1">45</span>);</pre></div>
+
+<p>or this, if you don't want to spare any keystrokes:</p>
+
+<pre><code>Schematik.number().exclusive.range(-180, 180).multiple(45);
+</code></pre>
+
+<p>Heavily inspired by
+<a href="http://chaijs.com/">Chai</a>,
+<a href="https://hiddentao.github.io/squel/">Squel.js</a> and
+<a href="https://lodash.com/">lodash</a>.</p>
+
+<h2>
+<a id="getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting Started</h2>
+
+<pre><code>$ npm install schematik
+</code></pre>
+
+<p>After that:</p>
+
+<div class="highlight highlight-js"><pre>Schematik <span class="pl-k">=</span> <span class="pl-c1">require</span>(<span class="pl-s"><span class="pl-pds">'</span>schematik<span class="pl-pds">'</span></span>);
+
+<span class="pl-k">var</span> schema <span class="pl-k">=</span> Schematik.string().that.matches(<span class="pl-sr"><span class="pl-pds">/</span><span class="pl-c1">\d</span><span class="pl-k">+</span><span class="pl-pds">/</span></span>).done();
+<span class="pl-c">// { type: 'string', required: true, pattern: '\d+' }</span></pre></div>
+
+<p>Have fun!</p>
 
 <h2>
 <a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documentation</h2>
 
-<p>Please follow <a href="docs/index.md">this link</a>.</p>
+<p>Please follow <a href="https://github.com/jluchiji/schematik/blob/master/docs/README.md">this link</a>.</p>
 
 <h2>
-<a id="tests" class="anchor" href="#tests" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tests</h2>
+<a id="testing" class="anchor" href="#testing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Testing</h2>
 
-<p>In order to run the test suit, you need to install <a href="http://mochajs.org/">mocha</a>:</p>
+<p>First, install <a href="http://mochajs.org/">mocha</a> and project dependencies.</p>
 
 <pre><code>$ npm install -g mocha
+$ npm install
 </code></pre>
 
-<p>Then, you would need to install all dependencies of this project:</p>
-
-<pre><code>$ npm install
-</code></pre>
-
-<p>Finally, run the test suit:</p>
+<p>Then, you can run the test suit like this:</p>
 
 <pre><code>$ mocha
 </code></pre>
@@ -77,6 +89,11 @@ schemas.</p>
 
 <pre><code>$ mocha -R html-cov &gt; coverage.html
 </code></pre>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p><a href="http://opensource.org/licenses/MIT">MIT</a></p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/jluchiji/schematik">Schematik</a> is maintained by <a href="https://github.com/jluchiji">jluchiji</a>.</span>
