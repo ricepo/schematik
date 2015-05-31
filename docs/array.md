@@ -107,7 +107,7 @@ properties of the JSON schema array, depending on the way it is used.
 
 There is a total of 4 ways this function may be used.
 
-  1. When modified by `min` modifier, it sets the `minItems` property.
+  - When modified by `min` modifier, it sets the `minItems` property.
 ```js
 Schematik.array().of(Schematik.string()).with.min.length(10);
 // {
@@ -117,7 +117,7 @@ Schematik.array().of(Schematik.string()).with.min.length(10);
 //   minItems: 10
 // }
 ```
-  2. When modified by `max` modifier, it sets the `maxItems` property.
+  - When modified by `max` modifier, it sets the `maxItems` property.
 ```js
 Schematik.array().of(Schematik.string()).with.max.length(10);
 // {
@@ -127,7 +127,7 @@ Schematik.array().of(Schematik.string()).with.max.length(10);
 //   maxItems: 10
 // }
 ```
-  3. When supplied with two arguments, it sets the range for item count.
+  - When supplied with two arguments, it sets the range for item count.
 ```js
 Schematik.array().of(Schematik.string()).with.length(10, 100);
 // {
@@ -138,7 +138,7 @@ Schematik.array().of(Schematik.string()).with.length(10, 100);
 //   maxItems: 100
 // }
 ```
-  4. When supplied with one argument, it sets both minimum and maximum item
+  - When supplied with one argument, it sets both minimum and maximum item
   to the value provided.
 ```js
 Schematik.array().of(Schematik.string()).with.length(10);
