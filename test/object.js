@@ -8,17 +8,26 @@ describe("Schematik.Object", function () {
 
     it("should be created in object oriented way", function () {
       var s = new Schematik.Object().done();
-      expect(s).to.deep.equal({ required: true, type: 'object' });
+      expect(s).to.deep.equal({
+        additionalProperties: false,
+        required: true,
+        type: 'object'
+      });
     });
 
     it("should be created in functional way", function () {
       var s = Schematik.object().done();
-      expect(s).to.deep.equal({ required: true, type: 'object' });
+      expect(s).to.deep.equal({
+        additionalProperties: false,
+        required: true,
+        type: 'object'
+      });
     });
 
     it("should handle custom schema parameters", function () {
       var s = new Schematik.Object({ test: 'data' });
       expect(s.done()).to.deep.equal({
+        additionalProperties: false,
         type: 'object',
         required: true,
         test: 'data'
@@ -31,14 +40,24 @@ describe("Schematik.Object", function () {
 
     it("should work with {optional} modifier", function () {
       var s = Schematik.optional.object().done();
-      expect(s).to.deep.equal({type: 'object'});
+      expect(s).to.deep.equal({
+        additionalProperties: false,
+        type: 'object'
+      });
     });
 
     it("should work with {required} modifier", function () {
       var s = Schematik.optional.object();
-      expect(s.done()).to.deep.equal({type: 'object'});
+      expect(s.done()).to.deep.equal({
+        additionalProperties: false,
+        type: 'object'
+      });
       s = s.required;
-      expect(s.done()).to.deep.equal({ required: true, type: 'object' });
+      expect(s.done()).to.deep.equal({
+        additionalProperties: false,
+        required: true,
+        type: 'object'
+      });
     });
 
     it("should have {min} modifier set the flag", function () {
@@ -73,6 +92,7 @@ describe("Schematik.Object", function () {
     it('should set minimum property count with {min} modifier', function () {
       var s = Schematik.object().min.count(99);
       expect(s.done()).to.deep.equal({
+        additionalProperties: false,
         type: 'object',
         required: true,
         minProperties: 99
@@ -82,6 +102,7 @@ describe("Schematik.Object", function () {
     it('should set maximum length with {max} modifier', function () {
       var s = Schematik.object().max.count(99);
       expect(s.done()).to.deep.equal({
+        additionalProperties: false,
         type: 'object',
         required: true,
         maxProperties: 99
@@ -91,6 +112,7 @@ describe("Schematik.Object", function () {
     it('should set minimum and maximum lengths with two arguments', function () {
       var s = Schematik.object().count(9, 99);
       expect(s.done()).to.deep.equal({
+        additionalProperties: false,
         type: 'object',
         required: true,
         minProperties: 9,
@@ -101,6 +123,7 @@ describe("Schematik.Object", function () {
     it('should set minimum and maximum lengths with one argument', function () {
       var s = Schematik.object().count(9);
       expect(s.done()).to.deep.equal({
+        additionalProperties: false,
         type: 'object',
         required: true,
         minProperties: 9,
@@ -115,6 +138,7 @@ describe("Schematik.Object", function () {
     it('should ignore the second argument if it is not a number', function () {
       var s = Schematik.object().count(9, 'test');
       expect(s.done()).to.deep.equal({
+        additionalProperties: false,
         type: 'object',
         required: true,
         minProperties: 9,
@@ -126,11 +150,12 @@ describe("Schematik.Object", function () {
 
   describe("#property()", function () {
 
-    describe("no modifiers", function () {
+    describe("with no modifiers", function () {
 
       it("should add a property to the schema", function () {
         var s = Schematik.object().with.property('test', Schematik.string());
         expect(s.done()).to.deep.equal({
+          additionalProperties: false,
           type: 'object',
           required: true,
           properties: {
@@ -142,6 +167,7 @@ describe("Schematik.Object", function () {
         });
         s = s.with.property('foo', { type: 'bar' });
         expect(s.done()).to.deep.equal({
+          additionalProperties: false,
           type: 'object',
           required: true,
           properties: {
@@ -168,6 +194,7 @@ describe("Schematik.Object", function () {
       it("should throw when attempting to overwrite a property", function () {
         var s = Schematik.object().with.property('test', Schematik.string());
         expect(s.done()).to.deep.equal({
+          additionalProperties: false,
           type: 'object',
           required: true,
           properties: {
@@ -184,7 +211,7 @@ describe("Schematik.Object", function () {
 
     });
 
-    describe("{additional} modifier", function () {
+    describe("with {additional} modifier", function () {
 
       it("should set the additional property", function () {
         var s = Schematik.object().additional.property(Schematik.string());
@@ -195,11 +222,11 @@ describe("Schematik.Object", function () {
             type: 'string'
           }
         });
-        var a = Schematik.object().additional.property(false);
+        var a = Schematik.object().additional.property(true);
         expect(a.done()).to.deep.equal({
           type: 'object',
           required: true,
-          additionalProperties: false
+          additionalProperties: true
         });
       });
 
@@ -232,11 +259,12 @@ describe("Schematik.Object", function () {
 
     });
 
-    describe("{pattern} modifier", function () {
+    describe("with {pattern} modifier", function () {
 
       it("should add a pattern property to the schema", function () {
         var s = Schematik.object().pattern.property(/\d+/, Schematik.string());
         expect(s.done()).to.deep.equal({
+          additionalProperties: false,
           type: 'object',
           required: true,
           patternProperties: {
@@ -248,6 +276,7 @@ describe("Schematik.Object", function () {
         });
         s = s.with.pattern.property(/[0-9]+/, { type: 'bar' });
         expect(s.done()).to.deep.equal({
+          additionalProperties: false,
           type: 'object',
           required: true,
           patternProperties: {
@@ -279,6 +308,95 @@ describe("Schematik.Object", function () {
           Schematik.object()
           .pattern.property(/[0-9]+/, Schematik.string())
           .pattern.property(/[0-9]+/, Schematik.number());
+        }).to.throw();
+      });
+
+    });
+
+  });
+
+  describe("#properties()", function () {
+
+    describe("with no modifiers", function () {
+
+      it("should add properties to the schema", function () {
+        var s = Schematik.object().with.properties({
+          test: Schematik.string(),
+          foo: { type: 'bar' }
+        });
+        expect(s.done()).to.deep.equal({
+          additionalProperties: false,
+          type: 'object',
+          required: true,
+          properties: {
+            test: {
+              type: 'string',
+              required: true
+            },
+            foo: {
+              type: 'bar'
+            }
+          }
+        });
+      });
+
+      it("should throw if the argument is not an object", function () {
+        expect(function () {
+          Schematik.object().with.properties(123);
+        }).to.throw();
+      });
+
+    });
+
+    describe("with {pattern} modifier", function () {
+
+      it("should add a pattern property to the schema", function () {
+        var s = Schematik.object().pattern.properties({
+          "\\d+": Schematik.string(),
+          "[0-9]+": { type: 'bar' }
+        });
+        expect(s.done()).to.deep.equal({
+          additionalProperties: false,
+          type: 'object',
+          required: true,
+          patternProperties: {
+            "\\d+": {
+              type: 'string',
+              required: true
+            },
+            "[0-9]+": {
+              type: 'bar'
+            }
+          }
+        });
+
+      });
+
+    });
+
+    describe("with {additional} modifier", function () {
+
+      it("should set additional properties to true if {no} is not present", function () {
+        var s = Schematik.object().with.additional.properties();
+        expect(s.done()).to.deep.equal({
+          additionalProperties: true,
+          type: 'object',
+          required: true
+        });
+      });
+
+      it("should set additional properties to false if {no} is not present", function () {
+        var s = Schematik.object().with.no.additional.properties();
+        expect(s.done()).to.deep.equal({
+          additionalProperties: false,
+          type: 'object',
+          required: true
+        });
+      });
+
+      it("should throw if an argument is supplied", function () {
+        expect(function () {
+          Schematik.object().with.additional.properties(Schematik.string());
         }).to.throw();
       });
 
