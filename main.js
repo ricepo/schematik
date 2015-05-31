@@ -13,5 +13,6 @@ require('./lib/types/boolean');
 require('./lib/types/number');
 require('./lib/types/null');
 require('./lib/types/string');
+require('./lib/types/object');
 
 module.exports = Schematik;
