@@ -2,8 +2,16 @@
 
 ## Table of Contents
 
+### Modifiers
+
 ### Types
  - [Array](array.md)
+ - [Boolean](boolean.md)
+ - [Integer](integer.md)
+ - [Null](null.md)
+ - [Number](number.md)
+ - [Object](object.md)
+ - [String](string.md)
 
 ## Required / Optional
 By default, all Schematik objects have the `required` flag turned on. At this
@@ -70,25 +78,7 @@ Schematik.number().max(10);
 ```
 
 ## Types
-### Array
-*Work in progress*
 
-### Boolean
-Creating a schema with `boolean` type:
-```js
-// 1) Object-oriented way
-new Schematik.Boolean();
-// 2) Functional way
-Schematik.boolean();
-// Both generate { "type": "boolean" }
-```
-
-All modifiers work as expected:
-```js
-Schematik.optional.boolean();
-new Schematik.Boolean().required;
-//
-```
 
 ### Integer / Number
 ```js
