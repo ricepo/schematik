@@ -1,13 +1,6 @@
 # Schematik ![Travis CI Build Status](https://travis-ci.org/jluchiji/schematik.svg)
-The proof-of-concept human-friendly JSON schema generator. Heavily inspired by
-[Chai](http://chaijs.com/), [Squel.js](https://hiddentao.github.io/squel/)
-and [lodash](https://lodash.com/).
 
-The goal of the project is not to implement every bit and quirk or the IETF
-specification, but to provide a bit more readable syntax for writing JSON
-schemas.
-
-## Example
+Write human-friendly JSON schema!
 Instead of writing this:
 ```json
 {
@@ -22,24 +15,44 @@ Instead of writing this:
 ```
 write this:
 ```js
-Schematik.number().in.exclusive.range.of(-180, 180).that.is.a.multiple.of(45)
+Schematik.number().in.exclusive.range.of(-180, 180).that.is.a.multiple.of(45);
 ```
+or this, if you don't want to spare any keystrokes:
+```
+Schematik.number().exclusive.range(-180, 180).multiple(45);
+```
+
+Heavily inspired by
+[Chai](http://chaijs.com/),
+[Squel.js](https://hiddentao.github.io/squel/) and
+[lodash](https://lodash.com/).
+
+## Getting Started
+```
+$ npm install schematik
+```
+
+After that:
+```js
+Schematik = require('schematik');
+
+var schema = Schematik.string().that.matches(/\d+/).done();
+// { type: 'string', required: true, pattern: '\d+' }
+```
+
+Have fun!
 
 ## Documentation
 Please follow [this link](docs/README.md).
 
-## Tests
-In order to run the test suit, you need to install [mocha](http://mochajs.org/):
+## Testing
+First, install [mocha](http://mochajs.org/) and project dependencies.
 ```
 $ npm install -g mocha
-```
-
-Then, you would need to install all dependencies of this project:
-```
 $ npm install
 ```
 
-Finally, run the test suit:
+Then, you can run the test suit like this:
 ```
 $ mocha
 ```
@@ -48,3 +61,6 @@ If you wish to generate a coverage report:
 ```
 $ mocha -R html-cov > coverage.html
 ```
+
+## License
+[MIT](http://opensource.org/licenses/MIT)
