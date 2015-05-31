@@ -16,6 +16,15 @@ describe("Schematik.Integer", function () {
       expect(s).to.deep.equal({ required: true, type: 'integer' });
     });
 
+    it("should handle custom schema parameters", function () {
+      var s = new Schematik.Integer({ test: 'data' });
+      expect(s.done()).to.deep.equal({
+        type: 'integer',
+        required: true,
+        test: 'data'
+      });
+    });
+
   });
 
   describe("modifiers", function () {

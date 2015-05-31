@@ -16,6 +16,15 @@ describe("Schematik.Number", function () {
       expect(s).to.deep.equal({ required: true, type: 'number' });
     });
 
+    it("should handle custom schema parameters", function () {
+      var s = new Schematik.Number({ test: 'data' });
+      expect(s.done()).to.deep.equal({
+        type: 'number',
+        required: true,
+        test: 'data'
+      });
+    });
+
   });
 
   describe("modifiers", function () {

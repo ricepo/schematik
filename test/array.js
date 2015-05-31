@@ -16,6 +16,15 @@ describe("Schematik.Array", function () {
       expect(s).to.deep.equal({ required: true, type: 'array' });
     });
 
+    it("should handle custom schema parameters", function () {
+      var s = new Schematik.Array({ test: 'data' });
+      expect(s.done()).to.deep.equal({
+        type: 'array',
+        required: true,
+        test: 'data'
+      });
+    });
+
   });
 
   describe("modifiers", function () {
@@ -178,6 +187,16 @@ describe("Schematik.Array", function () {
 
     it("should throw when no arguments are supplied", function () {
       expect(function () { Schematik.array().of(); }).to.throw();
+    });
+
+    it("should behave like Schematik.of() when there is a chain", function () {
+      var s = Schematik.array().with.length.of(10);
+      expect(s.done()).to.deep.equal({
+        type: 'array',
+        required: true,
+        minItems: 10,
+        maxItems: 10
+      });
     });
 
   });

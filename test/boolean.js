@@ -16,6 +16,15 @@ describe("Schematik.Boolean", function () {
       expect(s).to.deep.equal({ required: true, type: 'boolean' });
     });
 
+    it("should handle custom schema parameters", function () {
+      var s = new Schematik.Boolean({ test: 'data' });
+      expect(s.done()).to.deep.equal({
+        type: 'boolean',
+        required: true,
+        test: 'data'
+      });
+    });
+
   });
 
   describe("modifiers", function () {

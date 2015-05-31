@@ -16,6 +16,15 @@ describe("Schematik.Null", function () {
       expect(s).to.deep.equal({ required: true, type: 'null' });
     });
 
+    it("should handle custom schema parameters", function () {
+      var s = new Schematik.Null({ test: 'data' });
+      expect(s.done()).to.deep.equal({
+        type: 'null',
+        required: true,
+        test: 'data'
+      });
+    });
+
   });
 
   describe("modifiers", function () {

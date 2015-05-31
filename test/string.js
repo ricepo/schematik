@@ -16,6 +16,15 @@ describe("Schematik.String", function () {
       expect(s).to.deep.equal({ required: true, type: 'string' });
     });
 
+    it("should handle custom schema parameters", function () {
+      var s = new Schematik.String({ test: 'data' });
+      expect(s.done()).to.deep.equal({
+        type: 'string',
+        required: true,
+        test: 'data'
+      });
+    });
+
   });
 
   describe("modifiers", function () {
