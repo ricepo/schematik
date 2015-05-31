@@ -1,4 +1,6 @@
-# Schematik ![Travis CI Build Status](https://travis-ci.org/jluchiji/schematik.svg)
+# Schematik !
+
+[![Circle CI](https://circleci.com/gh/jluchiji/schematik/tree/master.svg?style=svg)](https://circleci.com/gh/jluchiji/schematik/tree/master)
 
 Write human-friendly JSON schema!
 Instead of writing this:
