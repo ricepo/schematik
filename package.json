@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Human-friendly utilities for building JSON schemas.",
   "main": "main.js",
+  "engines": {
+    "node": ">=0.10.0"
+  },
   "scripts": {
     "test": "mocha --reporter spec"
   },
