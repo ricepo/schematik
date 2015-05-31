@@ -4,7 +4,7 @@
   "description": "Human-friendly utilities for building JSON schemas.",
   "main": "main.js",
   "scripts": {
-    "test": "mocha --reporter min"
+    "test": "mocha --reporter spec"
   },
   "repository": {
     "type": "git",
