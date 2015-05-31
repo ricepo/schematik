@@ -4,7 +4,7 @@
   "description": "Human-friendly utilities for building JSON schemas.",
   "main": "main.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --reporter min"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,21 @@
     "lodash": "^3.9.3"
   },
   "devDependencies": {
+    "blanket": "^1.1.7",
     "chai": "^2.3.0",
+    "gulp": "^3.8.11",
     "mocha": "^2.2.5"
+  },
+  "config": {
+    "blanket": {
+      "pattern": [
+        "main.js",
+        "lib"
+      ],
+      "data-cover-never": [
+        "node_modules",
+        "test"
+      ]
+    }
   }
 }
