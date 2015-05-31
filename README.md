@@ -26,7 +26,7 @@ Schematik.number().in.exclusive.range.of(-180, 180).that.is.a.multiple.of(45)
 ```
 
 ## Documentation
-Please follow [this link](docs/index.md).
+Please follow [this link](docs/README.md).
 
 ## Tests
 In order to run the test suit, you need to install [mocha](http://mochajs.org/):
