@@ -12,4 +12,23 @@ describe("Schematik Base", function () {
 
   });
 
+  describe("#clone()", function () {
+
+    it("should not affect cloned instances", function () {
+      var a = new Schematik();
+      var b = a.clone().optional;
+
+      expect(a.done()).to.deep.equal({
+        type: 'any',
+        required: true
+      });
+
+      expect(b.done()).to.deep.equal({
+        type: 'any'
+      });
+
+    });
+
+  });
+
 });

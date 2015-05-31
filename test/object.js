@@ -30,6 +30,39 @@ describe("Schematik.Object", function () {
         test: 'data'
       });
     });
+    
+  });
+
+  describe("#clone()", function () {
+
+    it("should not affect cloned instances", function () {
+      var a = Schematik.object().property('test', Schematik.number());
+      var b = a.clone().max.count(100);
+
+      expect(a.done()).to.deep.equal({
+        type: 'object',
+        required: true,
+        properties: {
+          test: {
+            type: 'number',
+            required: true
+          }
+        }
+      });
+
+      expect(b.done()).to.deep.equal({
+        type: 'object',
+        required: true,
+        maxProperties: 100,
+        properties: {
+          test: {
+            type: 'number',
+            required: true
+          }
+        }
+      });
+
+    });
 
   });
 

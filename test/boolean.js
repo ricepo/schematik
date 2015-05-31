@@ -27,6 +27,25 @@ describe("Schematik.Boolean", function () {
 
   });
 
+  describe("#clone()", function () {
+
+    it("should not affect cloned instances", function () {
+      var a = Schematik.boolean();
+      var b = a.clone().optional;
+
+      expect(a.done()).to.deep.equal({
+        type: 'boolean',
+        required: true
+      });
+
+      expect(b.done()).to.deep.equal({
+        type: 'boolean'
+      });
+
+    });
+
+  });
+
   describe("modifiers", function () {
 
     it("should work with {optional} modifier", function () {

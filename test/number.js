@@ -27,6 +27,30 @@ describe("Schematik.Number", function () {
 
   });
 
+  describe("#clone()", function () {
+
+    it("should not affect cloned instances", function () {
+      var a = Schematik.number().min(99);
+      var b = a.clone().exclusive.max(100);
+
+      expect(a.done()).to.deep.equal({
+        type: 'number',
+        required: true,
+        minimum: 99
+      });
+
+      expect(b.done()).to.deep.equal({
+        type: 'number',
+        required: true,
+        minimum: 99,
+        maximum: 100,
+        exclusiveMaximum: true
+      });
+
+    });
+
+  });
+
   describe("modifiers", function () {
 
     it("should work with {optional} modifier", function () {

@@ -27,6 +27,25 @@ describe("Schematik.Null", function () {
 
   });
 
+  describe("#clone()", function () {
+
+    it("should not affect cloned instances", function () {
+      var a = Schematik.null();
+      var b = a.clone().optional;
+
+      expect(a.done()).to.deep.equal({
+        type: 'null',
+        required: true
+      });
+
+      expect(b.done()).to.deep.equal({
+        type: 'null'
+      });
+
+    });
+
+  });
+
   describe("modifiers", function () {
 
     it("should work with {optional} modifier", function () {

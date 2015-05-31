@@ -27,6 +27,29 @@ describe("Schematik.Array", function () {
 
   });
 
+  describe("#clone()", function () {
+
+    it("should not affect cloned instances", function () {
+      var a = Schematik.array().of(Schematik.string());
+      var b = a.clone().max.length(100);
+
+      expect(a.done()).to.deep.equal({
+        type: 'array',
+        required: true,
+        items: { type: 'string' }
+      });
+
+      expect(b.done()).to.deep.equal({
+        type: 'array',
+        required: true,
+        items: { type: 'string' },
+        maxItems: 100
+      });
+
+    });
+
+  });
+
   describe("modifiers", function () {
 
     it("should work with {optional} modifier", function () {
