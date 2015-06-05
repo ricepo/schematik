@@ -13,6 +13,8 @@
  - [`oneOf`](#func_oneOf)
  - [`anyOf`](#func_anyOf)
  - [`allOf`](#func_allOf)
+ - [`define`](#func_define)
+ - [`ref`](#func_ref)
 
 ### [Conjunctions](#conj_summary)
 
@@ -136,6 +138,31 @@ schema. Obviously, you need to provide at least one argument.
 ```js
 Schematik.allOf(Schematik.string(), { type: 'foo' });
 // { "allOf": [{ "type": "string" }, { "type": "foo" }] }
+```
+
+### <a id="func_define"></a> `define` function
+This function allows adding to the `definitions` property of the JSON schema.
+It corresponds to the `definitions` property of the JSON schema.
+
+```js
+Schematik.string().define('test', Schematik.number());
+// {
+//   "type": "string",
+//   "definitions": {
+//     "test": { "type": "number" }
+//   }
+// }
+```
+
+### <a id="func_ref"></a> `ref` function
+This function allows creating schema references using `$ref` keyword. It
+corresponds to the use of `$ref` in JSON schema. This function **DOES NOT**
+perform any error checks except from making sure that the path you specify is
+a string.
+
+```js
+Schematik.ref('#/definitions/test');
+// { "$ref": "#/definitions/test" }
 ```
 
 ## <a id="conj_summary"></a> Conjunctions

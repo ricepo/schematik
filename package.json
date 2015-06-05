@@ -1,6 +1,6 @@
 {
   "name": "schematik",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Human-friendly utilities for building JSON schemas.",
   "main": "main.js",
   "engines": {
