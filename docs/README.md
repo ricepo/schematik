@@ -9,9 +9,12 @@
 ### [Functions](#func_summary)
  - [`done`](#func_done)
  - [`of`](#func_of)
+ - [`enum`](#func_enum)
+ - [`oneOf`](#func_oneOf)
+ - [`anyOf`](#func_anyOf)
+ - [`allOf`](#func_allOf)
 
-### Conjunctions
- - [Conjunction Summary](#conj_summary)
+### [Conjunctions](#conj_summary)
 
 ### Types
  - [Array](array.md)
@@ -84,6 +87,56 @@ You can also use it as a modifier and call it using `of`:
 Schematik.string().length.of(10);
 ```
 This behavior works with any function defined on `Schematik` instance.
+
+### <a id="func_enum"></a> `enum` function
+This function specifies a list of possible values for any Schematik instance.
+It corresponds to the `enum` property of the JSON schema.
+
+It requires at lease one argument. Functions are not supported as arguments.
+
+```js
+Schematik.string().enum('a', 'b', 'c');
+// { "type": "string", "enum": ["a", "b", "c"] }
+```
+
+### <a id="func_oneOf"></a> `oneOf` function
+This function creates a new Schematik with `oneOf` constraint, which allows you
+to indicate that the schema must match exactly one of the schemas you provide
+as arguments. This function corresponds to the `oneOf` property of the JSON
+schema. Obviously, you need to provide at least one argument.
+
+*This is a static only function which is not available on Schematik instances.*
+
+```js
+Schematik.oneOf(Schematik.string(), { type: 'foo' });
+// { "oneOf": [{ "type": "string" }, { "type": "foo" }] }
+```
+
+### <a id="func_anyOf"></a> `anyOf` function
+This function creates a new Schematik with `anyOf` constraint, which allows you
+to indicate that the schema must match at least one of the schemas you provide
+as arguments. This function corresponds to the `anyOf` property of the JSON
+schema. Obviously, you need to provide at least one argument.
+
+*This is a static only function which is not available on Schematik instances.*
+
+```js
+Schematik.anyOf(Schematik.string(), { type: 'foo' });
+// { "anyOf": [{ "type": "string" }, { "type": "foo" }] }
+```
+
+### <a id="func_allOf"></a> `allOf` function
+This function creates a new Schematik with `allOf` constraint, which allows you
+to indicate that the schema must match all of the schemas you provide
+as arguments. This function corresponds to the `allOf` property of the JSON
+schema. Obviously, you need to provide at least one argument.
+
+*This is a static only function which is not available on Schematik instances.*
+
+```js
+Schematik.allOf(Schematik.string(), { type: 'foo' });
+// { "allOf": [{ "type": "string" }, { "type": "foo" }] }
+```
 
 ## <a id="conj_summary"></a> Conjunctions
 Taking inspiration from Chai, Schematik provides a lot of conjunctions whose
