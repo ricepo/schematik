@@ -120,29 +120,4 @@ describe('Schematik.String', function() {
 
   });
 
-  describe('#oneOf()', function() {
-
-    it('should set the enum value', function() {
-      var s = Schematik.string().oneOf('a', 'b');
-      expect(s.done()).to.deep.equal({
-        type: 'string',
-        enum: ['a', 'b']
-      });
-    });
-
-    it('should flatten the arguments', function() {
-      var s = Schematik.string().oneOf('a', ['b', 'c'], 'd');
-      expect(s.done()).to.deep.equal({
-        type: 'string',
-        enum: ['a', 'b', 'c', 'd']
-      });
-    });
-
-    it('should throw if enum is empty', function() {
-      expect(function() { Schematik.string().oneOf(); }).to.throw();
-      expect(function() { Schematik.string().oneOf([]); }).to.throw();
-    });
-
-  });
-
 });
