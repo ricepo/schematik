@@ -3,9 +3,9 @@ chai      = require('chai');
 expect    = chai.expect;
 Schematik = require('../main.js');
 
-describe("Bugfixes", function () {
+describe('Bugfixes', function() {
 
-  it("Constructors should not modify object prototype.", function () {
+  it('Constructors should not modify object prototype.', function() {
 
     var a = new Schematik.Array({ test: 'data' });
     var b = new Schematik.Array();
