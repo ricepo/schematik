@@ -104,4 +104,53 @@ describe('Schematik Base', function() {
 
   });
 
+  describe('#define()', function() {
+
+    it('should add a schema definition', function() {
+      var s = Schematik.string().define('test', Schematik.number());
+      expect(s.done()).to.deep.equal({
+        type: 'string',
+        definitions: {
+          test: { type: 'number' }
+        }
+      });
+      s.define('foo', { type: 'bar' });
+      expect(s.done()).to.deep.equal({
+        type: 'string',
+        definitions: {
+          test: { type: 'number' },
+          foo:  { type: 'bar'    }
+        }
+      });
+    });
+
+    it('should throw if name is not a string', function() {
+      expect(function() { Schematik.string().define(1, { }); }).to.throw();
+    });
+
+    it('should throw if schema is not an object or Schematik', function() {
+      expect(function() { Schematik.string().define('test', 1); }).to.throw();
+    });
+
+    it('should throw when attempting to overwrite', function() {
+      expect(function() {
+        Schematik.number().define('test', { }).define('test', { });
+      }).to.throw();
+    });
+
+  });
+
+  describe('#ref()', function() {
+
+    it('should create a $ref schema', function() {
+      var s = Schematik.ref('#/definitions/test');
+      expect(s.done()).to.deep.equal({ $ref: '#/definitions/test' });
+    });
+
+    it('should throw if path is not a string', function() {
+      expect(function() { Schematik.ref(123); }).to.throw();
+    });
+
+  });
+
 });
