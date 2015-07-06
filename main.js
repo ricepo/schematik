@@ -4,8 +4,9 @@
 //                                                                           //
 // ------------------------------------------------------------------------- //
 _         = require('lodash');
-Schematik = require('./lib/types/base');
 
+Schematik = require('./lib/schematik');
+/*
 require('./lib/util/schematik.js');
 
 require('./lib/types/array');
@@ -14,5 +15,5 @@ require('./lib/types/number');
 require('./lib/types/null');
 require('./lib/types/string');
 require('./lib/types/object');
-
+*/
 module.exports = Schematik;

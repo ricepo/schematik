@@ -7,7 +7,8 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "mocha --reporter spec"
+    "test": "gulp test",
+    "postinstall": "./node_modules/.bin/gulp"
   },
   "repository": {
     "type": "git",
@@ -25,12 +26,19 @@
   },
   "homepage": "https://github.com/jluchiji/schematik",
   "dependencies": {
+    "immutable": "^3.7.4",
     "lodash": "^3.9.3"
   },
   "devDependencies": {
     "blanket": "^1.1.7",
     "chai": "^2.3.0",
-    "gulp": "^3.8.11",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.1.0",
+    "gulp-jscs": "^1.6.0",
+    "gulp-jscs-stylish": "^1.1.0",
+    "gulp-jshint": "^1.11.2",
+    "gulp-sourcemaps": "^1.5.2",
+    "jshint-stylish": "^2.0.1",
     "mocha": "^2.2.5"
   },
   "config": {
