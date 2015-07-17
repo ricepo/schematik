@@ -56,7 +56,7 @@ export default function addChainable(context, name, call, get) {
       prototype.call  = call;
       prototype.apply = apply;
 
-      self.copyTo(wrapper);
+      self.flag('chain', wrapper).copyTo(wrapper);
       return wrapper;
     }
   });
