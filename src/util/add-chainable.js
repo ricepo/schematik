@@ -7,6 +7,7 @@
 // This file is a Schematik-specific ES6 rewrite of:
 //   chaijs/chai/lib/chai/utils/addChainableMethod.js
 
+import methods      from './symbols';
 import isSchematik  from './is-schematik';
 
 // Check for __proto__ support
@@ -19,8 +20,6 @@ const excludeNames  = /^(?:length|name|arguments|caller)$/;
 const call          = Function.prototype.call;
 const apply         = Function.prototype.apply;
 
-// Symbol for the hidden __methods property
-const __methods     = Symbol.for('Schematik.methods');
 
 // Adds a chainable method to the specified object
 export default function addChainable(context, name, call, get) {
@@ -29,8 +28,8 @@ export default function addChainable(context, name, call, get) {
   let behavior = { call: call, get: get };
 
   // Save methods for later overwrites
-  if (!context[__methods]) { context[__methods] = { }; }
-  context[__methods][name] = behavior;
+  if (!context[methods]) { context[methods] = { }; }
+  context[methods][name] = behavior;
 
   // Attach the chainable method to the object
   Object.defineProperty(context, name, {

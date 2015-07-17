@@ -6,22 +6,20 @@
 import _               from 'lodash';
 import Immutable       from 'seamless-immutable';
 
+import * as Symbols    from './util/symbols';
 import isSchematik     from './util/is-schematik';
 
-const __flags     = Symbol.for('Schematik.flags');
-const __schema    = Symbol.for('Schematik.schema');
-const __schematik = Symbol.for('Schematik.schematik');
 
 export default class Schematik {
 
   constructor() {
     // 'Magic Number' to enable quick checks whether an object is a Schematik
     // This one has to be enumerable so that we can use __proto__
-    this[__schematik] = true;
+    this[Symbols.magic] = true;
 
     // Immutable object for storing flags and schema state
-    this[__flags]  = Immutable({ });
-    this[__schema] = Immutable({ });
+    this[Symbols.flags]  = Immutable({ });
+    this[Symbols.schema] = Immutable({ });
   }
 
   // Creates a copy of the Schematik object.
@@ -39,11 +37,11 @@ export default class Schematik {
   flag(key, value) {
 
     if (typeof value === 'undefined') {
-      return this[__flags][key];
+      return this[Symbols.flags][key];
     }
 
     let result = this.clone();
-    result[__flags] = this[__flags].merge({ [key]: value });
+    result[Symbols.flags] = this[Symbols.flags].merge({ [key]: value });
 
     return result;
   }
@@ -53,8 +51,8 @@ export default class Schematik {
     if (!isSchematik(that)) {
       throw new Error('Cannot copy to a non-Schematik object.');
     }
-    that[__flags]  = this[__flags];
-    that[__schema] = this[__schema];
+    that[Symbols.flags]  = this[Symbols.flags];
+    that[Symbols.schema] = this[Symbols.schema];
   }
 
 }
