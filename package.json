@@ -39,7 +39,8 @@
     "gulp-jshint": "^1.11.2",
     "gulp-sourcemaps": "^1.5.2",
     "jshint-stylish": "^2.0.1",
-    "mocha": "^2.2.5"
+    "mocha": "^2.2.5",
+    "source-map-support": "^0.3.2"
   },
   "config": {
     "blanket": {

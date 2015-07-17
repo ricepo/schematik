@@ -23,8 +23,6 @@ export default class Schematik {
   }
 
   // Creates a copy of the Schematik object.
-  // Since flags and schema are immutable, it is perfectly ok to just assign
-  // them over without worrying about them being mutated after cloning.
   clone() {
     let copy = new Schematik();
     this.copyTo(copy);
@@ -46,7 +44,10 @@ export default class Schematik {
     return result;
   }
 
-  // Copies flags and schema to another Schematik object
+  // Copies flags and schema to another Schematik object.
+  // Since flags and schema are immutable, it is perfectly ok to just assign
+  // them over without worrying about them being mutated after cloning.
+  // This makes copying Schematik object a cheap operation.
   copyTo(that) {
     if (!isSchematik(that)) {
       throw new Error('Cannot copy to a non-Schematik object.');
