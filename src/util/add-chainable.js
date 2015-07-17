@@ -1,45 +1,79 @@
 // -------------------------------------------------------------------------- //
 //                                                                            //
-// Adds a chainable method to the specified context.                          //
+// Adds a chainable method to the specified object.                           //
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-// Check whether `__proto__` is supported
-var hasProtoSupport = '__proto__' in Object;
+// This file is a Schematik-specific ES6 rewrite of:
+//   chaijs/chai/lib/chai/utils/addChainableMethod.js
 
-// Without `__proto__` support, this module will need to add properties to a
-// function.
-// However, some Function.prototype methods cannot be overwritten,
-// and there seems no easy cross-platform way to detect them
-// (@see chaijs/chai/issues/69).
-var excludeNames = /^(?:length|name|arguments|caller)$/;
+// Check for __proto__ support
+const supportsProto = '__proto__' in Object;
+
+// Regex for function prototype methods that cannot be overwritten
+const excludeNames  = /^(?:length|name|arguments|caller)$/;
+
+// Default function properties
+const call  = Function.prototype.call;
+const apply = Function.prototype.apply;
 
 
-export default function(context, name, method, accessor) {
+export default function addChainable(context, name, call, get) {
 
-  if (typeof accessor !== 'function') { accessor = () => { }; }
-  var chainable = {
-    method:   method,
-    accessor: accessor
+  if (typeof get !== 'function') { get = function() { }; }
+
+  let behavior = {
+    call:   call,
+    get:    get
   };
 
-  // Store chainable methods
+  // Save methods for later overwrites
   if (!context.__methods) { context.__methods = { }; }
-  context.__methods[name] = chainable;
+  context.__methods[name] = behavior;
 
-  // Attach the chainable to the context object
+  // Attach the chainable method to the object
   Object.defineProperty(context, name, {
-
+    configurable: true,
     get: function() {
-      chainable.accessor.call(this);
+      // Allow onGet to make changes to the Schematik
+      // If changes are made, a new Schematik will be returned
+      let self = behavior.get.call(this);
+      if (self === undefined) { self = this; }
+      if (!self.__schematik) {
+        throw new Error('Chainable get() must return a Schematik.');
+      }
 
-      var callback = function() {
-        
+      // Construct the wrapper function for the onCall
+      let wrapper = function wrapper() {
+        let result = behavior.call.apply(self, arguments);
+        self = self.flag('chain', null);
+        return result === undefined ? self : result;
       };
 
+      // Make the wrapper act like Schematik
+      if (supportsProto) {
+        // Replace function prototype
+        let prototype = wrapper.__proto__ = Object.create(self);
+        // Restore `call` and `apply` methods
+        prototype.call  = call;
+        prototype.apply = apply;
+      }
+
+      // Otherwise, fallback to redefining properties
+      else {
+        let propNames = Object.getOwnPropertyNames(context);
+        propNames.forEach((name) => {
+          if (!excludeNames.test(name)) {
+            let descriptor = Object.getOwnPropertyDescriptor(context, name);
+            Object.defineProperty(wrapper, name, descriptor);
+          }
+        });
+      }
+
+      wrapper.__flags  = self.__flags;
+      wrapper.__schema = self.__schema;
+      return wrapper;
     }
-
   });
-
 
 }

@@ -26,8 +26,8 @@
   },
   "homepage": "https://github.com/jluchiji/schematik",
   "dependencies": {
-    "immutable": "^3.7.4",
-    "lodash": "^3.9.3"
+    "lodash": "^3.9.3",
+    "seamless-immutable": "^2.4.2"
   },
   "devDependencies": {
     "blanket": "^1.1.7",

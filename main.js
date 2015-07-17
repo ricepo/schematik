@@ -6,6 +6,8 @@
 _         = require('lodash');
 
 Schematik = require('./lib/schematik');
+
+Schematik.util = require('./lib/util');
 /*
 require('./lib/util/schematik.js');
 

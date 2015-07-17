@@ -1,17 +1,17 @@
 // -------------------------------------------------------------------------- //
 //                                                                            //
-// Adds a method to the specified object.                                     //
+// Adds a property to the specified object.                                   //
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
 // This file is a Schematik-specific ES6 rewrite of:
-//   chaijs/chai/lib/chai/utils/addMethod.js
+//   chaijs/chai/lib/chai/utils/addProperty.js
 
-export default function(context, name, fn) {
-
-  context[name] = function() {
-    let result = fn.apply(this, arguments);
-    return result === undefined ? this.clone() : result;
-  };
-
+export default function addProperty(context, name, getter) {
+  Object.defineProperty(context, name, {
+    get: function() {
+      let result = getter.call(this);
+      return result === undefined ? this.clone() : result;
+    }
+  });
 }

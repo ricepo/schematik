@@ -1,67 +1,46 @@
-// ------------------------------------------------------------------------- //
-//                                                                           //
-// Schematik base class.                                                     //
-//                                                                           //
-// ------------------------------------------------------------------------- //
-import Immutable from 'immutable';
+// -------------------------------------------------------------------------- //
+//                                                                            //
+// Schematik base class.                                                      //
+//                                                                            //
+// -------------------------------------------------------------------------- //
+import _               from 'lodash';
+import Immutable       from 'seamless-immutable';
 
 export default class Schematik {
 
-  constructor(options) {
-
-    // Used to check whether an object is a Schematik, since
-    // inheritance chains might get broken in the process.
+  constructor() {
+    // 'Magic Number' to enable quick checks whether an object is a Schematik
+    // This one has to be enumerable so that we can use __proto__
     this.__schematik = true;
 
-    // Initialize the Schematik instance
-    this._init(options);
-
+    // Immutable object for storing flags and schema state
+    this.__flags  = Immutable({ });
+    this.__schema = Immutable({ });
   }
 
-  // Returns the corresponding JSON schema
-  done() {
-    
+  // Creates a copy of the Schematik object.
+  // Since flags and schema are immutable, it is perfectly ok to just assign
+  // them over without worrying about them being mutated after cloning.
+  clone() {
+    let copy = new Schematik();
+    copy.__flags  = this.__flags;
+    copy.__schema = this.__schema;
+    return copy;
   }
 
-  // Gets/sets a flag on the Schematik instance.
-  flag(name, value) {
-    if (typeof name !== 'string') {
-      throw new Error('name must be a string.');
-    }
-    if (typeof value !== 'undefined') {
-      let clone = new Schematik(this);
-      clone._flags  = this._flags.set(name, value);
-      return clone;
-    } else {
-      return this._flags.has(name) ? this._flags.get(name) : null;
-    }
-  }
+  // Gets or sets a flag value.
+  // If value is undefined, gets the flag value;
+  // Otherwise, sets the flag to the value.
+  flag(key, value) {
 
-  // Gets/sets the type of the Schematik instance.
-  type(type) {
-    if (!type) { type = 'any'; }
-    let clone = new Schematik(this);
-    clone._schema = this._schema.set('type', type);
-    return clone;
-  }
+    if (typeof value === 'undefined') {
+      return this.__flags[key];
+    }
 
-  // Initializes the Schematik instance from options.
-  _init(options) {
-    if (!options) {
-      this._flags  = new Immutable.Map({ required: true });
-      this._schema = new Immutable.Map({ type: 'any' });
-      return;
-    }
-    // Clone the Schematik if one is provided
-    if (options.__schematik) {
-      this._flags  = options._flags;
-      this._schema = options._schema;
-      return;
-    }
-    // Convert the plain schema into Schematik
-    if (_.isObject(options)) {
+    let result = this.clone();
+    result.__flags = this.__flags.merge({ [key]: value });
 
-    }
+    return result;
   }
 
 }
