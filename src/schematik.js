@@ -1,59 +1,39 @@
 // -------------------------------------------------------------------------- //
 //                                                                            //
-// Schematik base class.                                                      //
+// Schematik main export file, along with middleware management.              //
 //                                                                            //
 // -------------------------------------------------------------------------- //
-import _               from 'lodash';
-import Immutable       from 'seamless-immutable';
+import Debug        from 'debug';
+import Schematik    from './types/core';
+import * as Util    from './util';
 
-import * as Symbols    from './util/symbols';
-import isSchematik     from './util/is-schematik';
+const  print      = Debug('schematik');
 
-
-export default class Schematik {
-
-  constructor() {
-    // 'Magic Number' to enable quick checks whether an object is a Schematik
-    // This one has to be enumerable so that we can use __proto__
-    this[Symbols.magic] = true;
-
-    // Immutable object for storing flags and schema state
-    this[Symbols.flags]  = Immutable({ });
-    this[Symbols.schema] = Immutable({ });
-  }
-
-  // Creates a copy of the Schematik object.
-  clone() {
-    let copy = new Schematik();
-    this.copyTo(copy);
-    return copy;
-  }
-
-  // Gets or sets a flag value.
-  // If value is undefined, gets the flag value;
-  // Otherwise, sets the flag to the value.
-  flag(key, value) {
-
-    if (typeof value === 'undefined') {
-      return this[Symbols.flags][key];
-    }
-
-    let result = this.clone();
-    result[Symbols.flags] = this[Symbols.flags].merge({ [key]: value });
-
-    return result;
-  }
-
-  // Copies flags and schema to another Schematik object.
-  // Since flags and schema are immutable, it is perfectly ok to just assign
-  // them over without worrying about them being mutated after cloning.
-  // This makes copying Schematik object a cheap operation.
-  copyTo(that) {
-    if (!isSchematik(that)) {
-      throw new Error('Cannot copy to a non-Schematik object.');
-    }
-    that[Symbols.flags]  = this[Symbols.flags];
-    that[Symbols.schema] = this[Symbols.schema];
-  }
-
+// Enable source maps when available
+let sourcemaps = require.resolve('source-map-support');
+if (sourcemaps) {
+  print('Enabling sourcemap support.');
+  require(sourcemaps).install();
 }
+
+// Load version from package.json
+Schematik.version = require('../package.json').version;
+
+// Set up a weak set to track used middleware
+const middleware = new WeakSet();
+
+// Use middleware
+Schematik.use = function(fn) {
+  if (!middleware.has(fn)) {
+    print(`Using middleware: ${fn.name}`);
+    fn(this, Util);
+    middleware.add(fn);
+  }
+  return this;
+};
+
+// Utilities
+Schematik.util = Util;
+
+
+export default Schematik;

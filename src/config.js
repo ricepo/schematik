@@ -1,10 +1,15 @@
 // -------------------------------------------------------------------------- //
 //                                                                            //
-// Checks whether an object is a Schematik.                                   //
+// Schematik user-configurable properties.                                    //
 //                                                                            //
 // -------------------------------------------------------------------------- //
-import Schematik    from '../types/core';
 
-export default function isSchematik(object) {
-  return object instanceof Schematik;
-}
+// Initial flag values of Schematik objects.
+export var defaultFlags = {
+
+  required:  true
+
+};
+
+// If true, allows overwriting `type` of the Schematik.
+export var allowTypeOverwrite = false;
