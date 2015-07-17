@@ -20,7 +20,7 @@ if (sourcemaps) {
 Schematik.version = require('../package.json').version;
 
 // Set up a weak set to track used middleware
-const middleware = new WeakSet();
+const middleware = new Set();
 
 // Use middleware
 Schematik.use = function(fn) {

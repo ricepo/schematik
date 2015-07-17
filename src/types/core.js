@@ -50,8 +50,8 @@ export default class Schematik {
       return this[Symbols.schema].type;
     }
 
-    if (typeof value !== 'string') {
-      throw new Error('Type value of a Schematik must be a string.');
+    if (!Config.whitelistedTypes.has(value)) {
+      throw new Error(`Invalid type value ${value}`);
     }
 
     if (!Config.allowTypeOverwrite && this[Symbols.schema].type) {
