@@ -35,7 +35,7 @@ export default class Schematik {
    * @returns       A JSON schema object.
    */
   done() {
-    return this[Symbols.schema].asMutable();
+    return this[Symbols.schema].asMutable({ deep: true });
   }
 
   /**

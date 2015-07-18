@@ -11,7 +11,7 @@
 *
 * @desc Returns a copy of the Schematik with `required` flag set to true.
 */
-function required() {
+export function required() {
  return this.self().flag('required', true);
 }
 
@@ -20,7 +20,7 @@ function required() {
  *
  * @desc Returns a copy of the Schematik with `required` flag set to false.
  */
-function optional() {
+export function optional() {
  return this.self().flag('required', false);
 }
 
@@ -29,7 +29,7 @@ function optional() {
  *
  * @desc Sets the `negate` flag to true.
  */
-function negate() {
+export function negate() {
   return this.flag('negate', true);
 }
 

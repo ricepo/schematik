@@ -9,9 +9,9 @@ import Schematik    from '../schematik';
 
 
 /**
- * Schematik.Boolean
+ * Schematik.Null
  *
- * @classdesc       Schematik boolean type representation.
+ * @classdesc       Schematik null type representation.
  */
 export class SkNull extends Schematik {
 
@@ -29,12 +29,12 @@ export class SkNull extends Schematik {
 export default function(Schematik, Util) {
 
   /*!
-   * Expose SkBoolean as Schematik.Boolean
+   * Expose SkNull as Schematik.Null
    */
   Schematik.Null = SkNull;
 
   /*!
-   * Attach the Schematik.boolean() shorthand.
+   * Attach the Schematik.null() shorthand.
    */
   Schematik.null = Schematik.prototype.null = function() {
     let result = new Schematik.Null();

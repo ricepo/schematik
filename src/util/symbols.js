@@ -1,23 +1,42 @@
-// -------------------------------------------------------------------------- //
-//                                                                            //
-// Symbols for accessing internal properties of Schematik.                    //
-//                                                                            //
-// -------------------------------------------------------------------------- //
+/**
+ * Schematik symbols
+ *
+ * @author          Denis Luchkin-Zhou <wyvernzora@gmail.com>
+ * @license         MIT
+ */
 
-// Fallback for environments without symbols
+import { devMode }  from '../config';
+
+
+/*!
+ * Fallback when symbols are not supported, or
+ * when there is need to expose special properties.
+ */
 var _symbol = Symbol;
-if (!_symbol || process.env.DEBUG) {
+if (!_symbol || devMode) {
   _symbol = function(name) { return `__${name}`; };
 }
 
-// Middleware list
+
+/*!
+ * Symbol for middleware list property.
+ */
 export const mwares  = _symbol('mwares');
 
-// Chainable method behaviors of the Schematik object
+
+/*!
+ * Symbol for chaining behaviors property.
+ */
 export const methods = _symbol('methods');
 
-// Behavior flags of the Schematik object
+
+/*!
+ * Symbol for behavior flags property.
+ */
 export const flags   = _symbol('flags');
 
-// Internal schema of the Schematik object
+
+/*!
+ * Symbol for internal schema property.
+ */
 export const schema  = _symbol('schema');

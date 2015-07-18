@@ -10,7 +10,7 @@
  *
  * @desc Sets the `additional` flag to true.
  */
-function additional() {
+export function additional() {
   return this.flag('additional', true);
 }
 

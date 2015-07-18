@@ -11,6 +11,7 @@ import * as Util    from './util';
 
 import FlagCore     from './flags/core';
 import FlagUnique   from './flags/unique';
+import FlagSugar    from './flags/sugar';
 import SkArray      from './types/array';
 import SkBoolean    from './types/boolean';
 import SkNull       from './types/null';
@@ -70,7 +71,7 @@ Schematik.util = Util;
  */
 Schematik.use(FlagCore);
 Schematik.use(FlagUnique);
-
+Schematik.use(FlagSugar);
 
 /*!
  * Attach builtin Schematik types.
