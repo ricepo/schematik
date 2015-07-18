@@ -4,8 +4,6 @@
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
-export const getProperties = require('./get-properties');
-
 export const addProperty   = require('./add-property');
 
 export const addMethod     = require('./add-method');

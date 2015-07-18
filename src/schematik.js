@@ -1,39 +1,143 @@
-// -------------------------------------------------------------------------- //
-//                                                                            //
-// Schematik main export file, along with middleware management.              //
-//                                                                            //
-// -------------------------------------------------------------------------- //
-import Debug        from 'debug';
-import Schematik    from './types/core';
-import * as Util    from './util';
+/**
+ * Schematik
+ *
+ * @author          Denis Luchkin-Zhou <wyvernzora@gmail.com>
+ * @license         MIT
+ */
 
-const  print      = Debug('schematik');
+import Debug           from 'debug';
+import Immutable       from 'seamless-immutable';
 
-// Enable source maps when available
-let sourcemaps = require.resolve('source-map-support');
-if (sourcemaps) {
-  print('Enabling sourcemap support.');
-  require(sourcemaps).install();
-}
+import * as Config     from './config';
+import * as Symbols    from './util/symbols';
+import isSchematik     from './util/is-schematik';
 
-// Load version from package.json
-Schematik.version = require('../package.json').version;
+const  print         = Debug('schematik');
 
-// Set up a weak set to track used middleware
-const middleware = new Set();
+/**
+ * Schematik
+ *
+ * @classdesc Base class for all Schematiks.
+ */
+export default class Schematik {
 
-// Use middleware
-Schematik.use = function(fn) {
-  if (!middleware.has(fn)) {
-    print(`Using middleware: ${fn.name}`);
-    fn(this, Util);
-    middleware.add(fn);
+  constructor() {
+    // Immutable object for storing flags and schema state
+    this[Symbols.flags]  = Immutable(Config.defaultFlags);
+    this[Symbols.schema] = Immutable({ });
   }
-  return this;
-};
 
-// Utilities
-Schematik.util = Util;
+  /**
+   * .self()
+   *
+   * @access        public
+   * @desc          Used for certain properties that can be defined on both
+   *                prototype and the class itself (static).
+   * @returns       {this}
+   */
+  self() {
+    return this;
+  }
 
+  /**
+   * # .self()
+   *
+   * @access        public
+   * @desc          Static version of .self(), serves the same purpose.
+   * @returns       new Schematik object.
+   */
+  static self() {
+    return new Schematik();
+  }
 
-export default Schematik;
+  /**
+   * # .clone()
+   *
+   * @access        public
+   * @desc          Creates a copy of the Schematik object.
+   * @returns       A copy of the Schematik object.
+   */
+  clone() {
+    let copy = Object.create(this);
+    this.copyTo(copy);
+    return copy;
+  }
+
+  /**
+   * # .flag(key, value)
+   *
+   * @access        public
+   * @desc          Gets or sets the value of a flag.
+   * @param         {key} name of the flag.
+   * @param         {value} new value for the flag, if any.
+   * @returns       Flag value when {value} is {undefined};
+   *                otherwise a new copy of the Schematik object with the
+   *                specified flag set to the {value}.
+   */
+  flag(key, value) {
+
+    if (typeof value === 'undefined') {
+      return this[Symbols.flags][key];
+    }
+
+    let result = this.clone();
+    result[Symbols.flags] = this[Symbols.flags].merge({ [key]: value });
+    return result;
+  }
+
+  /**
+   * # .__type(value)
+   *
+   * @access        protected
+   * @desc          Sets the type of the Schematik object.
+   * @param         {value} name of the type, must be a string.
+   * @returns       {this} for chaining.
+   */
+  __type(value) {
+
+    if (typeof value === 'undefined') {
+      return this[Symbols.schema].type;
+    }
+
+    if (!Config.whitelistedTypes.has(value)) {
+      throw new Error(`Invalid type value ${value}`);
+    }
+
+    if (!Config.allowTypeOverwrite && this[Symbols.schema].type) {
+      throw new Error('Overwriting existing type is not allowed.');
+    }
+
+    this[Symbols.schema] = this[Symbols.schema].merge({ type: value });
+    return this;
+  }
+
+  /**
+   * # .clone()
+   *
+   * @access        public
+   * @desc          Copies flags and schema to another Schematik object.
+   * @param         {this} another Schematik object.
+   * @returns       {this} for chaining.
+   */
+  copyTo(that) {
+    if (!isSchematik(that)) {
+      throw new Error('Cannot copy to a non-Schematik object.');
+    }
+    that[Symbols.flags]  = this[Symbols.flags];
+    that[Symbols.schema] = this[Symbols.schema];
+    return this;
+  }
+
+  /**
+   * # .toString()
+   *
+   * @override
+   * @access        public
+   * @desc          Provides a custom string representation of the Schematik.
+   * @returns       '[object Schematik]'
+   */
+  toString() {
+    return '[object Schematik]';
+  }
+
+}

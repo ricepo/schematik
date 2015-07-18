@@ -4,14 +4,20 @@
 //                                                                            //
 // -------------------------------------------------------------------------- //
 
+// Fallback for environments without symbols
+var _symbol = Symbol;
+if (!_symbol || process.env.DEBUG) {
+  _symbol = function(name) { return `__${name}`; };
+}
+
 // Middleware list
-export const mwares  = Symbol.for('Schematik.mwares');
+export const mwares  = _symbol('mwares');
 
 // Chainable method behaviors of the Schematik object
-export const methods = Symbol.for('Schematik.methods');
+export const methods = _symbol('methods');
 
 // Behavior flags of the Schematik object
-export const flags   = Symbol.for('Schematik.flags');
+export const flags   = _symbol('flags');
 
 // Internal schema of the Schematik object
-export const schema  = Symbol.for('Schematik.schema');
+export const schema  = _symbol('schema');
