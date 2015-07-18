@@ -1,29 +1,54 @@
-// -------------------------------------------------------------------------- //
-//                                                                            //
-// Schematik main export file, along with middleware management.              //
-// Copyright © 2015 Denis Luchkin-Zhou                                        //
-//                                                                            //
-// -------------------------------------------------------------------------- //
+/**
+ * Schematik
+ *
+ * @author          Denis Luchkin-Zhou <wyvernzora@gmail.com>
+ * @license         MIT
+ */
+
 import Debug        from 'debug';
 import Schematik    from './schematik';
 import * as Util    from './util';
 
-const  print      = Debug('schematik');
+import FlagCore     from './flags/core';
+import FlagUnique   from './flags/unique';
+import SkArray      from './types/array';
+import SkBoolean    from './types/boolean';
+import SkNull       from './types/null';
 
-// Enable source maps when available
+export default Schematik;
+const  print = Debug('schematik');
+
+
+/*!
+ * Enable source map support if `source-map-support` is installed
+ */
 let sourcemaps = require.resolve('source-map-support');
 if (sourcemaps) {
   print('Enabling sourcemap support.');
   require(sourcemaps).install();
 }
 
-// Load version from package.json
+
+/*!
+ * Load the module version from package.json
+ */
 Schematik.version = require('../package.json').version;
 
-// Set up a weak set to track used middleware
+
+/*!
+ * Use a set to track middleware
+ */
 const middleware = new Set();
 
-// Use middleware
+
+/**
+ * .use()
+ *
+ * @access          public
+ * @desc            Extends the Schematik using the middleware.
+ * @param           {fn} the middleware function.
+ * @returns         {Schematik} class constructor for chaining.
+ */
 Schematik.use = function(fn) {
   if (!middleware.has(fn)) {
     print(`Using middleware: ${fn.name}`);
@@ -33,12 +58,23 @@ Schematik.use = function(fn) {
   return this;
 };
 
-// Utilities
+
+/*!
+ * Expose Schematik utilities via Schematik.util
+ */
 Schematik.util = Util;
 
 
-Schematik.use(require('./flags/core'));
-Schematik.use(require('./flags/unique'));
-Schematik.use(require('./types/array'));
+/*!
+ * Attach global flags to the Schematik.
+ */
+Schematik.use(FlagCore);
+Schematik.use(FlagUnique);
 
-export default Schematik;
+
+/*!
+ * Attach builtin Schematik types.
+ */
+Schematik.use(SkArray);
+Schematik.use(SkBoolean);
+Schematik.use(SkNull);

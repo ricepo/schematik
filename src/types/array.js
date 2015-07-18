@@ -16,7 +16,7 @@ import Additional   from '../flags/additional';
  *
  * @classdesc       Schematik array type representation.
  */
-class SkArray extends Schematik {
+export class SkArray extends Schematik {
 
   constructor() {
     super();
@@ -43,9 +43,7 @@ function items(...values) {
       throw new Error('Schematik.Array.items: value must be object or bool.');
     }
 
-    let result = this.clone();
-    result[schema] = this[schema].merge({ additionalItems: value });
-    return result;
+    return this.schema({ additionalItems: value });
   }
 
   // Otherwise, modify `items`
@@ -62,10 +60,7 @@ function items(...values) {
     current = current ? values.concat(current)  : values;
     current = current.length === 1 ? current[0] : current;
 
-    let result  = this.clone();
-    result[schema] = this[schema].merge({ items: current });
-
-    return result;
+    return this.schema({ items: current });
   }
 
 }
@@ -93,23 +88,21 @@ function length(a, b) {
     diff.minItems = diff.maxItems = a;
   }
 
-  let result = this.clone();
-  result[schema] = this[schema].merge(diff);
-  return result;
+  return this.schema(diff);
 }
 
 
-/**
+/*!
  * Export a middleware function.
  */
 export default function(Schematik, Util) {
 
-  /**
+  /*!
    * Expose SkArray class as Schematik.Array
    */
   Schematik.Array = SkArray;
 
-  /**
+  /*!
    * Attach the Schematik.array() shorthand.
    */
   Schematik.array = Schematik.prototype.array = function() {
@@ -119,13 +112,13 @@ export default function(Schematik, Util) {
     return result;
   };
 
-  /**
+  /*!
    * Attach shared flags
    */
   Range(Schematik.Array.prototype, Util);
   Additional(Schematik.Array.prototype, Util);
 
-  /**
+  /*!
    * Attach array-specific methods.
    */
   Util.addChainable(Schematik.Array.prototype, 'items',  items);

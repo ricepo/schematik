@@ -28,7 +28,18 @@ export default class Schematik {
   }
 
   /**
-   * .self()
+   * # .done()
+   *
+   * @access        public
+   * @desc          Converts the Schematik into an actual JSON schema object.
+   * @returns       A JSON schema object.
+   */
+  done() {
+    return this[Symbols.schema].asMutable();
+  }
+
+  /**
+   * # .self()
    *
    * @access        public
    * @desc          Used for certain properties that can be defined on both
@@ -86,29 +97,27 @@ export default class Schematik {
   }
 
   /**
-   * # .__type(value)
+   * # .schema(value)
    *
-   * @access        protected
-   * @desc          Sets the type of the Schematik object.
-   * @param         {value} name of the type, must be a string.
-   * @returns       {this} for chaining.
+   * @access        public
+   * @desc          Gets or sets the schema of a flag.
+   * @param         {value} schema property path; or a partial schema to merge
+   * @returns       Value of the property path if {value} is a {string};
+   *                otherwise a new copy of the Schematik object with the
+   *                {value} merged into the schema.
    */
-  __type(value) {
-
-    if (typeof value === 'undefined') {
-      return this[Symbols.schema].type;
+  schema(value) {
+    if (typeof value === 'string') {
+      return this[Symbols.schema][value];
     }
 
-    if (!Config.whitelistedTypes.has(value)) {
-      throw new Error(`Invalid type value ${value}`);
+    if (typeof value === 'object') {
+      let result = this.clone();
+      result[Symbols.schema] = this[Symbols.schema].merge(value);
+      return result;
     }
 
-    if (!Config.allowTypeOverwrite && this[Symbols.schema].type) {
-      throw new Error('Overwriting existing type is not allowed.');
-    }
-
-    this[Symbols.schema] = this[Symbols.schema].merge({ type: value });
-    return this;
+    throw new Error('Schematik.schema: value must be a string or an object.');
   }
 
   /**
@@ -138,6 +147,32 @@ export default class Schematik {
    */
   toString() {
     return '[object Schematik]';
+  }
+
+  /**
+   * # .__type(value)
+   *
+   * @access        protected
+   * @desc          Sets the type of the Schematik object.
+   * @param         {value} name of the type, must be a string.
+   * @returns       {this} for chaining.
+   */
+  __type(value) {
+
+    if (typeof value === 'undefined') {
+      return this[Symbols.schema].type;
+    }
+
+    if (!Config.whitelistedTypes.has(value)) {
+      throw new Error(`Invalid type value ${value}`);
+    }
+
+    if (!Config.allowTypeOverwrite && this[Symbols.schema].type) {
+      throw new Error('Overwriting existing type is not allowed.');
+    }
+
+    this[Symbols.schema] = this[Symbols.schema].merge({ type: value });
+    return this;
   }
 
 }
