@@ -6,6 +6,7 @@
  */
 
 import Schematik    from '../schematik';
+import instantiate  from '../util/instantiate';
 
 
 /**
@@ -37,10 +38,7 @@ export default function(Schematik, Util) {
    * Attach the Schematik.null() shorthand.
    */
   Schematik.null = Schematik.prototype.null = function() {
-    let result = new Schematik.Null();
-    this.self().copyTo(result);
-    result.__type('null');
-    return result;
+    return instantiate(this.self(), Schematik.Null);
   };
 
 }

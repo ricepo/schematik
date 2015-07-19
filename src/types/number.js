@@ -6,6 +6,7 @@
  */
 
 import Schematik    from '../schematik';
+import instantiate  from '../util/instantiate';
 
 /**
  * Schematik.Number
@@ -90,7 +91,8 @@ export class SkNumber extends Schematik {
    * @returns         A copy of the Schematik with both minimum and maximum values
    */
   static __range(min, max) {
-    return this.min(min).max(max);
+    let flag   = this.flag('exclusive');
+    return this.min(min).flag('exclusive', flag).max(max);
   }
 
 
@@ -126,10 +128,7 @@ export default function(Schematik, Util) {
    * Attach the Schematik.number() shorthand.
    */
   Schematik.number = Schematik.prototype.number = function() {
-    let result = new Schematik.Number();
-    this.self().copyTo(result);
-    result.__type('number');
-    return result;
+    return instantiate(this.self(), Schematik.Number);
   };
 
   /*!

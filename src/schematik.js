@@ -101,19 +101,20 @@ export default class Schematik {
    *
    * @access        public
    * @desc          Gets or sets the schema of a flag.
-   * @param         {value} schema property path; or a partial schema to merge
+   * @param         {value} schema property path; or a partial schema to merge.
+   * @param         {deep} specifies whether to perform a deep merge.
    * @returns       Value of the property path if {value} is a {string};
    *                otherwise a new copy of the Schematik object with the
    *                {value} merged into the schema.
    */
-  schema(value) {
+  schema(value, deep = false) {
     if (typeof value === 'string') {
       return this[Symbols.schema][value];
     }
 
     if (typeof value === 'object') {
       let result = this.clone();
-      result[Symbols.schema] = this[Symbols.schema].merge(value);
+      result[Symbols.schema] = this[Symbols.schema].merge(value, {deep: deep});
       return result;
     }
 

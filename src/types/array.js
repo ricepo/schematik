@@ -7,6 +7,7 @@
 
 import Schematik    from '../schematik';
 import { schema }   from '../util/symbols';
+import instantiate  from '../util/instantiate';
 
 import Range        from '../flags/range';
 import Additional   from '../flags/additional';
@@ -84,7 +85,7 @@ export class SkArray extends Schematik {
       diff.minItems = diff.maxItems = a;
     }
 
-    return this.schema(diff);
+    return this.schema(diff).flag('range', null);
   }
 
 }
@@ -104,10 +105,7 @@ export default function(Schematik, Util) {
    * Attach the Schematik.array() shorthand.
    */
   Schematik.array = Schematik.prototype.array = function() {
-    let result = new Schematik.Array();
-    this.self().copyTo(result);
-    result.__type('array');
-    return result;
+    return instantiate(this.self(), Schematik.Array);
   };
 
   const proto = Schematik.Array.prototype;

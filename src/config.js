@@ -27,6 +27,19 @@ export var allowTypeOverwrite = false;
 
 
 /*!
+ * If true, allows additional properties in objects by default unless explicitly
+ * specified otherwise.
+ */
+export var allowAdditionalProperties = true;
+
+
+/*!
+ * If true, allows overwriting existing object schema properties.
+ */
+export var allowPropertyOverwrite = false;
+
+
+/*!
  * Set of conjunctions that return the Schematik without modifications.
  */
 export const conjunctions = new Set(

@@ -6,6 +6,7 @@
  */
 
 import { SkNumber } from './number';
+import instantiate  from '../util/instantiate';
 
 /**
  * Schematik.Integer
@@ -35,10 +36,7 @@ export default function(Schematik, Util) {
    * Attach the Schematik.integer() shorthand.
    */
   Schematik.integer = Schematik.prototype.integer = function() {
-    let result = new Schematik.Integer();
-    this.self().copyTo(result);
-    result.__type('integer');
-    return result;
+    return instantiate(this.self(), Schematik.Integer);
   };
 
 }

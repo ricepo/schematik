@@ -6,6 +6,7 @@
  */
 
 import Schematik    from '../schematik';
+import instantiate  from '../util/instantiate';
 
 
 /**
@@ -37,10 +38,7 @@ export default function(Schematik, Util) {
    * Attach the Schematik.boolean() shorthand.
    */
   Schematik.boolean = Schematik.prototype.boolean = function() {
-    let result = new Schematik.Boolean();
-    this.self().copyTo(result);
-    result.__type('boolean');
-    return result;
+    return instantiate(this.self(), Schematik.Boolean);
   };
 
 }

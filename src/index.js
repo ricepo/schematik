@@ -17,6 +17,7 @@ import SkBoolean    from './types/boolean';
 import SkInteger    from './types/integer';
 import SkNull       from './types/null';
 import SkNumber     from './types/number';
+import SkObject     from './types/object';
 
 export default Schematik;
 const  print = Debug('schematik');
@@ -83,3 +84,4 @@ Schematik.use(SkBoolean);
 Schematik.use(SkInteger);
 Schematik.use(SkNull);
 Schematik.use(SkNumber);
+Schematik.use(SkObject);
