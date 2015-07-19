@@ -1,8 +1,8 @@
 chai      = require('chai');
 expect    = chai.expect;
-Schematik = require('../main.js');
+Schematik = require('../lib');
 
-describe('Schematik.Object', function() {
+describe.only('Schematik.Object', function() {
 
   describe('#ctor()', function() {
 
@@ -14,14 +14,6 @@ describe('Schematik.Object', function() {
     it('should be created in functional way', function() {
       var s = Schematik.object().done();
       expect(s).to.deep.equal({ type: 'object' });
-    });
-
-    it('should handle custom schema parameters', function() {
-      var s = new Schematik.Object({ test: 'data' });
-      expect(s.done()).to.deep.equal({
-        type: 'object',
-        test: 'data'
-      });
     });
 
   });
@@ -57,39 +49,39 @@ describe('Schematik.Object', function() {
 
     it('should work with {optional} modifier', function() {
       var s = Schematik.optional.object();
-      expect(s).to.have.deep.property('attrib.required', false);
+      expect(s.flag('required')).to.equal(false);
     });
 
     it('should work with {required} modifier', function() {
       var s = Schematik.optional.object();
-      expect(s).to.have.deep.property('attrib.required', false);
+      expect(s.flag('required')).to.equal(false);
       s = s.required;
-      expect(s).to.have.deep.property('attrib.required', true);
+      expect(s.flag('required')).to.equal(true);
     });
 
     it('should have {min} modifier set the flag', function() {
       var s = Schematik.object().min;
-      expect(s).to.have.deep.property('flags.min', true);
+      expect(s.flag('range')).to.equal('min');
     });
 
     it('should have {max} modifier set the flag', function() {
       var s = Schematik.object().max;
-      expect(s).to.have.deep.property('flags.max', true);
+      expect(s.flag('range')).to.equal('max');
     });
 
     it('should have {additional} modifier set the flag', function() {
       var s = Schematik.object().additional;
-      expect(s).to.have.deep.property('flags.additional', true);
+      expect(s.flag('additional')).to.equal(true);
     });
 
     it('should have {pattern} modifier set the flag', function() {
       var s = Schematik.object().pattern;
-      expect(s).to.have.deep.property('flags.pattern', true);
+      expect(s.flag('pattern')).to.equal(true);
     });
 
     it('should have {no} modifier set the flag', function() {
       var s = Schematik.object().no;
-      expect(s).to.have.deep.property('flags.no', true);
+      expect(s.flag('negate')).to.equal('true');
     });
 
   });

@@ -1,6 +1,6 @@
 chai      = require('chai');
 expect    = chai.expect;
-Schematik = require('../main.js');
+Schematik = require('../lib');
 
 describe('Schematik.Integer', function() {
 
@@ -16,21 +16,13 @@ describe('Schematik.Integer', function() {
       expect(s).to.deep.equal({ type: 'integer' });
     });
 
-    it('should handle custom schema parameters', function() {
-      var s = new Schematik.Integer({ test: 'data' });
-      expect(s.done()).to.deep.equal({
-        type: 'integer',
-        test: 'data'
-      });
-    });
-
   });
 
   describe('#clone()', function() {
 
     it('should not affect cloned instances', function() {
       var a = Schematik.integer().min(99);
-      var b = a.clone().exclusive.max(100);
+      var b = a.exclusive.max(100);
 
       expect(a.done()).to.deep.equal({
         type: 'integer',
@@ -52,19 +44,19 @@ describe('Schematik.Integer', function() {
 
     it('should work with {optional} modifier', function() {
       var s = Schematik.optional.integer();
-      expect(s).to.have.deep.property('attrib.required', false);
+      expect(s.flag('required')).to.equal(false);
     });
 
     it('should work with {required} modifier', function() {
       var s = Schematik.optional.integer();
-      expect(s).to.have.deep.property('attrib.required', false);
+      expect(s.flag('required')).to.equal(false);
       s = s.required;
-      expect(s).to.have.deep.property('attrib.required', true);
+      expect(s.flag('required')).to.equal(true);
     });
 
     it('should have {exclusive} modifier set a flag', function() {
       var s = Schematik.integer().exclusive;
-      expect(s).to.have.deep.property('flags.exclusive', true);
+      expect(s.flag('exclusive')).to.equal(true);
     });
 
   });

@@ -1,8 +1,8 @@
 chai      = require('chai');
 expect    = chai.expect;
-Schematik = require('../main.js');
+Schematik = require('../lib').dev();
 
-describe('Schematik.Boolean', function() {
+describe.only('Schematik.Boolean', function() {
 
   describe('#ctor()', function() {
 
@@ -16,14 +16,6 @@ describe('Schematik.Boolean', function() {
       expect(s.done()).to.deep.equal({ type: 'boolean' });
     });
 
-    it('should handle custom schema parameters', function() {
-      var s = new Schematik.Boolean({ test: 'data' });
-      expect(s.done()).to.deep.equal({
-        type: 'boolean',
-        test: 'data'
-      });
-    });
-
   });
 
   describe('#clone()', function() {
@@ -32,8 +24,8 @@ describe('Schematik.Boolean', function() {
       var a = Schematik.boolean();
       var b = a.clone().optional;
 
-      expect(a).to.have.deep.property('attrib.required', true);
-      expect(b).to.have.deep.property('attrib.required', false);
+      expect(a).to.have.deep.property('@@flags.required', true);
+      expect(b).to.have.deep.property('@@flags.required', false);
     });
 
   });
@@ -43,14 +35,14 @@ describe('Schematik.Boolean', function() {
     it('should work with {optional} modifier', function() {
       var s = Schematik.optional.boolean();
       expect(s.done()).to.deep.equal({type: 'boolean'});
-      expect(s).to.have.deep.property('attrib.required', false);
+      expect(s).to.have.deep.property('@@flags.required', false);
     });
 
     it('should work with {required} modifier', function() {
       var s = Schematik.optional.boolean();
-      expect(s).to.have.deep.property('attrib.required', false);
+      expect(s).to.have.deep.property('@@flags.required', false);
       s = s.required;
-      expect(s).to.have.deep.property('attrib.required', true);
+      expect(s).to.have.deep.property('@@flags.required', true);
     });
 
   });

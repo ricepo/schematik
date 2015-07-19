@@ -1,6 +1,6 @@
 chai      = require('chai');
 expect    = chai.expect;
-Schematik = require('../main.js');
+Schematik = require('../lib').dev();
 
 describe('Schematik.Array', function() {
 
@@ -16,21 +16,13 @@ describe('Schematik.Array', function() {
       expect(s).to.deep.equal({ type: 'array' });
     });
 
-    it('should handle custom schema parameters', function() {
-      var s = new Schematik.Array({ test: 'data' });
-      expect(s.done()).to.deep.equal({
-        type: 'array',
-        test: 'data'
-      });
-    });
-
   });
 
-  describe('#clone()', function() {
+  describe('immutability', function() {
 
     it('should not affect cloned instances', function() {
-      var a = Schematik.array().of(Schematik.string());
-      var b = a.clone().max.length(100);
+      var a = Schematik.array().items(Schematik.string());
+      var b = a.max.length(100);
 
       expect(a.done()).to.deep.equal({
         type: 'array',
@@ -51,14 +43,14 @@ describe('Schematik.Array', function() {
 
     it('should work with {optional} modifier', function() {
       var s = Schematik.optional.array();
-      expect(s).to.have.deep.property('attrib.required', false);
+      expect(s).to.have.deep.property('@@flags.required', false);
     });
 
     it('should work with {required} modifier', function() {
       var s = Schematik.optional.array();
-      expect(s).to.have.deep.property('attrib.required', false);
+      expect(s).to.have.deep.property('@@flags.required', false);
       s = s.required;
-      expect(s).to.have.deep.property('attrib.required', true);
+      expect(s).to.have.deep.property('@@flags.required', true);
     });
 
     it('should work with {Schematik.unique} modifier', function() {
@@ -79,20 +71,20 @@ describe('Schematik.Array', function() {
 
     it('should have {min} modifier set the flag', function() {
       var s = Schematik.array().min;
-      expect(s).to.have.deep.property('flags.min', true);
+      expect(s).to.have.deep.property('@@flags.range', 'min');
     });
 
     it('should have {max} modifier set the flag', function() {
       var s = Schematik.array().max;
-      expect(s).to.have.deep.property('flags.max', true);
+      expect(s).to.have.deep.property('@@flags.range', 'max');
     });
 
   });
 
-  describe('#of()', function() {
+  describe('#items()', function() {
 
     it('should handle one non-Schematik argument', function() {
-      var s = Schematik.array().of({type: 'test'});
+      var s = Schematik.array().items({type: 'test'});
       expect(s.done()).to.deep.equal({
         type: 'array',
         items: { type: 'test' }
@@ -100,7 +92,7 @@ describe('Schematik.Array', function() {
     });
 
     it('should handle one Schematik argument', function() {
-      var s = Schematik.array().of(Schematik.string().with.length(9, 99));
+      var s = Schematik.array().items(Schematik.string().with.length(9, 99));
       expect(s.done()).to.deep.equal({
         type: 'array',
         items: {
@@ -112,7 +104,7 @@ describe('Schematik.Array', function() {
     });
 
     it('should handle multiple non-Schematik arguments', function() {
-      var s = Schematik.array().of({type: 'test1'}, {type: 'test2'}, {type: 'test3'});
+      var s = Schematik.array().items({type: 'test1'}, {type: 'test2'}, {type: 'test3'});
       expect(s.done()).to.deep.equal({
         type: 'array',
         items: [
@@ -124,7 +116,7 @@ describe('Schematik.Array', function() {
     });
 
     it('should handle multiple Schematik arguments', function() {
-      var s = Schematik.array().of(
+      var s = Schematik.array().items(
         Schematik.string().with.length(9, 99),
         Schematik.number().in.range.of(10, 100)
       );
@@ -146,7 +138,7 @@ describe('Schematik.Array', function() {
     });
 
     it('should handle multiple mixed arguments', function() {
-      var s = Schematik.array().of(
+      var s = Schematik.array().items(
         Schematik.string().with.length(9, 99),
         { type: 'test' },
         Schematik.number().in.range.of(10, 100)
@@ -172,9 +164,9 @@ describe('Schematik.Array', function() {
     });
 
     it('should handle nested array Schematiks', function() {
-      var s = Schematik.array().of(
+      var s = Schematik.array().items(
         Schematik.string().that.matches(/\w{0,2}$/),
-        Schematik.array().of(
+        Schematik.array().items(
           Schematik.number()
         )
       );
@@ -196,24 +188,20 @@ describe('Schematik.Array', function() {
     });
 
     it('should throw when no arguments are supplied', function() {
-      expect(function() { Schematik.array().of(); }).to.throw();
-    });
-
-    it('should behave like Schematik.of() when there is a chain', function() {
-      var s = Schematik.array().with.length.of(10);
-      expect(s.done()).to.deep.equal({
-        type: 'array',
-        minItems: 10,
-        maxItems: 10
-      });
+      expect(function() { Schematik.array().items(); }).to.throw();
     });
 
   });
 
-  describe('#more()', function() {
+  describe('#more[.items()]', function() {
+
+    it('should set the `additional` flag to true', function() {
+      var s = Schematik.array().of(Schematik.string()).more;
+      expect(s).to.have.deep.property('@@flags.additional', true);
+    });
 
     it('should handle a boolean argument', function() {
-      var s = Schematik.array().of(Schematik.string()).and.more(true);
+      var s = Schematik.array().items(Schematik.string()).and.more.items(true);
       expect(s.done()).to.deep.equal({
         type: 'array',
         items: {
@@ -224,7 +212,7 @@ describe('Schematik.Array', function() {
     });
 
     it('should default to true when no arguments are supplied', function() {
-      var s = Schematik.array().of(Schematik.string()).and.more();
+      var s = Schematik.array().items(Schematik.string()).and.more.items();
       expect(s.done()).to.deep.equal({
         type: 'array',
         items: {
@@ -235,7 +223,7 @@ describe('Schematik.Array', function() {
     });
 
     it('should handle a non-Schematik argument', function() {
-      var s = Schematik.array().of(Schematik.string()).and.more({ type: 'test' });
+      var s = Schematik.array().items(Schematik.string()).and.more.items({ type: 'test' });
       expect(s.done()).to.deep.equal({
         type: 'array',
         items: {
@@ -248,7 +236,7 @@ describe('Schematik.Array', function() {
     });
 
     it('should handle a Schematik argument', function() {
-      var s = Schematik.array().of(Schematik.string()).and.more(Schematik.number());
+      var s = Schematik.array().items(Schematik.string()).and.more.items(Schematik.number());
       expect(s.done()).to.deep.equal({
         type: 'array',
         items: {
@@ -262,7 +250,7 @@ describe('Schematik.Array', function() {
 
     it('should throw when the argument is not a boolean or object', function() {
       expect(function() {
-        Schematik.array().of(Schematik.number()).and.more(123);
+        Schematik.array().items(Schematik.number()).and.more.items(123);
       }).to.throw();
     });
 

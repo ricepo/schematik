@@ -1,7 +1,7 @@
 // Tests for already fixed bugs
 chai      = require('chai');
 expect    = chai.expect;
-Schematik = require('../main.js');
+Schematik = require('../lib').dev();
 
 describe('Bugfixes', function() {
 

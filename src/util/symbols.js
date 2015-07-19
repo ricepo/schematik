@@ -14,7 +14,7 @@ import { devMode }  from '../config';
  */
 var _symbol = Symbol;
 if (!_symbol || devMode) {
-  _symbol = function(name) { return `__${name}`; };
+  _symbol = function(name) { return `@@${name}`; };
 }
 
 

@@ -1,6 +1,6 @@
 chai      = require('chai');
 expect    = chai.expect;
-Schematik = require('../main.js');
+Schematik = require('../lib');
 
 describe('Schematik.String', function() {
 

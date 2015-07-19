@@ -46,7 +46,7 @@ export class SkNumber extends Schematik {
       throw new Error('{value} must be a number.');
     }
 
-    if (this.schema('max') && value > this.schema('max')) {
+    if (this.schema('maximum') && value > this.schema('maximum')) {
       throw new Error('{min} cannot be greater than {max}.');
     }
 
@@ -70,7 +70,7 @@ export class SkNumber extends Schematik {
       throw new Error('{value} must be a number.');
     }
 
-    if (this.schema('min') && value < this.schema('min')) {
+    if (this.schema('minimum') && value < this.schema('minimum')) {
       throw new Error('{max} cannot be less than {min}.');
     }
 
@@ -91,8 +91,19 @@ export class SkNumber extends Schematik {
    * @returns         A copy of the Schematik with both minimum and maximum values
    */
   static __range(min, max) {
-    let flag   = this.flag('exclusive');
-    return this.min(min).flag('exclusive', flag).max(max);
+    if (typeof min !== 'number' || typeof max !== 'number') {
+      throw new Error('Min and max values must be numbers.');
+    }
+    if (min > max) {
+      throw new Error('Min cannot be greater than max.');
+    }
+
+    let diff = { minimum: min, maximum: max };
+    if (this.flag('exclusive')) {
+      diff.exclusiveMinimum = true;
+      diff.exclusiveMaximum = true;
+    }
+    return this.schema(diff).flag('exclusive', false);
   }
 
 

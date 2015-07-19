@@ -60,10 +60,9 @@ export function whitelist(...args) {
     throw new Error('Must have at least one argument.');
   }
 
-  let result = new Schematik();
   let diff   = { enum: args };
 
-  return result.schema(diff);
+  return this.self().schema(diff);
 }
 
 
@@ -130,7 +129,7 @@ export function any(...args) {
  * @desc            Negates the match against a schema.
  */
 export function not(schema) {
-  if (typeof schema !== object) {
+  if (typeof schema !== 'object') {
     throw new Error('Schema must be an object.');
   }
 

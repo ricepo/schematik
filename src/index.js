@@ -11,6 +11,7 @@ import * as Util    from './util';
 
 import FlagCore     from './addons/core';
 import FlagUnique   from './addons/unique';
+import AddonConfig  from './addons/config';
 import SkArray      from './types/array';
 import SkBoolean    from './types/boolean';
 import SkInteger    from './types/integer';
@@ -74,6 +75,7 @@ Schematik.util = Util;
  */
 Schematik.use(FlagCore);
 Schematik.use(FlagUnique);
+Schematik.use(AddonConfig);
 
 
 /*!

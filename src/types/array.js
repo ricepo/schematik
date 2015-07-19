@@ -10,6 +10,7 @@ import { schema }   from '../util/symbols';
 import instantiate  from '../util/instantiate';
 
 import Range        from '../addons/range';
+import Unique       from '../addons/unique';
 import Additional   from '../addons/additional';
 
 /**
@@ -22,6 +23,17 @@ export class SkArray extends Schematik {
   constructor() {
     super();
     this.__type('array');
+  }
+
+  /**
+   * .done()
+   *
+   * @override
+   */
+  done() {
+    let result = super.done();
+    if (this.flag('unique')) { result.uniqueItems = true; }
+    return result;
   }
 
   /**
@@ -41,6 +53,7 @@ export class SkArray extends Schematik {
         throw new Error('Schematik.Array.items: value must be object or bool.');
       }
 
+      value = value instanceof Schematik ? value.done() : value;
       return this.schema({ additionalItems: value });
     }
 
@@ -114,6 +127,7 @@ export default function(Schematik, Util) {
    * Attach shared flags
    */
   Range(proto, Util);
+  Unique(proto, Util);
   Additional(proto, Util);
 
   /*!
@@ -123,4 +137,9 @@ export default function(Schematik, Util) {
   Util.addChainable(proto, 'len',    SkArray.__length);
   Util.addChainable(proto, 'count',  SkArray.__length);
   Util.addChainable(proto, 'length', SkArray.__length);
+
+  /*!
+   * Allow
+   */
+
 }
