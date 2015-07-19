@@ -23,72 +23,70 @@ export class SkArray extends Schematik {
     this.__type('array');
   }
 
-}
+  /**
+   * # .items()
+   *
+   * @desc            Specifies array item schemas.
+   * @returns         A copy of Schematik with item schemas set.
+   */
+  static __items(...values) {
 
+    // If we have the `additional` flag, modify `additionalItems` instead
+    if (this.flag('additional')) {
+      let value = values[0] === undefined ? true : values[0];
+      if (this.flag('negate')) { value = false; }
 
-/**
- * # .items()
- *
- * @desc            Specifies array item schemas.
- * @returns         A copy of Schematik with item schemas set.
- */
-function items(...values) {
+      if (typeof value !== 'object' && typeof value !== 'boolean') {
+        throw new Error('Schematik.Array.items: value must be object or bool.');
+      }
 
-  // If we have the `additional` flag, modify `additionalItems` instead
-  if (this.flag('additional')) {
-    let value = values[0] === undefined ? true : values[0];
-    if (this.flag('negate')) { value = false; }
-
-    if (typeof value !== 'object' && typeof value !== 'boolean') {
-      throw new Error('Schematik.Array.items: value must be object or bool.');
+      return this.schema({ additionalItems: value });
     }
 
-    return this.schema({ additionalItems: value });
-  }
+    // Otherwise, modify `items`
+    else {
+      if (arguments.length === 0) {
+        throw new Error('Schematik.Array.items: need at least one argument.');
+      }
 
-  // Otherwise, modify `items`
-  else {
-    if (arguments.length === 0) {
-      throw new Error('Schematik.Array.items: need at least one argument.');
+      // Map all items to their final object forms
+      values = values.map(i => (i instanceof Schematik) ? i.done() : i);
+
+      // If current schema.items is a single object, wrap it into array
+      let current = this[schema].items;
+      current = current ? values.concat(current)  : values;
+      current = current.length === 1 ? current[0] : current;
+
+      return this.schema({ items: current });
     }
 
-    // Map all items to their final object forms
-    values = values.map(i => (i instanceof Schematik) ? i.done() : i);
-
-    // If current schema.items is a single object, wrap it into array
-    let current = this[schema].items;
-    current = current ? values.concat(current)  : values;
-    current = current.length === 1 ? current[0] : current;
-
-    return this.schema({ items: current });
   }
 
-}
+  /**
+   * # .length()
+   *
+   * @desc            Specifies array length.
+   * @returns         A copy of Schematik with array lengths set.
+   */
+  static __length(a, b) {
+    if (typeof a !== 'number') {
+      throw new Error('Schematik.Array.length: length must be a number.');
+    }
 
+    let diff = { };
+    if      (this.flag('range') === 'max') { diff.maxItems = a; }
+    else if (this.flag('range') === 'min') { diff.minItems = a; }
+    else if (typeof b === 'number') {
+      diff.minItems = a;
+      diff.maxItems = b;
+    }
+    else {
+      diff.minItems = diff.maxItems = a;
+    }
 
-/**
- * # .length()
- *
- * @desc            Specifies array length.
- * @returns         A copy of Schematik with array lengths set.
- */
-function length(a, b) {
-  if (typeof a !== 'number') {
-    throw new Error('Schematik.Array.length: length must be a number.');
+    return this.schema(diff);
   }
 
-  let diff = { };
-  if      (this.flag('range') === 'max') { diff.maxItems = a; }
-  else if (this.flag('range') === 'min') { diff.minItems = a; }
-  else if (typeof b === 'number') {
-    diff.minItems = a;
-    diff.maxItems = b;
-  }
-  else {
-    diff.minItems = diff.maxItems = a;
-  }
-
-  return this.schema(diff);
 }
 
 
@@ -112,17 +110,19 @@ export default function(Schematik, Util) {
     return result;
   };
 
+  const proto = Schematik.Array.prototype;
+
   /*!
    * Attach shared flags
    */
-  Range(Schematik.Array.prototype, Util);
-  Additional(Schematik.Array.prototype, Util);
+  Range(proto, Util);
+  Additional(proto, Util);
 
   /*!
    * Attach array-specific methods.
    */
-  Util.addChainable(Schematik.Array.prototype, 'items',  items);
-  Util.addChainable(Schematik.Array.prototype, 'len',    length);
-  Util.addChainable(Schematik.Array.prototype, 'count',  length);
-  Util.addChainable(Schematik.Array.prototype, 'length', length);
+  Util.addChainable(proto, 'items',  SkArray.__items);
+  Util.addChainable(proto, 'len',    SkArray.__length);
+  Util.addChainable(proto, 'count',  SkArray.__length);
+  Util.addChainable(proto, 'length', SkArray.__length);
 }
