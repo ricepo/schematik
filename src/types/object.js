@@ -8,6 +8,9 @@
 import Immutable       from 'seamless-immutable';
 import Schematik       from '../schematik';
 
+import Range           from '../flags/range';
+import Additional      from '../flags/additional';
+
 import * as Config     from '../config';
 import { isSchematik } from '../util';
 import { schema }      from '../util/symbols';
@@ -78,10 +81,36 @@ export class SkObject extends Schematik {
    * @returns       A copy of the Schematik with the property added.
    */
   static __property(key, schema) {
+    let overwrite  = Config.allowPropertyOverwrite;
+    let additional = Config.allowAdditionalProperties;
 
     // additionalProperties mode
     if (this.flag('additional')) {
-      throw new Error('Not Implemented');
+      let current = this.schema('additionalProperties');
+      if (!overwrite && current != additional && additional !== undefined) {
+        throw new Error('Cannot overwrite additional properties.');
+      }
+
+      // Apply the `negate` flag if there are no arguments
+      if (arguments.length === 0) {
+        return this
+          .schema({ additionalProperties: !this.flag('negate') })
+          .flag('additional', false)
+          .flag('pattern',    false)
+          .flag('negate',     false);
+      }
+
+      let value = arguments[0];
+      if (typeof value !== 'boolean' && typeof value !== 'object') {
+        throw new Error('Additional property must be a boolean or an object.');
+      }
+
+      schema = isSchematik(value) ? value.done() : value;
+      return this
+        .schema({ additionalProperties: schema })
+        .flag('additional', false)
+        .flag('pattern',    false)
+        .flag('negate',     false);
     }
 
     // Check that schema is valid
@@ -95,23 +124,59 @@ export class SkObject extends Schematik {
       if (!(key instanceof RegExp)) {
         throw new Error('Key must be a RegExp.');
       }
+      let current = this.schema('patternProperties');
+      if (!overwrite && current && current[key.source]) {
+        throw new Error(`Cannot overwrite pattern property: ${key.source}`);
+      }
 
       let diff = { patternProperties: { [key.source]: schema } };
       return this.flag('pattern', false).schema(diff, true);
     }
 
     // properties mode
-    else {
-      if (typeof key !== 'string') {
-        throw new Error('Key must be a string.');
-      }
-
-      let diff = { properties: { [key.source]: schema } };
-      return this.schema(diff, true);
+    if (typeof key !== 'string') {
+      throw new Error('Key must be a string.');
     }
+    let current = this.schema('properties');
+    if (!overwrite && current && current[key]) {
+      throw new Error(`Cannot overwrite property: ${key}`);
+    }
+
+    let diff = { properties: { [key]: schema } };
+    return this.schema(diff, true);
 
   }
 
+
+  /**
+   * .properties()
+   *
+   * @access        public
+   * @desc          Adds multiple properties along with their schemas.
+   * @param         {value} a hash of property names to their schemas.
+   * @returns       A copy of the Schematik with the properties added.
+   */
+  static __properties(value) {
+
+    // If there is an `additional` flag, value must be undefined
+    if (this.flag('additional')) {
+      if (value !== undefined) {
+        throw new Error('Value not supported with `additional` flag.');
+      }
+      return this.additional.property();
+    }
+
+    if (typeof value !== 'object') {
+      throw new Error('Value must be an object.');
+    }
+
+    let result  = this;
+    let pattern = this.flag('pattern');
+    Object.keys(value).forEach((key) => {
+      result = result.flag('pattern', pattern).property(key, value[key]);
+    });
+    return result;
+  }
 
 }
 
@@ -136,13 +201,15 @@ export default function(Schematik, Util) {
   /*!
    * Attach shared flags.
    */
-
+  Range(Schematik.Object.prototype, Util);
+  Additional(Schematik.Object.prototype, Util);
 
   /*!
    * Attach object-specific properties.
    */
   const proto = Schematik.Object.prototype;
-  Util.addProperty(proto,  'pattern',  SkObject.__pattern);
-  Util.addChainable(proto, 'count',    SkObject.__count);
-  Util.addChainable(proto, 'property', SkObject.__property);
+  Util.addProperty(proto,  'pattern',    SkObject.__pattern);
+  Util.addChainable(proto, 'count',      SkObject.__count);
+  Util.addChainable(proto, 'property',   SkObject.__property);
+  Util.addChainable(proto, 'properties', SkObject.__properties);
 }
