@@ -7,7 +7,7 @@
 
 import Schematik    from '../schematik';
 
-import Range        from '../flags/range';
+import Range        from '../addons/range';
 import instantiate  from '../util/instantiate';
 
 /**

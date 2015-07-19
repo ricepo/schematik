@@ -48,6 +48,7 @@ export function of(...args) {
   return this;
 }
 
+
 /**
  * Export a middleware function.
  */

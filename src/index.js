@@ -9,8 +9,8 @@ import Debug        from 'debug';
 import Schematik    from './schematik';
 import * as Util    from './util';
 
-import FlagCore     from './flags/core';
-import FlagUnique   from './flags/unique';
+import FlagCore     from './addons/core';
+import FlagUnique   from './addons/unique';
 import SkArray      from './types/array';
 import SkBoolean    from './types/boolean';
 import SkInteger    from './types/integer';

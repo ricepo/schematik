@@ -9,8 +9,8 @@ import Schematik    from '../schematik';
 import { schema }   from '../util/symbols';
 import instantiate  from '../util/instantiate';
 
-import Range        from '../flags/range';
-import Additional   from '../flags/additional';
+import Range        from '../addons/range';
+import Additional   from '../addons/additional';
 
 /**
  * Schematik.Array

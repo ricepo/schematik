@@ -8,8 +8,8 @@
 import Immutable       from 'seamless-immutable';
 import Schematik       from '../schematik';
 
-import Range           from '../flags/range';
-import Additional      from '../flags/additional';
+import Range           from '../addons/range';
+import Additional      from '../addons/additional';
 
 import * as Config     from '../config';
 import { isSchematik } from '../util';
