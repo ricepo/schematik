@@ -14,7 +14,9 @@ import FlagUnique   from './flags/unique';
 import FlagSugar    from './flags/sugar';
 import SkArray      from './types/array';
 import SkBoolean    from './types/boolean';
+import SkInteger    from './types/integer';
 import SkNull       from './types/null';
+import SkNumber     from './types/number';
 
 export default Schematik;
 const  print = Debug('schematik');
@@ -78,4 +80,6 @@ Schematik.use(FlagSugar);
  */
 Schematik.use(SkArray);
 Schematik.use(SkBoolean);
+Schematik.use(SkInteger);
 Schematik.use(SkNull);
+Schematik.use(SkNumber);
