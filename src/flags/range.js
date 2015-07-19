@@ -29,7 +29,9 @@ export function max() {
  */
 export default function(context, util) {
 
-  util.addProperty(context, 'min', min);
-  util.addProperty(context, 'max', max);
+  util.addProperty(context, 'min',     min);
+  util.addProperty(context, 'minimum', min);
+  util.addProperty(context, 'max',     max);
+  util.addProperty(context, 'maximum', max);
 
 }

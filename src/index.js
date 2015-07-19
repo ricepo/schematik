@@ -11,13 +11,13 @@ import * as Util    from './util';
 
 import FlagCore     from './flags/core';
 import FlagUnique   from './flags/unique';
-import FlagSugar    from './flags/sugar';
 import SkArray      from './types/array';
 import SkBoolean    from './types/boolean';
 import SkInteger    from './types/integer';
 import SkNull       from './types/null';
 import SkNumber     from './types/number';
 import SkObject     from './types/object';
+import SkString     from './types/string';
 
 export default Schematik;
 const  print = Debug('schematik');
@@ -74,7 +74,7 @@ Schematik.util = Util;
  */
 Schematik.use(FlagCore);
 Schematik.use(FlagUnique);
-Schematik.use(FlagSugar);
+
 
 /*!
  * Attach builtin Schematik types.
@@ -85,3 +85,4 @@ Schematik.use(SkInteger);
 Schematik.use(SkNull);
 Schematik.use(SkNumber);
 Schematik.use(SkObject);
+Schematik.use(SkString);
