@@ -157,7 +157,7 @@ export default class Schematik {
    * @param         {value} name of the type, must be a string.
    * @returns       {this} for chaining.
    */
-  __type(value) {
+  __type(value, force) {
 
     if (typeof value === 'undefined') {
       return this[Symbols.schema].type;
@@ -167,7 +167,7 @@ export default class Schematik {
       throw new Error(`Invalid type value ${value}`);
     }
 
-    if (!Config.allowTypeOverwrite && this[Symbols.schema].type) {
+    if (!force && !Config.allowTypeOverwrite && this[Symbols.schema].type) {
       throw new Error('Overwriting existing type is not allowed.');
     }
 
