@@ -4,7 +4,7 @@ import { expect }   from 'chai';
 import Schematik        from '../../src/schematik';
 import { addProperty }  from '../../src/util';
 
-describe('.addMethod()', function() {
+describe('.addProperty()', function() {
 
   beforeEach(function() {
     this.obj  = new Schematik();

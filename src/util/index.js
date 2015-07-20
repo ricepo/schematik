@@ -11,3 +11,5 @@ export const addMethod     = require('./add-method');
 export const addChainable  = require('./add-chainable');
 
 export const isSchematik   = require('./is-schematik');
+
+export const instantiate   = require('./instantiate');
