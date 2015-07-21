@@ -7,4 +7,5 @@ describe('Schematik.Util', function() {
   require('./util/add-property');
   require('./util/instantiate');
   require('./util/is-schematik');
+  require('./util/symbols');
 });
