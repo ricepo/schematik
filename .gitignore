@@ -4,3 +4,4 @@ coverage.html
 _lib
 lib
 *.log
+.DS_Store
