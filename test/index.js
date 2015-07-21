@@ -1,3 +1,4 @@
+require("babel/polyfill");
 
 describe('Schematik.Util', function() {
   require('./util/add-chainable.spec.js');
