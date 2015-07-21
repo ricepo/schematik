@@ -1,14 +1,15 @@
-import sinon        from 'sinon';
-import { expect }   from 'chai';
+var sinon          = require('sinon');
+var expect         = require('chai').expect;
 
-import Schematik        from '../../src/schematik';
-import { addMethod } from '../../src/util';
+var load           = require('../loader.js');
+var Schematik      = load('schematik.js');
+var addMethod      = load('util/add-method.js');
 
 describe('.addMethod()', function() {
 
   beforeEach(function() {
     this.obj  = new Schematik();
-    this.call = sinon.spy((a) => { return a; });
+    this.call = sinon.spy(function(a) { return a; });
     addMethod(this.obj, 'test', this.call);
   });
 

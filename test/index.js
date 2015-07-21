@@ -1,5 +1,3 @@
-import sinon        from 'sinon';
-import { expect }   from 'chai';
 
 describe('Schematik.Util', function() {
   require('./util/add-chainable.spec.js');

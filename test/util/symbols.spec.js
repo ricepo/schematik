@@ -1,8 +1,9 @@
-import sinon        from 'sinon';
-import { expect }   from 'chai';
+var sinon          = require('sinon');
+var expect         = require('chai').expect;
 
-import Schematik        from '../../src';
-import * as Symbols     from '../../src/util/symbols';
+var load           = require('../loader.js');
+var Schematik      = load('index.js');
+var Symbols        = load('util/symbols.js');
 
 describe('.symbols', function() {
 

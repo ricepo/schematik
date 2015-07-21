@@ -10,13 +10,18 @@ var jshint     = require('gulp-jshint');
 var stylish    = require('gulp-jscs-stylish');
 var sourcemaps = require('gulp-sourcemaps');
 
+var mocha      = require('gulp-mocha');
+var istanbul   = require('gulp-istanbul');
+
 gulp.task('default', ['build']);
 
 gulp.task('build', function() {
 
   gulp.src(['src/**/*.js'], { base: 'src' })
     .pipe(sourcemaps.init())
-    .pipe(babel())
+    .pipe(babel({
+      auxiliaryCommentBefore: 'istanbul ignore next'
+    }))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest('lib'));
 
@@ -36,8 +41,26 @@ gulp.task('lint', function() {
 
 gulp.task('test', ['lint', 'build'], function() {
 
-  // TODO Add after 1.2 is ready
+  return gulp.src(['src/index.js'], { read: false })
+    .pipe(mocha({ reporter: 'spec' }));
 
+});
+
+gulp.task('cover', ['lint', 'build'], function(done) {
+
+  gulp.src(['lib/**/*.js'])
+    .pipe(istanbul())
+    .pipe(istanbul.hookRequire())
+    .on('finish', function() {
+      gulp.src(['test/index.js'])
+        .pipe(mocha())
+        .pipe(istanbul.writeReports({
+          dir: 'coverage',
+          reportOpts: { dir: 'coverage' },
+          reporters: ['text', 'text-summary', 'json', 'html']
+        }))
+        .on('end', done);
+    });
 });
 
 gulp.task('watch', function() {

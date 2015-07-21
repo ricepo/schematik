@@ -1,8 +1,9 @@
-import sinon            from 'sinon';
-import { expect }       from 'chai';
+var sinon          = require('sinon');
+var expect         = require('chai').expect;
 
-import Schematik        from '../../src/schematik';
-import { addChainable } from '../../src/util';
+var load           = require('../loader.js');
+var Schematik      = load('schematik.js');
+var addChainable   = load('util/add-chainable.js');
 
 describe('.addChainable()', function() {
 
@@ -12,6 +13,7 @@ describe('.addChainable()', function() {
     this.call = sinon.spy(function() { return this.flag('foo'); });
 
     addChainable(this.obj, 'test', this.call, this.get);
+    addChainable(this.obj, 'test2', this.call);
   });
 
   it('should add a chainable property to the context', function() {
@@ -45,7 +47,13 @@ describe('.addChainable()', function() {
 
   it('should throw when {get} returns a non-Schematik value', function() {
     addChainable(this.obj, 'foo', function() { }, function() { return 'bar'; });
-    expect(() => { this.obj.foo; }).to.throw('get() must return a Schematik object or undefined.');
+    expect(function() { this.obj.foo; }.bind(this)).to.throw('get() must return a Schematik object or undefined.');
   });
-  
+
+  it('should default to noop when {get} is undefined', function() {
+    expect(this.obj.test2).to.be.an.instanceof(Schematik);
+    this.obj.test2();
+    expect(this.call.calledOnce).to.equal(true);
+  });
+
 });

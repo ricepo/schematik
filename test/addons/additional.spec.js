@@ -1,9 +1,11 @@
-import sinon        from 'sinon';
-import { expect }   from 'chai';
+var sinon          = require('sinon');
+var expect         = require('chai').expect;
 
-import Schematik    from '../../src/schematik';
-import Additional   from '../../src/addons/additional';
-import * as Util    from '../../src/util';
+var load           = require('../loader.js');
+var Schematik      = load('schematik.js');
+var Additional     = load('addons/additional.js');
+var Util           = load('util');
+
 
 Additional(Schematik.prototype, Util);
 

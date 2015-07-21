@@ -1,25 +1,21 @@
-import sinon        from 'sinon';
-import { expect }   from 'chai';
+var sinon          = require('sinon');
+var expect         = require('chai').expect;
 
-import Schematik        from '../../src/schematik';
-import { instantiate }  from '../../src/util';
+var load           = require('../loader.js');
+var Schematik      = load('index.js');
+var instantiate    = load('util/instantiate.js');
 
 describe('.instantiate()', function() {
-
-  // Derived class for testing
-  class FakeSchematik extends Schematik {
-    constructor() { super(); this.__type('null'); }
-  }
 
   beforeEach(function() {
     this.obj = new Schematik()
       .flag('foo', 'bar')
       .schema({ a: '1', b: '2', c: '3' });
-    this.result = instantiate(this.obj, FakeSchematik);
+    this.result = instantiate(this.obj, Schematik.Null);
   });
 
   it('should create a new instance of the class', function() {
-    expect(this.result).to.be.an.instanceof(FakeSchematik);
+    expect(this.result).to.be.an.instanceof(Schematik.Null);
   });
 
   it('should preserve flags', function() {

@@ -5,3 +5,4 @@ _lib
 lib
 *.log
 .DS_Store
+coverage
