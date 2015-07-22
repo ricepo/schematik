@@ -29,7 +29,7 @@ gulp.task('build', function() {
 
 gulp.task('lint', function() {
 
-  gulp.src(['src/**/*.js'], { base: 'src' })
+  gulp.src(['src/**/*.js', 'test/**/*.js'], { base: 'src' })
     .pipe(jshint())
     .pipe(jscs())
     .on('error', function() { })

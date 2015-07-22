@@ -18,19 +18,19 @@ describe('.addChainable()', function() {
 
   it('should add a chainable property to the context', function() {
     expect(this.obj).to.have.property('test').that.is.a('function');
-    expect(this.obj instanceof Schematik).to.be.true;
+    expect(this.obj instanceof Schematik).to.equal(true);
     expect(this.obj.flag('hello')).to.equal('world');
   });
 
   it('should invoge {get} when accessed', function() {
-    this.obj.test;
-    expect(this.get.calledOnce).to.be.true;
+    var a = this.obj.test;
+    expect(this.get.calledOnce).to.equal(true);
   });
 
   it('should invoke both {get} and {call} when called', function() {
     this.obj.test();
-    expect(this.get.calledOnce).to.be.true;
-    expect(this.call.calledOnce).to.be.true;
+    expect(this.get.calledOnce).to.equal(true);
+    expect(this.call.calledOnce).to.equal(true);
   });
 
   it('should return the result of {get} when accessed', function() {
@@ -47,7 +47,8 @@ describe('.addChainable()', function() {
 
   it('should throw when {get} returns a non-Schematik value', function() {
     addChainable(this.obj, 'foo', function() { }, function() { return 'bar'; });
-    expect(function() { this.obj.foo; }.bind(this)).to.throw('get() must return a Schematik object or undefined.');
+    expect(function() { var a = this.obj.foo; }.bind(this))
+      .to.throw('get() must return a Schematik object or undefined.');
   });
 
   it('should default to noop when {get} is undefined', function() {

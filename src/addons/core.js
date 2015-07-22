@@ -157,13 +157,13 @@ export default function core(Schematik, Util) {
   Util.addChainable(Schematik.prototype, 'of',       of);
   Util.addChainable(Schematik.prototype, 'enum',     whitelist);
 
+  Schematik.enum = whitelist;
   Schematik.one = Schematik.oneOf = one;
   Schematik.all = Schematik.allOf = all;
   Schematik.any = Schematik.anyOf = any;
   Schematik.not = not;
 
-  for (let item of conjunctions) {
+  conjunctions.forEach((item) => {
     Util.addProperty(Schematik.prototype, item);
-  }
-
+  });
 }

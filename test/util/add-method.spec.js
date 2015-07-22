@@ -20,7 +20,7 @@ describe('.addMethod()', function() {
 
   it('should invoke {call} when called', function() {
     this.obj.test();
-    expect(this.call.calledOnce).to.be.true;
+    expect(this.call.calledOnce).to.equal(true);
   });
 
   it('should not be chainable', function() {

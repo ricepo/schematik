@@ -7,11 +7,11 @@
 
 import Debug        from 'debug';
 import Schematik    from './schematik';
+import * as Config  from './config';
 import * as Util    from './util';
 
 import FlagCore     from './addons/core';
 import FlagUnique   from './addons/unique';
-import AddonConfig  from './addons/config';
 import SkArray      from './types/array';
 import SkBoolean    from './types/boolean';
 import SkInteger    from './types/integer';
@@ -22,7 +22,6 @@ import SkString     from './types/string';
 
 export default Schematik;
 const  print = Debug('schematik');
-
 
 /*!
  * Enable source map support if `source-map-support` is installed
@@ -67,7 +66,8 @@ Schematik.use = function(fn) {
 /*!
  * Expose Schematik utilities via Schematik.util
  */
-Schematik.util = Util;
+Schematik.config = Config;
+Schematik.util   = Util;
 
 
 /*!
@@ -75,7 +75,6 @@ Schematik.util = Util;
  */
 Schematik.use(FlagCore);
 Schematik.use(FlagUnique);
-Schematik.use(AddonConfig);
 
 
 /*!

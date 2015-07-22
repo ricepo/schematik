@@ -15,6 +15,7 @@ const print = Debug('schematik:symbols');
  * when there is need to expose special properties.
  */
 var _symbol = Symbol;
+/* istanbul ignore if else */
 if (!_symbol || devMode) {
   print('Symbols disabled, using fallback strings.');
   _symbol = function(name) { return `@@${name}`; };
