@@ -41,7 +41,7 @@ gulp.task('lint', function() {
 
 gulp.task('test', ['lint', 'build'], function() {
 
-  return gulp.src(['test/index.js'], { read: false })
+  return gulp.src(['test/index.spec.js'], { read: false })
     .pipe(mocha({ reporter: 'spec' }));
 
 });
@@ -52,7 +52,7 @@ gulp.task('cover', ['lint', 'build'], function(done) {
     .pipe(istanbul())
     .pipe(istanbul.hookRequire())
     .on('finish', function() {
-      gulp.src(['test/index.js'])
+      gulp.src(['test/index.spec.js'])
         .pipe(mocha())
         .pipe(istanbul.writeReports({
           dir: 'coverage',

@@ -16,7 +16,10 @@ describe('Schematik.Addons', function() {
 });
 
 describe('Schematik.Types', function() {
-
-  
+  require('./types/array.spec.js');
+  require('./types/boolean.spec.js');
+  require('./types/integer.spec.js');
+  require('./types/null.spec.js');
+  require('./types/number.spec.js');
 
 });

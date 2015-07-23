@@ -1,8 +1,9 @@
-// -------------------------------------------------------------------------- //
-//                                                                            //
-// Adds a method to the specified object.                                     //
-//                                                                            //
-// -------------------------------------------------------------------------- //
+/**
+ * Schematik.util.addMethod
+ *
+ * @author          Denis Luchkin-Zhou <wyvernzora@gmail.com>
+ * @license         MIT
+ */
 
 // This file is a Schematik-specific ES6 rewrite of:
 //   chaijs/chai/lib/chai/utils/addMethod.js
