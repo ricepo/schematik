@@ -12,6 +12,7 @@ import instantiate  from '../util/instantiate';
 import Range        from '../addons/range';
 import Unique       from '../addons/unique';
 import Additional   from '../addons/additional';
+import concat       from '../util/array-concat';
 
 /**
  * Schematik.Array
@@ -68,7 +69,7 @@ export class SkArray extends Schematik {
 
       // If current schema.items is a single object, wrap it into array
       let current = this[schema].items;
-      current = current ? values.concat(current)  : values;
+      current = concat(current, ...values);
       current = current.length === 1 ? current[0] : current;
 
       return this.schema({ items: current });
