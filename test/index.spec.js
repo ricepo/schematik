@@ -21,5 +21,6 @@ describe('Schematik.Types', function() {
   require('./types/integer.spec.js');
   require('./types/null.spec.js');
   require('./types/number.spec.js');
-
+  require('./types/object.spec.js');
+  require('./types/string.spec.js');
 });
