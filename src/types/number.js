@@ -46,7 +46,8 @@ export class SkNumber extends Schematik {
       throw new Error('{value} must be a number.');
     }
 
-    if (this.schema('maximum') && value > this.schema('maximum')) {
+    let max = this.schema('maximum');
+    if (max !== undefined && value > max) {
       throw new Error('{min} cannot be greater than {max}.');
     }
 
@@ -70,7 +71,8 @@ export class SkNumber extends Schematik {
       throw new Error('{value} must be a number.');
     }
 
-    if (this.schema('minimum') && value < this.schema('minimum')) {
+    let min = this.schema('minimum');
+    if (min !== undefined && value < min) {
       throw new Error('{max} cannot be less than {min}.');
     }
 
