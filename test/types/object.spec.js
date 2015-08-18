@@ -58,18 +58,40 @@ describe('.Object', function() {
       expect(obj.done()).to.have.property('maxProperties', 42);
     });
 
-    it.skip('should throw if min is greater than max', function() {
+    it('should throw if min is greater than max', function() {
       var obj = Schematik.object().schema({ maxProperties: 0 });
       expect(function() {
         obj.min.count(42);
-      }).to.throw();
+      }).to.throw('{min} cannot be greater than {max}');
     });
 
-    it.skip('should throw if max is greater than max', function() {
-      var obj = Schematik.object().schema({ maxProperties: 0 });
+    it('should throw if max is less than min', function() {
+      var obj = Schematik.object().schema({ minProperties: 42 });
       expect(function() {
-        obj.min.count(42);
-      }).to.throw();
+        obj.max.count(0);
+      }).to.throw('{max} cannot be less than {min}');
+    });
+
+    it('should throw if max is less than min (2 args)', function() {
+      expect(function() {
+        Schematik.object().count(42, 0);
+      }).to.throw('{min} cannot be greater than {max}');
+    });
+
+    it('should throw if called with a non-number argument', function() {
+      expect(function() {
+        Schematik.object().count('test');
+      }).to.throw('Count value must be a number.');
+    });
+
+  });
+
+  describe('.property()', function() {
+
+    describe('with no flags', function() {
+
+      
+
     });
 
   });

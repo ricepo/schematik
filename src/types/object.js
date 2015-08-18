@@ -59,13 +59,27 @@ export class SkObject extends Schematik {
     }
 
     let diff = { };
-    if      (this.flag('range') === 'min') { diff.minProperties = a; }
-    else if (this.flag('range') === 'max') { diff.maxProperties = a; }
-    else if (typeof b === 'number') {
+    if (this.flag('range') === 'min') {
+      let max = this.schema('maxProperties');
+      if(max !== undefined && max < a) {
+        throw new Error('{min} cannot be greater than {max}');
+      }
+      diff.minProperties = a;
+    } else if (this.flag('range') === 'max') {
+      let min = this.schema('minProperties');
+      if(min !== undefined && min > a) {
+        throw new Error('{max} cannot be less than {min}');
+      }
+      diff.maxProperties = a;
+    } else if (typeof b === 'number') {
+      if(b < a) {
+        throw new Error('{min} cannot be greater than {max}');
+      }
       diff.minProperties = a;
       diff.maxProperties = b;
+    } else {
+      diff.minProperties = diff.maxProperties = a;
     }
-    else { diff.minProperties = diff.maxProperties = a; }
 
     return this.schema(diff).flag('range', null);
   }
