@@ -5,7 +5,6 @@
  * @license         MIT
  */
 
-import Debug        from 'debug';
 import Schematik    from './schematik';
 import * as Config  from './config';
 import * as Util    from './util';
@@ -21,7 +20,6 @@ import SkObject     from './types/object';
 import SkString     from './types/string';
 
 export default Schematik;
-const  print = Debug('schematik');
 
 /*!
  * Enable source map support if `source-map-support` is installed
@@ -56,7 +54,6 @@ const middleware = new Set();
  */
 Schematik.use = function(fn) {
   if (!middleware.has(fn)) {
-    print(`Using middleware: ${fn.name}`);
     fn(this, Util);
     middleware.add(fn);
   }

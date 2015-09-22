@@ -5,10 +5,8 @@
  * @license         MIT
  */
 
-import Debug        from 'debug';
 import { devMode }  from '../config';
 
-const print = Debug('schematik:symbols');
 
 /*!
  * Fallback when symbols are not supported, or
@@ -17,7 +15,6 @@ const print = Debug('schematik:symbols');
 let _symbol = Symbol;
 /* istanbul ignore if else */
 if (!_symbol || devMode) {
-  print('Symbols disabled, using fallback strings.');
   _symbol = function(name) { return `@@${name}`; };
 }
 

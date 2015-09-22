@@ -1,10 +1,11 @@
-# Schematik !
+# Schematik
 
 [![Circle CI](https://circleci.com/gh/jluchiji/schematik/tree/master.svg?style=svg)](https://circleci.com/gh/jluchiji/schematik/tree/master)
 [![Code Climate](https://codeclimate.com/github/jluchiji/schematik/badges/gpa.svg)](https://codeclimate.com/github/jluchiji/schematik)
 [![Test Coverage](https://codeclimate.com/github/jluchiji/schematik/badges/coverage.svg)](https://codeclimate.com/github/jluchiji/schematik/coverage)
 
-Write human-friendly JSON schema!
+Modular and human-friendly JSON schema.
+
 Instead of writing this:
 ```json
 {
@@ -22,9 +23,19 @@ write this:
 Schematik.number().in.exclusive.range.of(-180, 180).that.is.a.multiple.of(45);
 ```
 or this, if you don't want to spare any keystrokes:
-```
+```js
 Schematik.number().exclusive.range(-180, 180).multiple(45);
 ```
+
+Schematik objects are guaranteed to be immutable, therefore you can reuse them
+without worrying about accidental changes. For example:
+```js
+const number = Schematik.number().in.range.of(10, 100);
+
+const object = Schematik.object.with.property('foo', number.optional);
+```
+The number included in the `object` becomes optional, while the original `number`
+remains required.
 
 Heavily inspired by
 [Chai](http://chaijs.com/),
@@ -50,21 +61,20 @@ Have fun!
 Please follow [this link](docs/README.md).
 
 ## Testing
-First, install [mocha](http://mochajs.org/) and project dependencies.
 ```
-$ npm install -g mocha
-$ npm install
+$ npm run test
 ```
 
-Then, you can run the test suit like this:
-```
-$ mocha
-```
+## Changes
+### 1.0.0
+ - Initial Release
 
-If you wish to generate a coverage report:
-```
-$ mocha -R html-cov > coverage.html
-```
+### 1.1.0
+ - Various Bugfixes
+
+### 2.0.0
+ - Complete rewrite to ensure immutability.
+ - `Array.of()` renamed to `Array.items()`
 
 ## License
 [MIT](http://opensource.org/licenses/MIT)
