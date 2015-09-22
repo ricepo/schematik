@@ -1,6 +1,8 @@
 # Schematik !
 
 [![Circle CI](https://circleci.com/gh/jluchiji/schematik/tree/master.svg?style=svg)](https://circleci.com/gh/jluchiji/schematik/tree/master)
+[![Code Climate](https://codeclimate.com/github/jluchiji/schematik/badges/gpa.svg)](https://codeclimate.com/github/jluchiji/schematik)
+[![Test Coverage](https://codeclimate.com/github/jluchiji/schematik/badges/coverage.svg)](https://codeclimate.com/github/jluchiji/schematik/coverage)
 
 Write human-friendly JSON schema!
 Instead of writing this:
