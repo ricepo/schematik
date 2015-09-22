@@ -1,4 +1,8 @@
-require("babel/polyfill");
+/* eslint-env mocha */
+
+require('babel/polyfill');
+
+require('./schematik.spec.js');
 
 describe('Schematik.Util', function() {
   require('./util/add-chainable.spec.js');

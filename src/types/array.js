@@ -32,7 +32,7 @@ export class SkArray extends Schematik {
    * @override
    */
   done() {
-    let result = super.done();
+    const result = super.done();
     if (this.flag('unique')) { result.uniqueItems = true; }
     return result;
   }
@@ -58,22 +58,19 @@ export class SkArray extends Schematik {
       return this.schema({ additionalItems: value });
     }
 
-    // Otherwise, modify `items`
-    else {
-      if (arguments.length === 0) {
-        throw new Error('Schematik.Array.items: need at least one argument.');
-      }
-
-      // Map all items to their final object forms
-      values = values.map(i => (i instanceof Schematik) ? i.done() : i);
-
-      // If current schema.items is a single object, wrap it into array
-      let current = this[schema].items;
-      current = concat(current, ...values);
-      current = current.length === 1 ? current[0] : current;
-
-      return this.schema({ items: current });
+    if (arguments.length === 0) {
+      throw new Error('Schematik.Array.items: need at least one argument.');
     }
+
+    // Map all items to their final object forms
+    values = values.map(i => (i instanceof Schematik) ? i.done() : i);
+
+    // If current schema.items is a single object, wrap it into array
+    let current = this[schema].items;
+    current = concat(current, ...values);
+    current = current.length === 1 ? current[0] : current;
+
+    return this.schema({ items: current });
 
   }
 
@@ -88,14 +85,15 @@ export class SkArray extends Schematik {
       throw new Error('Schematik.Array.length: length must be a number.');
     }
 
-    let diff = { };
-    if      (this.flag('range') === 'max') { diff.maxItems = a; }
-    else if (this.flag('range') === 'min') { diff.minItems = a; }
-    else if (typeof b === 'number') {
+    const diff = { };
+    if      (this.flag('range') === 'max') {
+      diff.maxItems = a;
+    } else if (this.flag('range') === 'min') {
+      diff.minItems = a;
+    } else if (typeof b === 'number') {
       diff.minItems = a;
       diff.maxItems = b;
-    }
-    else {
+    } else {
       diff.minItems = diff.maxItems = a;
     }
 
@@ -108,21 +106,21 @@ export class SkArray extends Schematik {
 /*!
  * Export a middleware function.
  */
-export default function(Schematik, Util) {
+export default function(schematik, Util) {
 
   /*!
    * Expose SkArray class as Schematik.Array
    */
-  Schematik.Array = SkArray;
+  schematik.Array = SkArray;
 
   /*!
    * Attach the Schematik.array() shorthand.
    */
-  Schematik.array = Schematik.prototype.array = function() {
-    return instantiate(this.self(), Schematik.Array);
+  schematik.array = schematik.prototype.array = function() {
+    return instantiate(this.self(), schematik.Array);
   };
 
-  const proto = Schematik.Array.prototype;
+  const proto = schematik.Array.prototype;
 
   /*!
    * Attach shared flags

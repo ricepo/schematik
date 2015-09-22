@@ -54,7 +54,7 @@ module.exports = {
    */
   whitelistedTypes: new Set(
     [ 'array', 'boolean', 'integer', 'number', 'null', 'object', 'string' ]
-  ),
+  )
 
 
 };

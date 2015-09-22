@@ -26,7 +26,8 @@ const  print = Debug('schematik');
 /*!
  * Enable source map support if `source-map-support` is installed
  */
-let sourcemaps = require.resolve('source-map-support');
+const sourcemaps = require.resolve('source-map-support');
+/* istanbul ignore else */
 if (sourcemaps) {
   print('Enabling sourcemap support.');
   require(sourcemaps).install();

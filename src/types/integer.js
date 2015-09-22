@@ -25,7 +25,7 @@ export class SkInteger extends SkNumber {
 /*!
  * Export a middleware function.
  */
-export default function(Schematik, Util) {
+export default function(Schematik) {
 
   /*!
    * Expose SkInteger as Schematik.Integer

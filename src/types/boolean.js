@@ -27,18 +27,18 @@ export class SkBoolean extends Schematik {
 /*!
  * Export a middleware function.
  */
-export default function(Schematik, Util) {
+export default function(schematik) {
 
   /*!
    * Expose SkBoolean as Schematik.Boolean
    */
-  Schematik.Boolean = SkBoolean;
+  schematik.Boolean = SkBoolean;
 
   /*!
    * Attach the Schematik.boolean() shorthand.
    */
-  Schematik.boolean = Schematik.prototype.boolean = function() {
-    return instantiate(this.self(), Schematik.Boolean);
+  schematik.boolean = schematik.prototype.boolean = function() {
+    return instantiate(this.self(), schematik.Boolean);
   };
 
 }

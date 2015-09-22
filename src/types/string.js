@@ -38,14 +38,17 @@ export class SkString extends Schematik {
       throw new Error('Length value must be a number.');
     }
 
-    let diff = { };
-    if      (this.flag('range') === 'min') { diff.minLength = a; }
-    else if (this.flag('range') === 'max') { diff.maxLength = a; }
-    else if (typeof b === 'number') {
+    const diff = { };
+    if (this.flag('range') === 'min') {
+      diff.minLength = a;
+    } else if (this.flag('range') === 'max') {
+      diff.maxLength = a;
+    } else if (typeof b === 'number') {
       diff.minLength = a;
       diff.maxLength = b;
+    } else {
+      diff.minLength = diff.maxLength = a;
     }
-    else { diff.minLength = diff.maxLength = a; }
 
     return this.schema(diff).flag('range', null);
   }

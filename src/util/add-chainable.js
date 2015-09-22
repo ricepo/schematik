@@ -12,14 +12,6 @@
 import methods      from './symbols';
 import isSchematik  from './is-schematik';
 
-// Check for __proto__ support
-const supportsProto = '__proto__' in Object;
-
-// Regex for function prototype methods that cannot be overwritten
-const excludeNames  = /^(?:length|name|arguments|caller)$/;
-
-// Default function properties
-const call          = Function.prototype.call;
 const apply         = Function.prototype.apply;
 
 
@@ -27,7 +19,7 @@ const apply         = Function.prototype.apply;
 export default function addChainable(context, name, call, get) {
   if (typeof get !== 'function') { get = function() { }; }
 
-  let behavior = { call: call, get: get };
+  const behavior = { call: call, get: get };
 
   // Save methods for later overwrites
   if (!context[methods]) { context[methods] = { }; }
@@ -46,14 +38,14 @@ export default function addChainable(context, name, call, get) {
       }
 
       // Construct the wrapper function for the onCall
-      let wrapper = function wrapper() {
-        let result = behavior.call.apply(self, arguments);
+      const wrapper = function wrapper() {
+        const result = behavior.call.apply(self, arguments);
         self = self.flag('chain', null);
         return result === undefined ? self : result;
       };
 
       // Make the wrapper act like Schematik
-      let prototype = Object.create(self);
+      const prototype = Object.create(self);
       Object.setPrototypeOf(wrapper, prototype);
       prototype.call  = call;
       prototype.apply = apply;

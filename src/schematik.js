@@ -5,14 +5,11 @@
  * @license         MIT
  */
 
-import Debug           from 'debug';
 import Immutable       from 'seamless-immutable';
 
 import * as Config     from './config';
 import * as Symbols    from './util/symbols';
 import isSchematik     from './util/is-schematik';
-
-const  print         = Debug('schematik');
 
 /**
  * Schematik
@@ -69,7 +66,7 @@ export default class Schematik {
    * @returns       A copy of the Schematik object.
    */
   clone() {
-    let copy = Object.create(this);
+    const copy = Object.create(this);
     this.copyTo(copy);
     return copy;
   }
@@ -91,7 +88,7 @@ export default class Schematik {
       return this[Symbols.flags][key];
     }
 
-    let result = this.clone();
+    const result = this.clone();
     result[Symbols.flags] = this[Symbols.flags].merge({ [key]: value });
     return result;
   }
@@ -113,12 +110,12 @@ export default class Schematik {
     }
 
     if (typeof value === 'object') {
-      let result = this.clone();
+      const result = this.clone();
       result[Symbols.schema] = this[Symbols.schema].merge(value, {deep: deep});
       return result;
     }
 
-    throw new Error('Schematik.schema: value must be a string or an object.');
+    throw new Error('Value must be a string or an object.');
   }
 
   /**

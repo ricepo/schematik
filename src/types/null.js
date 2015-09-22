@@ -27,18 +27,18 @@ export class SkNull extends Schematik {
 /*!
  * Export a middleware function.
  */
-export default function(Schematik, Util) {
+export default function(schematik) {
 
   /*!
    * Expose SkNull as Schematik.Null
    */
-  Schematik.Null = SkNull;
+  schematik.Null = SkNull;
 
   /*!
    * Attach the Schematik.null() shorthand.
    */
-  Schematik.null = Schematik.prototype.null = function() {
-    return instantiate(this.self(), Schematik.Null);
+  schematik.null = schematik.prototype.null = function() {
+    return instantiate(this.self(), schematik.Null);
   };
 
 }

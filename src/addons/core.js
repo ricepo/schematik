@@ -15,7 +15,7 @@ import { conjunctions } from '../config';
 *                   to true.
 */
 export function required() {
- return this.self().flag('required', true);
+  return this.self().flag('required', true);
 }
 
 /**
@@ -25,7 +25,7 @@ export function required() {
  *                  to false.
  */
 export function optional() {
- return this.self().flag('required', false);
+  return this.self().flag('required', false);
 }
 
 /**
@@ -44,7 +44,7 @@ export function negate() {
  * @desc            Calls the last uninvoked function, passing it all arguments.
  */
 export function of(...args) {
-  let chain = this.flag('chain');
+  const chain = this.flag('chain');
   if (chain) { return chain.apply(this, args); }
   return this;
 }
@@ -60,7 +60,7 @@ export function whitelist(...args) {
     throw new Error('Must have at least one argument.');
   }
 
-  let diff   = { enum: args };
+  const diff = { enum: args };
 
   return this.self().schema(diff);
 }
@@ -76,8 +76,8 @@ export function one(...args) {
     throw new Error('Must have at least one argument.');
   }
 
-  let result = new Schematik();
-  let diff   = {
+  const result = new Schematik();
+  const diff   = {
     oneOf: args.map((i) => (i instanceof Schematik) ? i.done() : i)
   };
 
@@ -95,8 +95,8 @@ export function all(...args) {
     throw new Error('Must have at least one argument.');
   }
 
-  let result = new Schematik();
-  let diff   = {
+  const result = new Schematik();
+  const diff   = {
     allOf: args.map((i) => (i instanceof Schematik) ? i.done() : i)
   };
 
@@ -114,8 +114,8 @@ export function any(...args) {
     throw new Error('Must have at least one argument.');
   }
 
-  let result = new Schematik();
-  let diff   = {
+  const result = new Schematik();
+  const diff   = {
     anyOf: args.map((i) => (i instanceof Schematik) ? i.done() : i)
   };
 
@@ -133,8 +133,8 @@ export function not(schema) {
     throw new Error('Schema must be an object.');
   }
 
-  let result = new Schematik();
-  let diff   = { not: schema instanceof Schematik ? schema.done() : schema };
+  const result = new Schematik();
+  const diff   = { not: schema instanceof Schematik ? schema.done() : schema };
 
   return result.schema(diff);
 }
@@ -143,27 +143,27 @@ export function not(schema) {
 /**
  * Export a middleware function.
  */
-export default function core(Schematik, Util) {
+export default function core(schematik, Util) {
 
-  Util.addProperty(Schematik,            'required', required);
-  Util.addProperty(Schematik.prototype,  'required', required);
+  Util.addProperty(schematik,            'required', required);
+  Util.addProperty(schematik.prototype,  'required', required);
 
-  Util.addProperty(Schematik,            'optional', optional);
-  Util.addProperty(Schematik.prototype,  'optional', optional);
+  Util.addProperty(schematik,            'optional', optional);
+  Util.addProperty(schematik.prototype,  'optional', optional);
 
-  Util.addProperty(Schematik.prototype,  'not',      negate);
-  Util.addProperty(Schematik.prototype,  'no',       negate);
+  Util.addProperty(schematik.prototype,  'not',      negate);
+  Util.addProperty(schematik.prototype,  'no',       negate);
 
-  Util.addChainable(Schematik.prototype, 'of',       of);
-  Util.addChainable(Schematik.prototype, 'enum',     whitelist);
+  Util.addChainable(schematik.prototype, 'of',       of);
+  Util.addChainable(schematik.prototype, 'enum',     whitelist);
 
-  Schematik.enum = whitelist;
-  Schematik.one = Schematik.oneOf = one;
-  Schematik.all = Schematik.allOf = all;
-  Schematik.any = Schematik.anyOf = any;
-  Schematik.not = not;
+  schematik.enum = whitelist;
+  schematik.one = schematik.oneOf = one;
+  schematik.all = schematik.allOf = all;
+  schematik.any = schematik.anyOf = any;
+  schematik.not = not;
 
   conjunctions.forEach((item) => {
-    Util.addProperty(Schematik.prototype, item);
+    Util.addProperty(schematik.prototype, item);
   });
 }

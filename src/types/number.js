@@ -46,12 +46,12 @@ export class SkNumber extends Schematik {
       throw new Error('{value} must be a number.');
     }
 
-    let max = this.schema('maximum');
+    const max = this.schema('maximum');
     if (max !== undefined && value > max) {
       throw new Error('{min} cannot be greater than {max}.');
     }
 
-    let diff = { minimum: value };
+    const diff = { minimum: value };
     if (this.flag('exclusive')) { diff.exclusiveMinimum = true; }
     return this.schema(diff).flag('exclusive', false);
   }
@@ -71,12 +71,12 @@ export class SkNumber extends Schematik {
       throw new Error('{value} must be a number.');
     }
 
-    let min = this.schema('minimum');
+    const min = this.schema('minimum');
     if (min !== undefined && value < min) {
       throw new Error('{max} cannot be less than {min}.');
     }
 
-    let diff = { maximum: value };
+    const diff = { maximum: value };
     if (this.flag('exclusive')) { diff.exclusiveMaximum = true; }
     return this.schema(diff).flag('exclusive', false);
   }
@@ -100,7 +100,7 @@ export class SkNumber extends Schematik {
       throw new Error('Min cannot be greater than max.');
     }
 
-    let diff = { minimum: min, maximum: max };
+    const diff = { minimum: min, maximum: max };
     if (this.flag('exclusive')) {
       diff.exclusiveMinimum = true;
       diff.exclusiveMaximum = true;
@@ -130,24 +130,24 @@ export class SkNumber extends Schematik {
 /*!
  * Export a middleware function.
  */
-export default function(Schematik, Util) {
+export default function(schematik, Util) {
 
   /*!
    * Expose SkNumber as Schematik.Number
    */
-  Schematik.Number = SkNumber;
+  schematik.Number = SkNumber;
 
   /*!
    * Attach the Schematik.number() shorthand.
    */
-  Schematik.number = Schematik.prototype.number = function() {
-    return instantiate(this.self(), Schematik.Number);
+  schematik.number = schematik.prototype.number = function() {
+    return instantiate(this.self(), schematik.Number);
   };
 
   /*!
    * Attach number-specific properties.
    */
-  const proto = Schematik.Number.prototype;
+  const proto = schematik.Number.prototype;
   Util.addProperty(proto,  'exclusive', SkNumber.__exclusive);
   Util.addChainable(proto, 'min',       SkNumber.__min);
   Util.addChainable(proto, 'max',       SkNumber.__max);

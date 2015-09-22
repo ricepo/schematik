@@ -5,14 +5,14 @@
  * @license         MIT
  */
 
-import Immutable       from 'seamless-immutable';
 import Schematik       from '../schematik';
 
 import Range           from '../addons/range';
 import Additional      from '../addons/additional';
 
 import * as Config     from '../config';
-import { isSchematik } from '../util';
+import { isSchematik,
+         arrayConcat } from '../util';
 import { schema }      from '../util/symbols';
 import instantiate     from '../util/instantiate';
 
@@ -58,21 +58,21 @@ export class SkObject extends Schematik {
       throw new Error('Count value must be a number.');
     }
 
-    let diff = { };
+    const diff = { };
     if (this.flag('range') === 'min') {
-      let max = this.schema('maxProperties');
-      if(max !== undefined && max < a) {
+      const max = this.schema('maxProperties');
+      if (max !== undefined && max < a) {
         throw new Error('{min} cannot be greater than {max}');
       }
       diff.minProperties = a;
     } else if (this.flag('range') === 'max') {
-      let min = this.schema('minProperties');
-      if(min !== undefined && min > a) {
+      const min = this.schema('minProperties');
+      if (min !== undefined && min > a) {
         throw new Error('{max} cannot be less than {min}');
       }
       diff.maxProperties = a;
     } else if (typeof b === 'number') {
-      if(b < a) {
+      if (b < a) {
         throw new Error('{min} cannot be greater than {max}');
       }
       diff.minProperties = a;
@@ -95,13 +95,13 @@ export class SkObject extends Schematik {
    * @returns       A copy of the Schematik with the property added.
    */
   static __property(key, schema) {
-    let overwrite  = Config.allowPropertyOverwrite;
-    let additional = Config.allowAdditionalProperties;
+    const overwrite  = Config.allowPropertyOverwrite;
+    const additional = Config.allowAdditionalProperties;
 
     // additionalProperties mode
     if (this.flag('additional')) {
-      let current = this.schema('additionalProperties');
-      if (!overwrite && current != additional && additional !== undefined) {
+      const current = this.schema('additionalProperties');
+      if (!overwrite && current !== additional && additional !== undefined) {
         throw new Error('Cannot overwrite additional properties.');
       }
 
@@ -114,7 +114,7 @@ export class SkObject extends Schematik {
           .flag('negate',     false);
       }
 
-      let value = arguments[0];
+      const value = arguments[0];
       if (typeof value !== 'boolean' && typeof value !== 'object') {
         throw new Error('Additional property must be a boolean or an object.');
       }
@@ -131,19 +131,23 @@ export class SkObject extends Schematik {
     if (typeof schema !== 'object') {
       throw new Error('Schema must be an object.');
     }
-    schema = isSchematik(schema) ? schema.done() : schema;
+    let required = false;
+    if (isSchematik(schema)) {
+      required = schema.flag('required');
+      schema   = schema.done();
+    }
 
     // patternProperties mode
     if (this.flag('pattern')) {
       if (!(key instanceof RegExp)) {
         throw new Error('Key must be a RegExp.');
       }
-      let current = this.schema('patternProperties');
+      const current = this.schema('patternProperties');
       if (!overwrite && current && current[key.source]) {
         throw new Error(`Cannot overwrite pattern property: ${key.source}`);
       }
 
-      let diff = { patternProperties: { [key.source]: schema } };
+      const diff = { patternProperties: { [key.source]: schema } };
       return this.flag('pattern', false).schema(diff, true);
     }
 
@@ -151,12 +155,15 @@ export class SkObject extends Schematik {
     if (typeof key !== 'string') {
       throw new Error('Key must be a string.');
     }
-    let current = this.schema('properties');
+    const current = this.schema('properties');
     if (!overwrite && current && current[key]) {
       throw new Error(`Cannot overwrite property: ${key}`);
     }
 
-    let diff = { properties: { [key]: schema } };
+
+    const diff = { properties: { [key]: schema } };
+    const creq = this.schema('required');
+    if (required) { diff.required = arrayConcat(creq, key); }
     return this.schema(diff, true);
 
   }
@@ -184,12 +191,12 @@ export class SkObject extends Schematik {
       throw new Error('Value must be an object.');
     }
 
-    let result  = this;
-    let pattern = this.flag('pattern');
-    Object.keys(value).forEach((key) => {
-      result = result.flag('pattern', pattern).property(key, value[key]);
-    });
-    return result;
+    const pattern = this.flag('pattern') || false;
+    return Object.keys(value).reduce((schema, key) => {
+      const s = value[key];
+      if (pattern) { key = new RegExp(key); }
+      return schema.flag('pattern', pattern).property(key, s);
+    }, this);
   }
 
 }
