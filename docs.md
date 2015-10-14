@@ -92,6 +92,134 @@ them.
 Schematik.optional.array();
 ```
 
+# Core
+In this section, we will outline some frequently used modifiers and functions
+in schematik.
+
+## `required`
+Using the `required` modifier marks the Schematik as required, which automatically
+adds it into the `required` field if this Schematik is used as an object property.
+
+By default, all Schematik instances are required, unless the `optional` modifier
+was used.
+```js
+const str = Schematik.required.string();
+
+new Schematik.Object().property('foo', str);
+```
+```json
+{
+  "type": "object",
+  "properties": {
+    "foo": { "type": "string" }
+  },
+  "required": [ "foo" ]
+}
+```
+
+## `optional`
+The `optional` modifier is the opposite of the `required` modifier: if an optional
+Schematik is used as an object property, the `optional` flag prevents it from being
+added into the `required` field.
+```js
+const str = Schematik.optional.string();
+
+new Schematik.Object().property('foo', str);
+```
+```json
+{
+  "type": "object",
+  "properties": {
+    "foo": { "type": "string" }
+  },
+  "required": [ ]
+}
+```
+
+
+## `not`
+Aliases: `no`
+
+If the next called function supports this modifier, it will have the opposite
+effect.
+
+```js
+new Schematik.Object().no.additional.properties();
+```
+```json
+{
+  "type": "object",
+  "additionalProperties": false
+}
+```
+
+## `minimum`
+Aliases: `min`
+
+Modifies the next called function to be the lower limit of a value.
+
+```js
+new Schematik.String().min.length(0);
+```
+```json
+{
+  "type": "string",
+  "minLength": 0
+}
+```
+
+## `maximum`
+Aliases: `max`
+
+Modifies the next called function to be the upper limit of a value.
+
+```js
+new Schematik.String().max.length(10);
+```
+```json
+{
+  "type": "string",
+  "maxLength": 10
+}
+```
+
+## `of()`
+Calls the last uncalled function.
+
+A function is *uncalled* when it is used as a modifier, like in this case `length()`
+is uncalled.
+
+```js
+new Schematik.String().length;
+```
+
+`of()` forwards all arguments to the last uncalled function.
+
+```js
+new Schematik.String().min.length.of(20);
+```
+```json
+{
+  "type": "string",
+  "minLength": 20
+}
+```
+
+## `enum()`
+Specifies a list of valid values for a Schematik. More specifically, its arguments
+will be set to the `enum` property of the resulting JSON schema.
+
+```js
+new Schematik.String().enum('foo', 'bar');
+```
+```json
+{
+  "type": "string",
+  "enum": [ "foo", "bar" ]
+}
+```
+
+
 # Number
 
 # Integer
