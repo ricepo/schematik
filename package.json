@@ -15,7 +15,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/jluchiji/schematik"
+    "url": "https://github.com/ricepo/schematik"
   },
   "keywords": [
     "json",
@@ -25,9 +25,9 @@
   "author": "Denis Luchkin-Zhou <wyvernzora@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jluchiji/schematik/issues"
+    "url": "https://github.com/ricepo/schematik/issues"
   },
-  "homepage": "https://github.com/jluchiji/schematik",
+  "homepage": "https://github.com/ricepo/schematik",
   "dependencies": {
     "seamless-immutable": "^2.4.2"
   },
