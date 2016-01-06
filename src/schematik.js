@@ -9,6 +9,7 @@ import Immutable       from 'seamless-immutable';
 
 import * as Config     from './config';
 import * as Symbols    from './util/symbols';
+import Instantiate     from './util/instantiate';
 import isSchematik     from './util/is-schematik';
 
 /**
@@ -171,6 +172,38 @@ export default class Schematik {
 
     this[Symbols.schema] = this[Symbols.schema].merge({ type: value });
     return this;
+  }
+
+
+  /**
+   * # .typedef(name, expr)
+   *
+   * @static
+   * @access        public
+   * @desc          Defines a custom schematik type shortcut.
+   * @param         {name} name of the custom type.
+   * @param         {base} base type to instantiate.
+   * @param         {expr} callback expression that accepts {this} value.
+   * @returns       {this} for chaining.
+   */
+  static typedef(name, base, expr) {
+    /* Disallow overwrites */
+    if (typeof Schematik.prototype[name] !== 'undefined' ||
+        typeof Schematik[name] !== 'undefined') {
+      throw new Error(`Cannot define type named '${name}'`);
+    }
+
+    /* Make base optional */
+    if (typeof base === 'function' && typeof expr === 'undefined') {
+      expr = base;
+      base = Schematik.Object;
+    }
+
+    /* Set up shortcuts */
+    Schematik.prototype[name] = Schematik[name] = function(...args) {
+      const val = Instantiate(this.self(), base);
+      return expr.call(val, val, ...args);
+    };
   }
 
 }

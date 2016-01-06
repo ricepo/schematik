@@ -77,4 +77,55 @@ describe('Schematik', function() {
 
   });
 
+  describe('typedef', function() {
+
+    it('should define a shortcut', function() {
+      Schematik.typedef('test01', Schematik.String, t => t.matches(/[a-z]/));
+
+      expect(Schematik.prototype)
+        .to.have.property('test01')
+        .that.is.a('function');
+      expect(Schematik)
+        .to.have.property('test01')
+        .that.is.a('function');
+
+      const actual = Schematik.test01();
+      expect(actual)
+        .to.be.instanceOf(Schematik);
+      expect(actual.done())
+        .to.be.deep.equal({ type: 'string', pattern: '[a-z]' });
+    });
+
+    it('should not allow overwrites', function() {
+      expect(() => { Schematik.typedef('string', function() { }); })
+        .to.throw('Cannot define type named \'string\'');
+    });
+
+    it('should make base param optional', function() {
+      Schematik.typedef('test03', t => t.min.count(10));
+      const actual = Schematik.test03();
+
+      expect(actual)
+        .to.be.an.instanceOf(Schematik.Object);
+      expect(actual.done())
+        .to.deep.equal({
+          type: 'object',
+          minProperties: 10,
+          additionalProperties: true
+        });
+    });
+
+    it('should pass params to callback expr', function() {
+      const spy = Sinon.spy(t => t);
+      Schematik.typedef('test04', spy);
+      Schematik.test04('foo', 'bar');
+
+      expect(spy)
+        .to.be.calledOnce;
+      const args = Array.prototype.slice.call(spy.firstCall.args, 1);
+      expect(args)
+        .to.deep.equal(['foo', 'bar']);
+    });
+  });
+
 });
