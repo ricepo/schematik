@@ -30,3 +30,4 @@ node_modules
 # Private test files
 *.test.*
 *.private.*
+lib
