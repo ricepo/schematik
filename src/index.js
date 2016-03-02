@@ -11,6 +11,7 @@ import * as Util    from './util';
 
 import FlagCore     from './addons/core';
 import FlagUnique   from './addons/unique';
+import Nullable     from './addons/nullable';
 import SkArray      from './types/array';
 import SkBoolean    from './types/boolean';
 import SkInteger    from './types/integer';
@@ -84,3 +85,4 @@ Schematik.use(SkNull);
 Schematik.use(SkNumber);
 Schematik.use(SkObject);
 Schematik.use(SkString);
+Schematik.use(Nullable);
