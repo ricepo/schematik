@@ -16,8 +16,8 @@ describe('.unique', function() {
     expect(this.obj.unique).to.be.an.instanceof(Schematik);
   });
 
-  it('should add the `unique` flag', function() {
-    expect(this.obj.unique.flag('unique')).to.equal(true);
+  it('should set `uniqueItems` schema value', function() {
+    expect(this.obj.unique.schema('uniqueItems')).to.equal(true);
   });
 
 });

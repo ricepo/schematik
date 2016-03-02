@@ -13,7 +13,7 @@
 * @returns       A copy of Schematik with `unique` flag set to {true}
 */
 export function unique() {
-  return this.self().flag('unique', true);
+  return this.self().schema({ uniqueItems: true });
 }
 
 

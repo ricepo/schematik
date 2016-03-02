@@ -26,16 +26,6 @@ export class SkArray extends Schematik {
     this.__type('array');
   }
 
-  /**
-   * .done()
-   *
-   * @override
-   */
-  done() {
-    const result = super.done();
-    if (this.flag('unique')) { result.uniqueItems = true; }
-    return result;
-  }
 
   /**
    * # .items()
