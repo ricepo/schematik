@@ -5,8 +5,8 @@
  * @license         MIT
  */
 
-import Schematik    from '../schematik';
-import instantiate  from '../util/instantiate';
+const Schematik    = require('../schematik');
+const instantiate  = require('../util/instantiate');
 
 
 /**
@@ -14,7 +14,7 @@ import instantiate  from '../util/instantiate';
  *
  * @classdesc       Schematik null type representation.
  */
-export class SkNull extends Schematik {
+class SkNull extends Schematik {
 
   constructor() {
     super();
@@ -27,7 +27,7 @@ export class SkNull extends Schematik {
 /*!
  * Export a middleware function.
  */
-export default function(schematik) {
+module.exports = function(schematik) {
 
   /*!
    * Expose SkNull as Schematik.Null
@@ -41,4 +41,5 @@ export default function(schematik) {
     return instantiate(this.self(), schematik.Null, ...args);
   };
 
-}
+};
+module.exports.SkNull = SkNull;

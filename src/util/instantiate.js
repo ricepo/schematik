@@ -4,8 +4,8 @@
  * @author          Denis Luchkin-Zhou <wyvernzora@gmail.com>
  * @license         MIT
  */
+const Symbols      = require('./symbols');
 
-import * as Symbols from './symbols';
 
 /**
  * .instantiate()
@@ -19,7 +19,7 @@ import * as Symbols from './symbols';
  * @param           {args} additional parameters to pass to the constructor.
  * @returns         A new Schematik instance made using the {ctor}.
  */
-export default function instantiate(self, ctor, ...args) {
+function instantiate(self, ctor, ...args) {
   const result = new ctor(...args);
   result[Symbols.flags] = result[Symbols.flags].merge(self[Symbols.flags]);
   result[Symbols.schema] = result[Symbols.schema].merge(
@@ -27,3 +27,4 @@ export default function instantiate(self, ctor, ...args) {
   );
   return result;
 }
+module.exports = instantiate;

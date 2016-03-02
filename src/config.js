@@ -44,8 +44,8 @@ module.exports = {
    * Set of conjunctions that return the Schematik without modifications.
    */
   conjunctions: new Set(
-    ['to', 'be', 'been', 'is', 'that', 'which', 'and', 'has', 'have',
-     'with', 'at', 'same', 'in', 'a', 'an', 'the']
+    [ 'to', 'be', 'been', 'is', 'that', 'which', 'and', 'has', 'have',
+     'with', 'at', 'same', 'in', 'a', 'an', 'the' ]
   ),
 
   /*!

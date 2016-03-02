@@ -12,7 +12,7 @@
 * @desc          Restricts the array to only include unique elements.
 * @returns       A copy of Schematik with `unique` flag set to {true}
 */
-export function unique() {
+function unique() {
   return this.self().schema({ uniqueItems: true });
 }
 
@@ -20,8 +20,9 @@ export function unique() {
 /**
  * Export a middleware function.
  */
-export default function(context, util) {
+module.exports = function(context, util) {
 
   util.addProperty(context, 'unique', unique);
 
-}
+};
+module.exports.unique = unique;

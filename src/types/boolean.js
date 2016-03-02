@@ -5,8 +5,8 @@
  * @license         MIT
  */
 
-import Schematik    from '../schematik';
-import instantiate  from '../util/instantiate';
+const Schematik    = require('../schematik');
+const instantiate  = require('../util/instantiate');
 
 
 /**
@@ -14,7 +14,7 @@ import instantiate  from '../util/instantiate';
  *
  * @classdesc       Schematik boolean type representation.
  */
-export class SkBoolean extends Schematik {
+class SkBoolean extends Schematik {
 
   constructor() {
     super();
@@ -27,7 +27,7 @@ export class SkBoolean extends Schematik {
 /*!
  * Export a middleware function.
  */
-export default function(schematik) {
+module.exports = function(schematik) {
 
   /*!
    * Expose SkBoolean as Schematik.Boolean
@@ -41,4 +41,5 @@ export default function(schematik) {
     return instantiate(this.self(), schematik.Boolean, ...args);
   };
 
-}
+};
+module.exports.SkBoolean = SkBoolean;

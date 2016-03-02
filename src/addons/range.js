@@ -11,7 +11,7 @@
  *
  * @desc Returns the Schematik with `range` flag set to `min`.
  */
-export function min() {
+function min() {
   return this.flag('range', 'min');
 }
 
@@ -20,18 +20,20 @@ export function min() {
  *
  * @desc Returns the Schematik with `range` flag set to `max`.
  */
-export function max() {
+function max() {
   return this.flag('range', 'max');
 }
 
 /**
  * Export a middleware function.
  */
-export default function(context, util) {
+module.exports = function(context, util) {
 
   util.addProperty(context, 'min',     min);
   util.addProperty(context, 'minimum', min);
   util.addProperty(context, 'max',     max);
   util.addProperty(context, 'maximum', max);
 
-}
+};
+module.exports.min = min;
+module.exports.max = max;

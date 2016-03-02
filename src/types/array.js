@@ -5,21 +5,22 @@
  * @license         MIT
  */
 
-import Schematik    from '../schematik';
-import { schema }   from '../util/symbols';
-import instantiate  from '../util/instantiate';
+const Schematik    = require('../schematik');
+const schema       = require('../util/symbols').schema;
+const instantiate  = require('../util/instantiate');
 
-import Range        from '../addons/range';
-import Unique       from '../addons/unique';
-import Additional   from '../addons/additional';
-import concat       from '../util/array-concat';
+const Range        = require('../addons/range');
+const Unique       = require('../addons/unique');
+const Additional   = require('../addons/additional');
+const concat       = require('../util/array-concat');
+
 
 /**
  * Schematik.Array
  *
  * @classdesc       Schematik array type representation.
  */
-export class SkArray extends Schematik {
+class SkArray extends Schematik {
 
   constructor() {
     super();
@@ -96,7 +97,7 @@ export class SkArray extends Schematik {
 /*!
  * Export a middleware function.
  */
-export default function(schematik, Util) {
+module.exports = function(schematik, Util) {
 
   /*!
    * Expose SkArray class as Schematik.Array
@@ -131,4 +132,5 @@ export default function(schematik, Util) {
    * Allow
    */
 
-}
+};
+module.exports.SkArray = SkArray;

@@ -5,8 +5,9 @@
  * @license         MIT
  */
 
-import { SkNumber } from './number';
-import instantiate  from '../util/instantiate';
+const SkNumber    = require('./number').SkNumber;
+const instantiate = require('../util/instantiate');
+
 
 /**
  * Schematik.Integer
@@ -25,7 +26,7 @@ export class SkInteger extends SkNumber {
 /*!
  * Export a middleware function.
  */
-export default function(Schematik) {
+module.exports = function(Schematik) {
 
   /*!
    * Expose SkInteger as Schematik.Integer
@@ -39,4 +40,5 @@ export default function(Schematik) {
     return instantiate(this.self(), Schematik.Integer, ...args);
   };
 
-}
+};
+module.exports.SkInteger = SkInteger;

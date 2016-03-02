@@ -5,28 +5,27 @@
  * @license         MIT
  */
 
-import Schematik       from '../schematik';
+const Schematik    = require('../schematik');
 
-import Range           from '../addons/range';
-import Additional      from '../addons/additional';
+const Range        = require('../addons/range');
+const Additional   = require('../addons/additional');
 
-import * as Config     from '../config';
-import { isSchematik,
-         arrayConcat } from '../util';
-import { schema }      from '../util/symbols';
-import instantiate     from '../util/instantiate';
+const Config       = require('../config');
+const Util         = require('../util');
+const Symbols      = require('../util/symbols');
+const instantiate  = require('../util/instantiate');
 
 /**
  * Schematik.Object
  *
  * @classdesc       Schematik object type representation.
  */
-export class SkObject extends Schematik {
+class SkObject extends Schematik {
 
   constructor() {
     super();
     this.__type('object');
-    this[schema] = this[schema]
+    this[Symbols.schema] = this[Symbols.schema]
       .merge({ additionalProperties: Config.allowAdditionalProperties });
   }
 
@@ -119,7 +118,7 @@ export class SkObject extends Schematik {
         throw new Error('Additional property must be a boolean or an object.');
       }
 
-      schema = isSchematik(value) ? value.done() : value;
+      schema = Util.isSchematik(value) ? value.done() : value;
       return this
         .schema({ additionalProperties: schema })
         .flag('additional', false)
@@ -132,7 +131,7 @@ export class SkObject extends Schematik {
       throw new Error('Schema must be an object.');
     }
     let required = false;
-    if (isSchematik(schema)) {
+    if (Util.isSchematik(schema)) {
       required = schema.flag('required');
       schema   = schema.done();
     }
@@ -163,7 +162,7 @@ export class SkObject extends Schematik {
 
     const diff = { properties: { [key]: schema } };
     const creq = this.schema('required');
-    if (required) { diff.required = arrayConcat(creq, key); }
+    if (required) { diff.required = Util.arrayConcat(creq, key); }
     return this.schema(diff, true);
 
   }
@@ -205,32 +204,33 @@ export class SkObject extends Schematik {
 /*!
  * Export a middleware function.
  */
-export default function(Schematik, Util) {
+module.exports = function(context, util) {
 
   /*!
    * Expose SkObject as Schematik.Object
    */
-  Schematik.Object = SkObject;
+  context.Object = SkObject;
 
   /*!
    * Attach the Schematik.object() shorthand.
    */
-  Schematik.object = Schematik.prototype.object = function(...args) {
-    return instantiate(this.self(), Schematik.Object, ...args);
+  context.object = context.prototype.object = function(...args) {
+    return instantiate(this.self(), SkObject, ...args);
   };
 
   /*!
    * Attach shared flags.
    */
-  Range(Schematik.Object.prototype, Util);
-  Additional(Schematik.Object.prototype, Util);
+  Range(context.Object.prototype, util);
+  Additional(context.Object.prototype, util);
 
   /*!
    * Attach object-specific properties.
    */
-  const proto = Schematik.Object.prototype;
-  Util.addProperty(proto,  'pattern',    SkObject.__pattern);
-  Util.addChainable(proto, 'count',      SkObject.__count);
-  Util.addChainable(proto, 'property',   SkObject.__property);
-  Util.addChainable(proto, 'properties', SkObject.__properties);
-}
+  const proto = context.Object.prototype;
+  util.addProperty(proto,  'pattern',    SkObject.__pattern);
+  util.addChainable(proto, 'count',      SkObject.__count);
+  util.addChainable(proto, 'property',   SkObject.__property);
+  util.addChainable(proto, 'properties', SkObject.__properties);
+};
+module.exports.SkObject = SkObject;

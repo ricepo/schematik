@@ -5,8 +5,8 @@
  * @license         MIT
  */
 
-import Schematik        from '../schematik';
-import { conjunctions } from '../config';
+const Schematik    = require('../schematik');
+const conjunctions = require('../config').conjunctions;
 
 /**
 * .required
@@ -14,7 +14,7 @@ import { conjunctions } from '../config';
 * @desc             Returns a copy of the Schematik with `required` flag set
 *                   to true.
 */
-export function required() {
+function required() {
   return this.self().flag('required', true);
 }
 
@@ -24,7 +24,7 @@ export function required() {
  * @desc            Returns a copy of the Schematik with `required` flag set
  *                  to false.
  */
-export function optional() {
+function optional() {
   return this.self().flag('required', false);
 }
 
@@ -33,7 +33,7 @@ export function optional() {
  *
  * @desc            Sets the `negate` flag to true.
  */
-export function negate() {
+function negate() {
   return this.flag('negate', true);
 }
 
@@ -43,7 +43,7 @@ export function negate() {
  *
  * @desc            Calls the last uninvoked function, passing it all arguments.
  */
-export function of(...args) {
+function of(...args) {
   const chain = this.flag('chain');
   if (chain) { return chain.apply(this, args); }
   return this;
@@ -55,7 +55,7 @@ export function of(...args) {
  *
  * @desc            Specifies a set of acceptable values.
  */
-export function whitelist(...args) {
+function whitelist(...args) {
   if (args.length === 0) {
     throw new Error('Must have at least one argument.');
   }
@@ -71,7 +71,7 @@ export function whitelist(...args) {
  *
  * @desc            Specifies a match against exactly one of schemas.
  */
-export function one(...args) {
+function one(...args) {
   if (args.length === 0) {
     throw new Error('Must have at least one argument.');
   }
@@ -90,7 +90,7 @@ export function one(...args) {
  *
  * @desc            Specifies a match against all of the schemas.
  */
-export function all(...args) {
+function all(...args) {
   if (args.length === 0) {
     throw new Error('Must have at least one argument.');
   }
@@ -109,7 +109,7 @@ export function all(...args) {
  *
  * @desc            Specifies a match against at least one of schemas.
  */
-export function any(...args) {
+function any(...args) {
   if (args.length === 0) {
     throw new Error('Must have at least one argument.');
   }
@@ -128,7 +128,7 @@ export function any(...args) {
  *
  * @desc            Negates the match against a schema.
  */
-export function not(schema) {
+function not(schema) {
   if (typeof schema !== 'object') {
     throw new Error('Schema must be an object.');
   }
@@ -143,7 +143,7 @@ export function not(schema) {
 /**
  * Export a middleware function.
  */
-export default function core(schematik, Util) {
+module.exports = function core(schematik, Util) {
 
   Util.addProperty(schematik,            'required', required);
   Util.addProperty(schematik.prototype,  'required', required);
@@ -166,4 +166,13 @@ export default function core(schematik, Util) {
   conjunctions.forEach((item) => {
     Util.addProperty(schematik.prototype, item);
   });
-}
+};
+module.exports.whitelist = whitelist;
+module.exports.required = required;
+module.exports.optional = optional;
+module.exports.negate = negate;
+module.exports.one = one;
+module.exports.all = all;
+module.exports.any = any;
+module.exports.not = not;
+module.exports.of = of;

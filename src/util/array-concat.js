@@ -5,12 +5,13 @@
  * @license         MIT
  */
 
-export default function arrayConcat(base, ...values) {
+function arrayConcat(base, ...values) {
 
   if (base === undefined) { base = [ ]; }
-  if (!Array.isArray(base)) { base = [base]; }
+  if (!Array.isArray(base)) { base = [ base ]; }
 
   base = base.concat(...values);
 
   return base;
 }
+module.exports = arrayConcat;

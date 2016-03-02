@@ -1,10 +1,12 @@
-// -------------------------------------------------------------------------- //
-//                                                                            //
-// Checks whether an object is a Schematik.                                   //
-//                                                                            //
-// -------------------------------------------------------------------------- //
-import Schematik    from '../schematik';
+/**
+ * Schematik.util.isSchematik
+ *
+ * @author          Denis Luchkin-Zhou <wyvernzora@gmail.com>
+ * @license         MIT
+ */
 
-export default function isSchematik(object) {
-  return object instanceof Schematik;
+
+function isSchematik(object) {
+  return (typeof object.done === 'function');
 }
+module.exports = isSchematik;

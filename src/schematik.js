@@ -4,20 +4,20 @@
  * @author          Denis Luchkin-Zhou <wyvernzora@gmail.com>
  * @license         MIT
  */
+const Immutable    = require('seamless-immutable');
 
-import Immutable       from 'seamless-immutable';
+const Config       = require('./config');
+const Symbols      = require('./util/symbols');
+const Instantiate  = require('./util/instantiate');
+const IsSchematik  = require('./util/is-schematik');
 
-import * as Config     from './config';
-import * as Symbols    from './util/symbols';
-import Instantiate     from './util/instantiate';
-import isSchematik     from './util/is-schematik';
 
 /**
  * Schematik
  *
  * @classdesc Base class for all Schematiks.
  */
-export default class Schematik {
+class Schematik {
 
   constructor() {
     // Immutable object for storing flags and schema state
@@ -112,7 +112,7 @@ export default class Schematik {
 
     if (typeof value === 'object') {
       const result = this.clone();
-      result[Symbols.schema] = this[Symbols.schema].merge(value, {deep: deep});
+      result[Symbols.schema] = this[Symbols.schema].merge(value, { deep });
       return result;
     }
 
@@ -128,7 +128,7 @@ export default class Schematik {
    * @returns       {this} for chaining.
    */
   copyTo(that) {
-    if (!isSchematik(that)) {
+    if (!IsSchematik(that)) {
       throw new Error('Cannot copy to a non-Schematik object.');
     }
     that[Symbols.flags]  = this[Symbols.flags];
@@ -207,3 +207,4 @@ export default class Schematik {
   }
 
 }
+module.exports = Schematik;

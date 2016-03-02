@@ -5,31 +5,20 @@
  * @license         MIT
  */
 
-import Schematik    from './schematik';
-import * as Config  from './config';
-import * as Util    from './util';
+const Schematik    = require('./schematik');
+const Config       = require('./config');
+const Util         = require('./util');
 
-import FlagCore     from './addons/core';
-import FlagUnique   from './addons/unique';
-import Nullable     from './addons/nullable';
-import SkArray      from './types/array';
-import SkBoolean    from './types/boolean';
-import SkInteger    from './types/integer';
-import SkNull       from './types/null';
-import SkNumber     from './types/number';
-import SkObject     from './types/object';
-import SkString     from './types/string';
-
-export default Schematik;
-
-/*!
- * Enable source map support if `source-map-support` is installed
- */
-const sourcemaps = require.resolve('source-map-support');
-/* istanbul ignore else */
-if (sourcemaps) {
-  require(sourcemaps).install();
-}
+const FlagCore     = require('./addons/core');
+const FlagUnique   = require('./addons/unique');
+const Nullable     = require('./addons/nullable');
+const SkArray      = require('./types/array');
+const SkBoolean    = require('./types/boolean');
+const SkInteger    = require('./types/integer');
+const SkNull       = require('./types/null');
+const SkNumber     = require('./types/number');
+const SkObject     = require('./types/object');
+const SkString     = require('./types/string');
 
 
 /*!
@@ -86,3 +75,9 @@ Schematik.use(SkNumber);
 Schematik.use(SkObject);
 Schematik.use(SkString);
 Schematik.use(Nullable);
+
+
+/*!
+ * Export
+ */
+module.exports = Schematik;

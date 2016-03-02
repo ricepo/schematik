@@ -3,22 +3,22 @@
  *
  * @author          Denis Luchkin-Zhou <wyvernzora@gmail.com>
  * @license         MIT
+ *
+ * This file is a Schematik-specific ES6 rewrite of:
+ * chaijs/chai/lib/chai/utils/addChainableMethod.js
  */
+const methods      = require('./symbols').methods;
+const IsSchematik  = require('./is-schematik');
 
 
-// This file is a Schematik-specific ES6 rewrite of:
-//   chaijs/chai/lib/chai/utils/addChainableMethod.js
-
-import methods      from './symbols';
-import isSchematik  from './is-schematik';
-
-const apply         = Function.prototype.apply;
+const apply        = Function.prototype.apply;
 
 
 // Adds a chainable method to the specified object
-export default function addChainable(context, name, call, get) {
+function addChainable(context, name, call, get) {
   if (typeof get !== 'function') { get = function() { }; }
 
+  /* eslint object-shorthand: 0 */
   const behavior = { call: call, get: get };
 
   // Save methods for later overwrites
@@ -28,12 +28,12 @@ export default function addChainable(context, name, call, get) {
   // Attach the chainable method to the object
   Object.defineProperty(context, name, {
     configurable: true,
-    get: function() {
+    get() {
       // Allow onGet to make changes to the Schematik
       // If changes are made, a new Schematik will be returned
       let self = behavior.get.call(this);
       if (self === undefined) { self = this; }
-      if (!isSchematik(self)) {
+      if (!IsSchematik(self)) {
         throw new Error('get() must return a Schematik object or undefined.');
       }
 
@@ -56,3 +56,4 @@ export default function addChainable(context, name, call, get) {
   });
 
 }
+module.exports = addChainable;

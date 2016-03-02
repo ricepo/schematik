@@ -5,15 +5,15 @@
  * @license         MIT
  */
 
-import Schematik    from '../schematik';
-import instantiate  from '../util/instantiate';
+const Schematik    = require('../schematik');
+const instantiate  = require('../util/instantiate');
 
 /**
  * Schematik.Number
  *
  * @classdesc       Schematik numbner type representation.
  */
-export class SkNumber extends Schematik {
+class SkNumber extends Schematik {
 
   constructor() {
     super();
@@ -130,7 +130,7 @@ export class SkNumber extends Schematik {
 /*!
  * Export a middleware function.
  */
-export default function(schematik, Util) {
+module.exports = function(schematik, Util) {
 
   /*!
    * Expose SkNumber as Schematik.Number
@@ -154,4 +154,5 @@ export default function(schematik, Util) {
   Util.addChainable(proto, 'range',     SkNumber.__range);
   Util.addChainable(proto, 'multiple',  SkNumber.__multiple);
 
-}
+};
+module.exports.SkNumber = SkNumber;

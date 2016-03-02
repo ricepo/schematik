@@ -4,7 +4,7 @@
  * @author          Denis Luchkin-Zhou <denis@ricepo.com>
  * @license         MIT
  */
-import * as Symbols    from '../util/symbols';
+const Symbols      = require('../util/symbols');
 
 
 /**
@@ -12,7 +12,7 @@ import * as Symbols    from '../util/symbols';
  *
  * #desc Sets the `nullable` flag to true.
  */
-export function nullable() {
+function nullable() {
   return this.self().flag('nullable', true);
 }
 
@@ -20,7 +20,7 @@ export function nullable() {
 /**
  * Export a middleware function.
  */
-export default function(context, util) {
+module.exports = function(context, util) {
 
   /* Attach nullable modifier to Schematik */
   util.addProperty(context,           'nullable', nullable);
@@ -39,4 +39,5 @@ export default function(context, util) {
     return result.done();
   };
 
-}
+};
+module.exports.nullable = nullable;

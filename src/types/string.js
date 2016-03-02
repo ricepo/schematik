@@ -5,17 +5,18 @@
  * @license         MIT
  */
 
-import Schematik    from '../schematik';
+const Schematik    = require('../schematik');
 
-import Range        from '../addons/range';
-import instantiate  from '../util/instantiate';
+const Range        = require('../addons/range');
+const instantiate  = require('../util/instantiate');
+
 
 /**
  * Schematik.String
  *
  * @classdesc       Schematik string type representation.
  */
-export class SkString extends Schematik {
+class SkString extends Schematik {
 
   constructor() {
     super();
@@ -76,32 +77,33 @@ export class SkString extends Schematik {
 /*!
  * Export a middleware function.
  */
-export default function(Schematik, Util) {
+module.exports = function(context, util) {
 
   /*!
    * Expose SkString as Schematik.String
    */
-  Schematik.String = SkString;
+  context.String = SkString;
 
   /*!
    * Attach the Schematik.string() shorthand.
    */
-  Schematik.string = Schematik.prototype.string = function(...args) {
-    return instantiate(this.self(), Schematik.String, ...args);
+  context.string = context.prototype.string = function(...args) {
+    return instantiate(this.self(), SkString, ...args);
   };
 
   /*!
    * Attach shared flags.
    */
-  Range(Schematik.String.prototype, Util);
+  Range(context.String.prototype, util);
 
   /*!
    * Attach string-specific properties.
    */
-  const proto = Schematik.String.prototype;
-  Util.addChainable(proto, 'len',     SkString.__length);
-  Util.addChainable(proto, 'length',  SkString.__length);
-  Util.addChainable(proto, 'matches', SkString.__matches);
-  Util.addChainable(proto, 'pattern', SkString.__matches);
+  const proto = context.String.prototype;
+  util.addChainable(proto, 'len',     SkString.__length);
+  util.addChainable(proto, 'length',  SkString.__length);
+  util.addChainable(proto, 'matches', SkString.__matches);
+  util.addChainable(proto, 'pattern', SkString.__matches);
 
-}
+};
+module.exports.SkString = SkString;

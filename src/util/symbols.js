@@ -4,8 +4,7 @@
  * @author          Denis Luchkin-Zhou <wyvernzora@gmail.com>
  * @license         MIT
  */
-
-import { devMode }  from '../config';
+const devMode      = require('../config').devMode;
 
 
 /*!
@@ -22,22 +21,22 @@ if (!_symbol || devMode) {
 /*!
  * Symbol for middleware list property.
  */
-export const mwares  = _symbol('mwares');
+exports.mwares  = _symbol('mwares');
 
 
 /*!
  * Symbol for chaining behaviors property.
  */
-export const methods = _symbol('methods');
+exports.methods = _symbol('methods');
 
 
 /*!
  * Symbol for behavior flags property.
  */
-export const flags   = _symbol('flags');
+exports.flags   = _symbol('flags');
 
 
 /*!
  * Symbol for internal schema property.
  */
-export const schema  = _symbol('schema');
+exports.schema  = _symbol('schema');

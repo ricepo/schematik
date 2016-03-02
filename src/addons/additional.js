@@ -10,7 +10,7 @@
  *
  * @desc Sets the `additional` flag to true.
  */
-export function additional() {
+function additional() {
   return this.flag('additional', true);
 }
 
@@ -18,7 +18,8 @@ export function additional() {
 /**
  * Export a middleware function.
  */
-export default function(context, util) {
+module.exports = function(context, util) {
   util.addProperty(context, 'more',       additional);
   util.addProperty(context, 'additional', additional);
-}
+};
+module.exports.additional = additional;
