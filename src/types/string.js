@@ -86,8 +86,8 @@ export default function(Schematik, Util) {
   /*!
    * Attach the Schematik.string() shorthand.
    */
-  Schematik.string = Schematik.prototype.string = function() {
-    return instantiate(this.self(), Schematik.String);
+  Schematik.string = Schematik.prototype.string = function(...args) {
+    return instantiate(this.self(), Schematik.String, ...args);
   };
 
   /*!

@@ -35,8 +35,8 @@ export default function(Schematik) {
   /*!
    * Attach the Schematik.integer() shorthand.
    */
-  Schematik.integer = Schematik.prototype.integer = function() {
-    return instantiate(this.self(), Schematik.Integer);
+  Schematik.integer = Schematik.prototype.integer = function(...args) {
+    return instantiate(this.self(), Schematik.Integer, ...args);
   };
 
 }

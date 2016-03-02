@@ -116,8 +116,8 @@ export default function(schematik, Util) {
   /*!
    * Attach the Schematik.array() shorthand.
    */
-  schematik.array = schematik.prototype.array = function() {
-    return instantiate(this.self(), schematik.Array);
+  schematik.array = schematik.prototype.array = function(...args) {
+    return instantiate(this.self(), schematik.Array, ...args);
   };
 
   const proto = schematik.Array.prototype;

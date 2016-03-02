@@ -16,10 +16,11 @@ import * as Symbols from './symbols';
  *                  is ignored in this process.
  * @param           {self} current Schematik instance.
  * @param           {ctor} constructor function to use.
+ * @param           {args} additional parameters to pass to the constructor.
  * @returns         A new Schematik instance made using the {ctor}.
  */
-export default function instantiate(self, ctor) {
-  const result = new ctor();
+export default function instantiate(self, ctor, ...args) {
+  const result = new ctor(...args);
   result[Symbols.flags] = result[Symbols.flags].merge(self[Symbols.flags]);
   result[Symbols.schema] = result[Symbols.schema].merge(
     self[Symbols.schema].without('type')

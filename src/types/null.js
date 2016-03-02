@@ -37,8 +37,8 @@ export default function(schematik) {
   /*!
    * Attach the Schematik.null() shorthand.
    */
-  schematik.null = schematik.prototype.null = function() {
-    return instantiate(this.self(), schematik.Null);
+  schematik.null = schematik.prototype.null = function(...args) {
+    return instantiate(this.self(), schematik.Null, ...args);
   };
 
 }

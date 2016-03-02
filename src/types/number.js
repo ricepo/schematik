@@ -140,8 +140,8 @@ export default function(schematik, Util) {
   /*!
    * Attach the Schematik.number() shorthand.
    */
-  schematik.number = schematik.prototype.number = function() {
-    return instantiate(this.self(), schematik.Number);
+  schematik.number = schematik.prototype.number = function(...args) {
+    return instantiate(this.self(), schematik.Number, ...args);
   };
 
   /*!

@@ -215,8 +215,8 @@ export default function(Schematik, Util) {
   /*!
    * Attach the Schematik.object() shorthand.
    */
-  Schematik.object = Schematik.prototype.object = function() {
-    return instantiate(this.self(), Schematik.Object);
+  Schematik.object = Schematik.prototype.object = function(...args) {
+    return instantiate(this.self(), Schematik.Object, ...args);
   };
 
   /*!

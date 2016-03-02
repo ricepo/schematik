@@ -37,8 +37,8 @@ export default function(schematik) {
   /*!
    * Attach the Schematik.boolean() shorthand.
    */
-  schematik.boolean = schematik.prototype.boolean = function() {
-    return instantiate(this.self(), schematik.Boolean);
+  schematik.boolean = schematik.prototype.boolean = function(...args) {
+    return instantiate(this.self(), schematik.Boolean, ...args);
   };
 
 }
