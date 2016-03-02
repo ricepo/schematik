@@ -36,7 +36,6 @@ describe('Schematik.Util', function() {
 
 describe('Schematik.Addons', function() {
   require('./addons/core.spec.js');
-  require('./addons/nullable.spec.js');
   require('./addons/additional.spec.js');
   require('./addons/range.spec.js');
   require('./addons/unique.spec.js');

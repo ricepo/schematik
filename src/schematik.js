@@ -33,7 +33,15 @@ class Schematik {
    * @returns       A JSON schema object.
    */
   done() {
-    return this[Symbols.schema].asMutable({ deep: true });
+    let result = this[Symbols.schema].asMutable({ deep: true });
+
+    /* Return as-is if not nullable */
+    if (!this.flag('nullable')) { return result; }
+
+    /* Otherwise, convert into a oneOf schems */
+    result = Schematik.oneOf(Schematik.null(), result);
+    result[Symbols.flags] = result[Symbols.flags].merge(this[Symbols.flags].without('nullable'));
+    return result.done();
   }
 
   /**

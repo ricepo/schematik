@@ -11,7 +11,6 @@ const Util         = require('./util');
 
 const FlagCore     = require('./addons/core');
 const FlagUnique   = require('./addons/unique');
-const Nullable     = require('./addons/nullable');
 const SkArray      = require('./types/array');
 const SkBoolean    = require('./types/boolean');
 const SkInteger    = require('./types/integer');
@@ -74,7 +73,6 @@ Schematik.use(SkNull);
 Schematik.use(SkNumber);
 Schematik.use(SkObject);
 Schematik.use(SkString);
-Schematik.use(Nullable);
 
 
 /*!

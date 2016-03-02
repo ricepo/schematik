@@ -29,6 +29,15 @@ function optional() {
 }
 
 /**
+ * # .nullable
+ *
+ * #desc Sets the `nullable` flag to true.
+ */
+function nullable() {
+  return this.self().flag('nullable', true);
+}
+
+/**
  * .negate
  *
  * @desc            Sets the `negate` flag to true.
@@ -151,6 +160,9 @@ module.exports = function core(schematik, Util) {
   Util.addProperty(schematik,            'optional', optional);
   Util.addProperty(schematik.prototype,  'optional', optional);
 
+  Util.addProperty(schematik,            'nullable', nullable);
+  Util.addProperty(schematik.prototype,  'nullable', nullable);
+
   Util.addProperty(schematik.prototype,  'not',      negate);
   Util.addProperty(schematik.prototype,  'no',       negate);
 
@@ -167,12 +179,3 @@ module.exports = function core(schematik, Util) {
     Util.addProperty(schematik.prototype, item);
   });
 };
-module.exports.whitelist = whitelist;
-module.exports.required = required;
-module.exports.optional = optional;
-module.exports.negate = negate;
-module.exports.one = one;
-module.exports.all = all;
-module.exports.any = any;
-module.exports.not = not;
-module.exports.of = of;
