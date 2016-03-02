@@ -1,21 +1,26 @@
-var sinon          = require('sinon');
-var expect         = require('chai').expect;
+/**
+ * test/types/array.spec.js
+ *
+ * @author  Denis Luchkin-Zhou <wyvernzora@gmail.com>
+ * @license MIT
+ */
+const Schematik    = dofile('index');
 
-var load           = require('../loader.js');
-var Schematik      = load('index.js');
 
 describe('.Array', function() {
 
   describe('.constructor()', function() {
 
     it('should be created using constructor', function() {
-      var obj = new Schematik.Array();
-      expect(obj).to.be.an.instanceof(Schematik.Array);
+      const obj = new Schematik.Array();
+      expect(obj)
+        .to.be.an.instanceof(Schematik.Array);
     });
 
     it('should be created using shorthand', function() {
-      var obj = Schematik.array();
-      expect(obj).to.be.an.instanceof(Schematik.Array);
+      const obj = Schematik.array();
+      expect(obj)
+        .to.be.an.instanceof(Schematik.Array);
     });
 
   });
@@ -23,23 +28,26 @@ describe('.Array', function() {
   describe('.done()', function() {
 
     it('should output the correct schema', function() {
-      var obj = Schematik.array().schema({ foo: 'bar' });
-      expect(obj.done()).to.deep.equal({
-        type: 'array',
-        foo:  'bar'
-      });
+      const obj = Schematik.array().schema({ foo: 'bar' });
+      expect(obj.done())
+        .to.deep.equal({
+          type: 'array',
+          foo:  'bar'
+        });
     });
 
     it('should honor the `unique` flag', function() {
-      var obj1 = Schematik.unique.array().schema({ foo: 'bar' });
-      var obj2 = Schematik.array().unique.schema({ foo: 'bar' });
-      var res  = {
+      const obj1 = Schematik.unique.array().schema({ foo: 'bar' });
+      const obj2 = Schematik.array().unique.schema({ foo: 'bar' });
+      const res  = {
         type: 'array',
         foo:  'bar',
         uniqueItems: true
       };
-      expect(obj1.done()).to.deep.equal(res);
-      expect(obj2.done()).to.deep.equal(res);
+      expect(obj1.done())
+        .to.deep.equal(res);
+      expect(obj2.done())
+        .to.deep.equal(res);
     });
 
   });
@@ -47,27 +55,35 @@ describe('.Array', function() {
   describe('.length()', function() {
 
     it('should set minimum item count', function() {
-      var schema = Schematik.array().min.length(20).done();
-      expect(schema).to.have.property('minItems', 20);
-      expect(schema).not.to.have.property('maxItems');
+      const schema = Schematik.array().min.length(20).done();
+      expect(schema)
+        .to.have.property('minItems', 20);
+      expect(schema)
+        .not.to.have.property('maxItems');
     });
 
     it('should set maximum item count', function() {
-      var schema = Schematik.array().max.length(20).done();
-      expect(schema).to.have.property('maxItems', 20);
-      expect(schema).not.to.have.property('minItems');
+      const schema = Schematik.array().max.length(20).done();
+      expect(schema)
+        .to.have.property('maxItems', 20);
+      expect(schema)
+        .not.to.have.property('minItems');
     });
 
     it('should set item count range when called with 2 arguments', function() {
-      var schema = Schematik.array().length(20, 42).done();
-      expect(schema).to.have.property('minItems', 20);
-      expect(schema).to.have.property('maxItems', 42);
+      const schema = Schematik.array().length(20, 42).done();
+      expect(schema)
+        .to.have.property('minItems', 20);
+      expect(schema)
+        .to.have.property('maxItems', 42);
     });
 
     it('should set item count when called with 1 argument', function() {
-      var schema = Schematik.array().length(42).done();
-      expect(schema).to.have.property('minItems', 42);
-      expect(schema).to.have.property('maxItems', 42);
+      const schema = Schematik.array().length(42).done();
+      expect(schema)
+        .to.have.property('minItems', 42);
+      expect(schema)
+        .to.have.property('maxItems', 42);
     });
 
     it('should throw when the first argument is not a number', function() {
@@ -81,8 +97,8 @@ describe('.Array', function() {
   describe('.items()', function() {
 
     it('should set the item schemas with no flags', function() {
-      var obj = Schematik.array().items({ foo: 'bar' }, new Schematik());
-      var schema = obj.done();
+      const obj = Schematik.array().items({ foo: 'bar' }, new Schematik());
+      const schema = obj.done();
       expect(schema).to.deep.equal({
         type: 'array',
         items: [ { foo: 'bar' }, { } ]
@@ -90,7 +106,7 @@ describe('.Array', function() {
     });
 
     it('should append to schema items if they already exist', function() {
-      var obj = Schematik.array().items({ foo: 'bar' });
+      let obj = Schematik.array().items({ foo: 'bar' });
       expect(obj.done()).to.deep.equal({
         type: 'array',
         items: { foo: 'bar' }
@@ -109,7 +125,7 @@ describe('.Array', function() {
     });
 
     it('should set additional items schema with `additional` flag', function() {
-      var obj = Schematik.array().more.items({ foo: 'bar' });
+      let obj = Schematik.array().more.items({ foo: 'bar' });
       expect(obj.done()).to.deep.equal({
         type: 'array',
         additionalItems: { foo: 'bar' }
@@ -122,7 +138,7 @@ describe('.Array', function() {
     });
 
     it('should set additional items to false with `not` flag', function() {
-      var obj = Schematik.array().no.more.items();
+      const obj = Schematik.array().no.more.items();
       expect(obj.done()).to.deep.equal({
         type: 'array',
         additionalItems: false

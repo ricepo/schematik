@@ -1,9 +1,11 @@
+/**
+ * test/types/object.spec.js
+ *
+ * @author  Denis Luchkin-Zhou <wyvernzora@gmail.com>
+ * @license MIT
+ */
+const Schematik    = dofile('index');
 
-/* eslint-env mocha */
-
-const expect         = require('chai').expect;
-const load           = require('../loader.js');
-const Schematik      = load('index.js');
 
 describe('.Object', function() {
 
@@ -97,7 +99,7 @@ describe('.Object', function() {
           type: 'object',
           additionalProperties: true,
           properties: { test: { type: 'string' } },
-          required: ['test']
+          required: [ 'test' ]
         });
       });
 

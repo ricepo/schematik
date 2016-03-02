@@ -1,20 +1,23 @@
-var sinon          = require('sinon');
-var expect         = require('chai').expect;
+/**
+ * test/types/boolean.spec.js
+ *
+ * @author  Denis Luchkin-Zhou <wyvernzora@gmail.com>
+ * @license MIT
+ */
+const Schematik    = dofile('index');
 
-var load           = require('../loader.js');
-var Schematik      = load('index.js');
 
 describe('.Boolean', function() {
 
   describe('.constructor()', function() {
 
     it('should be created using constructor', function() {
-      var obj = new Schematik.Boolean();
+      const obj = new Schematik.Boolean();
       expect(obj).to.be.an.instanceof(Schematik.Boolean);
     });
 
     it('should be created using shorthand', function() {
-      var obj = Schematik.boolean();
+      const obj = Schematik.boolean();
       expect(obj).to.be.an.instanceof(Schematik.Boolean);
     });
 

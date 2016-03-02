@@ -1,20 +1,23 @@
-var sinon          = require('sinon');
-var expect         = require('chai').expect;
+/**
+ * test/types/string.spec.js
+ *
+ * @author  Denis Luchkin-Zhou <wyvernzora@gmail.com>
+ * @license MIT
+ */
+const Schematik    = dofile('index');
 
-var load           = require('../loader.js');
-var Schematik      = load('index.js');
 
 describe('.String', function() {
 
   describe('.constructor()', function() {
 
     it('should be created using constructor', function() {
-      var obj = new Schematik.String();
+      const obj = new Schematik.String();
       expect(obj).to.be.an.instanceof(Schematik.String);
     });
 
     it('should be created using shorthand', function() {
-      var obj = Schematik.string();
+      const obj = Schematik.string();
       expect(obj).to.be.an.instanceof(Schematik.String);
     });
 
@@ -23,7 +26,7 @@ describe('.String', function() {
   describe('.length()', function() {
 
     it('should set the minimum length with `min` flag', function() {
-      var obj = Schematik.string().min.length(42);
+      const obj = Schematik.string().min.length(42);
       expect(obj.done()).to.deep.equal({
         type: 'string',
         minLength: 42
@@ -31,7 +34,7 @@ describe('.String', function() {
     });
 
     it('should set the maximum length with `max` flag', function() {
-      var obj = Schematik.string().max.length(42);
+      const obj = Schematik.string().max.length(42);
       expect(obj.done()).to.deep.equal({
         type: 'string',
         maxLength: 42
@@ -39,7 +42,7 @@ describe('.String', function() {
     });
 
     it('should set both min and max lengths when called with 2 params', function() {
-      var obj = Schematik.string().length(42, 47);
+      const obj = Schematik.string().length(42, 47);
       expect(obj.done()).to.deep.equal({
         type: 'string',
         minLength: 42,
@@ -48,7 +51,7 @@ describe('.String', function() {
     });
 
     it('should set both min and max lengths when called with 1 param', function() {
-      var obj = Schematik.string().length(42);
+      const obj = Schematik.string().length(42);
       expect(obj.done()).to.deep.equal({
         type: 'string',
         minLength: 42,
@@ -57,7 +60,7 @@ describe('.String', function() {
     });
 
     it('should clear the `range` flag', function() {
-      var obj = Schematik.string().min.length(20);
+      const obj = Schematik.string().min.length(20);
       expect(obj.flag('range')).to.equal(null);
     });
 
@@ -72,7 +75,7 @@ describe('.String', function() {
   describe('.matches()', function() {
 
     it('should set the pattern value', function() {
-      var obj = Schematik.string().pattern(/[0-9]/);
+      const obj = Schematik.string().pattern(/[0-9]/);
       expect(obj.done()).to.have.property('pattern', '[0-9]');
     });
 

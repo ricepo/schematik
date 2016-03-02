@@ -1,16 +1,15 @@
-var sinon          = require('sinon');
-var expect         = require('chai').expect;
+/**
+ * test/addons/additional.spec.js
+ *
+ * @author  Denis Luchkin-Zhou <wyvernzora@gmail.com>
+ * @license MIT
+ */
+const Schematik    = dofile('index');
 
-var load           = require('../loader.js');
-var Schematik      = load('schematik.js');
-var Range          = load('addons/range.js');
-var Util           = load('util');
-
-Range(Schematik.prototype, Util);
 
 describe('.min', function() {
 
-  beforeEach(function() { this.obj = new Schematik(); });
+  beforeEach(function() { this.obj = Schematik.string(); });
 
   it('should add the .min property', function() {
     expect(this.obj.min).to.be.an.instanceof(Schematik);
@@ -24,7 +23,7 @@ describe('.min', function() {
 
 describe('.max', function() {
 
-  beforeEach(function() { this.obj = new Schematik(); });
+  beforeEach(function() { this.obj = Schematik.string(); });
 
   it('should add the .max property', function() {
     expect(this.obj.max).to.be.an.instanceof(Schematik);

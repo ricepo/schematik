@@ -1,9 +1,12 @@
-var sinon          = require('sinon');
-var expect         = require('chai').expect;
+/**
+ * test/util/instantiate.spec.js
+ *
+ * @author  Denis Luchkin-Zhou <wyvernzora@gmail.com>
+ * @license MIT
+ */
+const Schematik    = dofile('schematik');
+const instantiate  = dofile('util/instantiate');
 
-var load           = require('../loader.js');
-var Schematik      = load('index.js');
-var instantiate    = load('util/instantiate.js');
 
 describe('.instantiate()', function() {
 
@@ -15,15 +18,18 @@ describe('.instantiate()', function() {
   });
 
   it('should create a new instance of the class', function() {
-    expect(this.result).to.be.an.instanceof(Schematik.Null);
+    expect(this.result)
+      .to.be.an.instanceof(Schematik.Null);
   });
 
   it('should preserve flags', function() {
-    expect(this.result.flag('foo')).to.equal('bar');
+    expect(this.result.flag('foo'))
+      .to.equal('bar');
   });
 
   it('should replace original type with new type', function() {
-    expect(this.result.schema('type')).to.equal('null');
+    expect(this.result.schema('type'))
+      .to.equal('null');
   });
 
 });

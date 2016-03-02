@@ -1,7 +1,29 @@
-/* eslint-env mocha */
+/**
+ * test/index.spec.js
+ *
+ * @author  Denis Luchkin-Zhou <wyvernzora@gmail.com>
+ * @license MIT
+ */
 
-require('babel/polyfill');
+const Chai         = require('chai');
+Chai.use(require('sinon-chai'));
+Chai.use(require('chai-properties'));
+Chai.use(require('chai-as-promised'));
 
+const Path         = require('path');
+const Root         = require('app-root-path');
+Root.setPath(Path.resolve(__dirname, '../src'));
+
+/*!
+ * Setup global stuff here.
+ */
+global.dofile      = Root.require;
+global.expect      = Chai.expect;
+global.Sinon       = require('sinon');
+
+/*!
+ * Start tests.
+ */
 require('./schematik.spec.js');
 
 describe('Schematik.Util', function() {

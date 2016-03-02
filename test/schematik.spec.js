@@ -1,10 +1,10 @@
-
-/* eslint-env mocha */
-
-const Sinon          = require('sinon');
-const expect         = require('chai').expect;
-const load           = require('./loader.js');
-const Schematik      = load('index.js');
+/**
+ * test/schematik.spec.js
+ *
+ * @author  Denis Luchkin-Zhou <wyvernzora@gmail.com>
+ * @license MIT
+ */
+const Schematik      = dofile('index');
 
 
 describe('Schematik', function() {
@@ -12,9 +12,8 @@ describe('Schematik', function() {
   describe('schema', function() {
 
     it('should throw when applying a non-object', function() {
-      expect(function() {
-        new Schematik().schema(123);
-      }).to.throw('Value must be a string or an object.');
+      expect(() => { new Schematik().schema(123); })
+        .to.throw('Value must be a string or an object.');
     });
 
   });
@@ -22,10 +21,11 @@ describe('Schematik', function() {
   describe('copyTo', function() {
 
     it('should throw when copying to a non-Schematik', function() {
-      expect(function() {
+      expect(() => {
         const object = { };
         new Schematik().copyTo(object);
-      }).to.throw('Cannot copy to a non-Schematik object.');
+      })
+      .to.throw('Cannot copy to a non-Schematik object.');
     });
 
   });
@@ -34,7 +34,9 @@ describe('Schematik', function() {
 
     it('should return [object Schematik]', function() {
       const actual = new Schematik().toString();
-      expect(actual).to.equal('[object Schematik]');
+
+      expect(actual)
+        .to.equal('[object Schematik]');
     });
 
   });
@@ -45,21 +47,22 @@ describe('Schematik', function() {
       const object = Schematik.number();
       const actual = object.__type();
 
-      expect(actual).to.equal('number');
+      expect(actual)
+        .to.equal('number');
     });
 
     it('should throw if type is not whitelisted', function() {
       const object = new Schematik();
-      expect(function() {
-        object.__type('test');
-      }).to.throw('Invalid type value test');
+
+      expect(() => { object.__type('test'); })
+        .to.throw('Invalid type value test');
     });
 
     it('should not allow overwriting', function() {
       const object = Schematik.number();
-      expect(function() {
-        object.__type('string');
-      }).to.throw('Overwriting existing type is not allowed.');
+
+      expect(() => { object.__type('string'); })
+        .to.throw('Overwriting existing type is not allowed.');
     });
 
   });
@@ -72,7 +75,8 @@ describe('Schematik', function() {
       Schematik.use(ext);
       Schematik.use(ext);
 
-      expect(ext.calledOnce).to.be.true;
+      expect(ext)
+        .to.be.calledOnce;
     });
 
   });
@@ -124,7 +128,7 @@ describe('Schematik', function() {
         .to.be.calledOnce;
       const args = Array.prototype.slice.call(spy.firstCall.args, 1);
       expect(args)
-        .to.deep.equal(['foo', 'bar']);
+        .to.deep.equal([ 'foo', 'bar' ]);
     });
   });
 

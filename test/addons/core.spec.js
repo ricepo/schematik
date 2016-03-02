@@ -1,18 +1,18 @@
-var sinon          = require('sinon');
-var expect         = require('chai').expect;
-
-var load           = require('../loader.js');
-var Schematik      = load('index.js');
-var Core           = load('addons/core.js');
-var Util           = load('util');
-
+/**
+ * test/addons/additional.spec.js
+ *
+ * @author  Denis Luchkin-Zhou <wyvernzora@gmail.com>
+ * @license MIT
+ */
+const Schematik    = dofile('index');
+const Util         = dofile('util');
 
 
 describe('.required', function() {
 
   it('should add the .required property', function() {
 
-    var obj = new Schematik();
+    const obj = new Schematik();
     expect(obj.required).to.be.an.instanceof(Schematik);
     expect(Schematik.required).to.be.an.instanceof(Schematik);
 
@@ -20,7 +20,7 @@ describe('.required', function() {
 
   it('should set the `required` flag', function() {
 
-    var obj = new Schematik();
+    const obj = new Schematik();
     expect(obj.required.flag('required')).to.equal(true);
     expect(Schematik.required.flag('required')).to.equal(true);
 
@@ -32,7 +32,7 @@ describe('.optional', function() {
 
   it('should add the .optional property', function() {
 
-    var obj = new Schematik();
+    const obj = new Schematik();
     expect(obj.optional).to.be.an.instanceof(Schematik);
     expect(Schematik.optional).to.be.an.instanceof(Schematik);
 
@@ -40,7 +40,7 @@ describe('.optional', function() {
 
   it('should set the `optional` flag', function() {
 
-    var obj = new Schematik();
+    const obj = new Schematik();
     expect(obj.optional.flag('required')).to.equal(false);
     expect(Schematik.optional.flag('required')).to.equal(false);
 
@@ -52,7 +52,7 @@ describe('.negate', function() {
 
   it('should add the .optional property', function() {
 
-    var obj = new Schematik();
+    const obj = new Schematik();
     expect(obj.no).to.be.an.instanceof(Schematik);
     expect(obj.not).to.be.an.instanceof(Schematik);
 
@@ -60,7 +60,7 @@ describe('.negate', function() {
 
   it('should set the `optional` flag', function() {
 
-    var obj = new Schematik();
+    const obj = new Schematik();
     expect(obj.no.flag('negate')).to.equal(true);
     expect(obj.not.flag('negate')).to.equal(true);
 
@@ -71,7 +71,7 @@ describe('.negate', function() {
 describe('.of()', function() {
 
   beforeEach(function() {
-    this.call = sinon.spy(function() { return 42; });
+    this.call = Sinon.spy(function() { return 42; });
     Util.addChainable(Schematik.prototype, 'test', this.call);
     this.obj = new Schematik();
   });
@@ -91,7 +91,7 @@ describe('.enum()', function() {
 
   it('should create an enum schematik', function() {
 
-    var obj = Schematik.enum(new Schematik(), { foo: 'bar' }, 'string');
+    const obj = Schematik.enum(new Schematik(), { foo: 'bar' }, 'string');
     expect(obj.done()).to.deep.equal({
       enum: [
         { },
@@ -105,7 +105,7 @@ describe('.enum()', function() {
   it('should throw if no arguments are provided', function() {
 
     expect(function() {
-      var obj = Schematik.enum();
+      Schematik.enum();
     }).to.throw('Must have at least one argument.');
 
   });
@@ -115,7 +115,7 @@ describe('.enum()', function() {
 describe('.one()', function() {
 
   it('should create a oneOf schematik', function() {
-    var obj = Schematik.oneOf(new Schematik(), { foo: 'bar' });
+    const obj = Schematik.oneOf(new Schematik(), { foo: 'bar' });
     expect(obj.done()).to.deep.equal({
       oneOf: [ { }, { foo: 'bar' } ]
     });
@@ -123,7 +123,7 @@ describe('.one()', function() {
 
   it('should throw if no arguments are provided', function() {
     expect(function() {
-      var a = Schematik.oneOf();
+      Schematik.oneOf();
     }).to.throw('Must have at least one argument.');
   });
 
@@ -132,7 +132,7 @@ describe('.one()', function() {
 describe('.all()', function() {
 
   it('should create an allOf schematik', function() {
-    var obj = Schematik.allOf(new Schematik(), { foo: 'bar' });
+    const obj = Schematik.allOf(new Schematik(), { foo: 'bar' });
     expect(obj.done()).to.deep.equal({
       allOf: [ { }, { foo: 'bar' } ]
     });
@@ -140,7 +140,7 @@ describe('.all()', function() {
 
   it('should throw if no arguments are provided', function() {
     expect(function() {
-      var a = Schematik.allOf();
+      Schematik.allOf();
     }).to.throw('Must have at least one argument.');
   });
 
@@ -149,7 +149,7 @@ describe('.all()', function() {
 describe('.any()', function() {
 
   it('should create an anyOf schematik', function() {
-    var obj = Schematik.anyOf(new Schematik(), { foo: 'bar' });
+    const obj = Schematik.anyOf(new Schematik(), { foo: 'bar' });
     expect(obj.done()).to.deep.equal({
       anyOf: [ { }, { foo: 'bar' } ]
     });
@@ -157,7 +157,7 @@ describe('.any()', function() {
 
   it('should throw if no arguments are provided', function() {
     expect(function() {
-      var a = Schematik.anyOf();
+      Schematik.anyOf();
     }).to.throw('Must have at least one argument.');
   });
 
@@ -166,8 +166,8 @@ describe('.any()', function() {
 describe('.not()', function() {
 
   it('should create a not schematik', function() {
-    var obj1 = Schematik.not({ foo: 'bar' });
-    var obj2 = Schematik.not(new Schematik());
+    const obj1 = Schematik.not({ foo: 'bar' });
+    const obj2 = Schematik.not(new Schematik());
     expect(obj1.done()).to.deep.equal({ not: { foo: 'bar' } });
     expect(obj2.done()).to.deep.equal({ not: { } });
   });

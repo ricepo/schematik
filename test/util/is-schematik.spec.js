@@ -1,9 +1,12 @@
-var sinon          = require('sinon');
-var expect         = require('chai').expect;
+/**
+ * test/util/is-schematik.spec.js
+ *
+ * @author  Denis Luchkin-Zhou <wyvernzora@gmail.com>
+ * @license MIT
+ */
+const Schematik    = dofile('schematik');
+const isSchematik  = dofile('util/is-schematik');
 
-var load           = require('../loader.js');
-var Schematik      = load('schematik.js');
-var isSchematik    = load('util/is-schematik.js');
 
 describe('.instantiate()', function() {
 
@@ -12,11 +15,13 @@ describe('.instantiate()', function() {
   });
 
   it('should return true when argument is a Schematik', function() {
-    expect(isSchematik(this.obj)).to.equal(true);
+    expect(isSchematik(this.obj))
+      .to.equal(true);
   });
 
   it('should return false when argument is not a Schematik', function() {
-    expect(isSchematik({ })).to.equal(false);
+    expect(isSchematik({ }))
+      .to.equal(false);
   });
 
 });

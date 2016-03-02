@@ -1,10 +1,10 @@
-var sinon          = require('sinon');
-var expect         = require('chai').expect;
-
-var load           = require('../loader.js');
-var Schematik      = load('schematik.js');
-var Nullable       = load('addons/nullable.js');
-var Util           = load('util');
+/**
+ * test/addons/additional.spec.js
+ *
+ * @author  Denis Luchkin-Zhou <wyvernzora@gmail.com>
+ * @license MIT
+ */
+const Schematik    = dofile('schematik');
 
 
 describe('.additional', function() {
