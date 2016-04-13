@@ -22,8 +22,8 @@ const instantiate  = require('../util/instantiate');
  */
 class SkObject extends Schematik {
 
-  constructor() {
-    super();
+  constructor(raw) {
+    super(raw);
     this.__type('object');
     this[Symbols.schema] = this[Symbols.schema]
       .merge({ additionalProperties: Config.allowAdditionalProperties });

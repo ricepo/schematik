@@ -9,6 +9,16 @@ const Schematik      = dofile('index');
 
 describe('Schematik', function() {
 
+  describe('constructor', function() {
+
+    it('should accept raw schema data', function() {
+      const s = new Schematik({ foo: 'bar' });
+      expect(s.done())
+        .to.deep.equal({ foo: 'bar' });
+    });
+
+  });
+
   describe('schema', function() {
 
     it('should throw when applying a non-object', function() {

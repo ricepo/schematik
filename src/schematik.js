@@ -19,10 +19,10 @@ const IsSchematik  = require('./util/is-schematik');
  */
 class Schematik {
 
-  constructor() {
+  constructor(raw) {
     // Immutable object for storing flags and schema state
     this[Symbols.flags]  = Immutable(Config.defaultFlags);
-    this[Symbols.schema] = Immutable({ });
+    this[Symbols.schema] = Immutable(raw || { });
   }
 
   /**

@@ -22,8 +22,8 @@ const concat       = require('../util/array-concat');
  */
 class SkArray extends Schematik {
 
-  constructor() {
-    super();
+  constructor(raw) {
+    super(raw);
     this.__type('array');
   }
 

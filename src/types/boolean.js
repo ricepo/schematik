@@ -16,8 +16,8 @@ const instantiate  = require('../util/instantiate');
  */
 class SkBoolean extends Schematik {
 
-  constructor() {
-    super();
+  constructor(raw) {
+    super(raw);
     this.__type('boolean');
   }
 

@@ -18,8 +18,8 @@ const instantiate  = require('../util/instantiate');
  */
 class SkString extends Schematik {
 
-  constructor() {
-    super();
+  constructor(raw) {
+    super(raw);
     this.__type('string');
   }
 

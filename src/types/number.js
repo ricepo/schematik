@@ -15,8 +15,8 @@ const instantiate  = require('../util/instantiate');
  */
 class SkNumber extends Schematik {
 
-  constructor() {
-    super();
+  constructor(raw) {
+    super(raw);
     this.__type('number');
   }
 

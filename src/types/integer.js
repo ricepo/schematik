@@ -16,8 +16,8 @@ const instantiate = require('../util/instantiate');
  */
 export class SkInteger extends SkNumber {
 
-  constructor() {
-    super();
+  constructor(raw) {
+    super(raw);
     this.__type('integer', true);
   }
 
