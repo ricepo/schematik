@@ -1,7 +1,7 @@
 {
   "name": "schematik",
   "description": "Human-friendly JSON schema",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "homepage": "https://github.com/Ricepo/schematik",
   "author": {
     "name": "Denis Luchkin-Zhou",
